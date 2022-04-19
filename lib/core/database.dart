@@ -1,6 +1,6 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lang_app/domain/user.dart';
 
 class DatabaseService {
   final String? uid;
@@ -15,9 +15,9 @@ class DatabaseService {
     });
   }
 
-  Future updatePhotoURL(File? photo) async{
-    return await usersColection.doc(uid).set({
-      'photo': photo,
-    });
-  }
+  // Future updatePhotoURL(File? photo) async{
+  //   return await usersColection.doc(uid).set({
+  //     'photo': photo,
+  //   });
+  // }
 }
