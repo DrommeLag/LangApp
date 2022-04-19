@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "283179271050",
+    "project_id": "langapp-1f170",
+    "storage_bucket": "langapp-1f170.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283179271050:android:b98f0b92c2c106d9e2fe73",
+        "android_client_info": {
+          "package_name": "com.drommelag.lang_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283179271050-h9dcmoc4jlsbi1f9rif3h84rp7ip2rop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2fw5aLQq9We5Ye_bb9nv-Wu8FOJNNsA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283179271050-h9dcmoc4jlsbi1f9rif3h84rp7ip2rop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
