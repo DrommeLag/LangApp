@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../domain/user.dart';
+import '../../domain/user.dart';
 import 'package:lang_app/login/auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -114,7 +114,7 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 
-  Widget button(String text, void func()) {
+  Widget button(String text, void Function() func) {
     return ElevatedButton(
       onPressed: () {
         func();

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:lang_app/core/database.dart';
 import 'package:lang_app/domain/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,9 @@ class AuthService {
       return MyUser.fromFirebase(user);
     }
     on FirebaseException catch(error){
-      print(error.toString());
+      if (kDebugMode) {
+        print(error.toString());
+      }
       return null;
     }
   }
@@ -27,7 +30,9 @@ class AuthService {
       return MyUser.fromFirebase(user);
     }
     on FirebaseException catch(error){
-      print(error.toString());
+      if (kDebugMode) {
+        print(error.toString());
+      }
       return null;
     }
   }
