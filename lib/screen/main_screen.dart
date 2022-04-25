@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:lang_app/screen/explore/explore_page.dart';
+import 'package:lang_app/screen/map/map_page.dart';
 import 'package:lang_app/screen/favorite/favorite_page.dart';
 import 'package:lang_app/screen/home/home_page.dart';
 import 'package:lang_app/screen/user/user_page.dart';
@@ -19,7 +19,7 @@ class _MainScreen extends State<MainScreen>{
   int pos = 0;
   List<Widget> pages = const <Widget>[
     HomePage(), //0
-    ExplorePage(), //1
+    MapPage(), //1
     FavoritePage(), //2
     UserPage(), //3
   ];
