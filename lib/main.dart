@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lang_app/pages/auth/landing_page.dart';
-import 'package:lang_app/pages/main-screen.dart';
-import 'package:lang_app/pages/themes.dart';
+import 'package:lang_app/screen/main_screen.dart';
+import 'package:lang_app/screen/themes.dart';
 import 'package:provider/provider.dart';
 
 import 'domain/user.dart';
@@ -44,16 +43,7 @@ class _MyAppState extends State<MyApp> {
         title: 'Lang App',
         theme: AppTheme().light,
         darkTheme: AppTheme().dark,
-        /*ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-          //primarySwatch: Colors.deepOrange,
-          textTheme: const TextTheme(
-            bodyText1: TextStyle(),
-            bodyText2: TextStyle(),
-          ),
-        ),*/
-
-          home: MainScreen(),
+          home: const MainScreen(),
 
       ),
     );

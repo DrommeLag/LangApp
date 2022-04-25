@@ -1,7 +1,12 @@
-
 import 'package:flutter/material.dart';
 
-class MainScreen extends Material{
+import 'package:lang_app/screen/explore/explore_page.dart';
+import 'package:lang_app/screen/favorite/favorite_page.dart';
+import 'package:lang_app/screen/home/home_page.dart';
+import 'package:lang_app/screen/user/user_page.dart';
+
+
+class MainScreen extends StatefulWidget{
   const MainScreen({Key? key}): super(key: key);
 
 
@@ -13,7 +18,10 @@ class _MainScreen extends State<MainScreen>{
 
   int pos = 0;
   List<Widget> pages = const <Widget>[
-    //TODO(add there),
+    HomePage(), //0
+    ExplorePage(), //1
+    FavoritePage(), //2
+    UserPage(), //3
   ];
 
   _onTap(int a){
@@ -50,10 +58,8 @@ class _MainScreen extends State<MainScreen>{
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
       ),
-      body: //TODO later pages[pos]
-      Center(
-        child: Text(pos.toString()),
-      ),
+      body: pages[pos],
+
     );
   }
 
