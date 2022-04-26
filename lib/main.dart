@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lang_app/pages/landing_page.dart';
+import 'package:lang_app/screen/main_screen.dart';
+import 'package:lang_app/screen/themes.dart';
 import 'package:provider/provider.dart';
 
 import 'domain/user.dart';
@@ -9,7 +10,7 @@ import 'login/auth.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -40,17 +41,10 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Lang App',
-        theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          textTheme: const TextTheme(
-            bodyText1: TextStyle(),
-            bodyText2: TextStyle(),
-          ).apply(
-            bodyColor: Colors.deepOrange,
-            displayColor: Colors.deepOrange,
-          ),
-        ),
-        home: LandingPage(),
+        theme: AppTheme().light,
+        darkTheme: AppTheme().dark,
+          home: const MainScreen(),
+
       ),
     );
   }

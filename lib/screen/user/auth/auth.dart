@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../domain/user.dart';
+import '../../../domain/user.dart';
 import 'package:lang_app/login/auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -11,19 +11,19 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _surenameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _sureNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   String _name ='';
-  String _surename = '';
+  String _sureName = '';
   // String _phoneNumber = '';
   String _email = '';
   String _password = '';
   bool _showLogin = true;
 
-  AuthService _authService = AuthService();
+  final AuthService _authService = AuthService();
 
   Widget input(Icon icon, String hint, TextEditingController controller, bool obscure) {
     return Container(
@@ -91,11 +91,11 @@ class _AuthPageState extends State<AuthPage> {
 
   void registerButtonAction() async{
     _name = _nameController.text;
-    _surename = _surenameController.text;
+    _sureName = _sureNameController.text;
     _email = _emailController.text;
     _password = _passwordController.text;
     if(_name.isEmpty || _email.isEmpty || _password.isEmpty) return;
-    MyUser? user = await _authService.registerWithEmailAndPassword(_name, _surename, _email.trim(), _password.trim());
+    MyUser? user = await _authService.registerWithEmailAndPassword(_name, _sureName, _email.trim(), _password.trim());
     if(user == null){
       Fluttertoast.showToast(
           msg: "Can`t register you. Please check your name/email/password",
@@ -108,13 +108,13 @@ class _AuthPageState extends State<AuthPage> {
       );
     } else {
       _nameController.clear();
-      _surenameController.clear();
+      _sureNameController.clear();
       _emailController.clear();
       _passwordController.clear();
     }
   }
 
-  Widget button(String text, void func()) {
+  Widget button(String text, void Function() func) {
     return ElevatedButton(
       onPressed: () {
         func();
@@ -157,7 +157,7 @@ class _AuthPageState extends State<AuthPage> {
               const SizedBox(height: 40,),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20,),
-                child: Container(
+                child: SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   child: button('LOGIN', loginButtonAction),
@@ -200,7 +200,7 @@ class _AuthPageState extends State<AuthPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: input(const Icon(Icons.supervised_user_circle), 'Surename(optional)', _surenameController, false),
+                child: input(const Icon(Icons.supervised_user_circle), 'Surname(optional)', _sureNameController, false),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20, top: 10),
@@ -213,7 +213,7 @@ class _AuthPageState extends State<AuthPage> {
               const SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20,),
-                child: Container(
+                child: SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   child: button('REGISTER', registerButtonAction),
