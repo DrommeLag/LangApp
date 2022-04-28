@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lang_app/screen/main_screen.dart';
+import 'package:lang_app/screen/templates/highlighted_text.dart';
 import 'package:lang_app/screen/templates/input_text_field.dart';
 import '../../../domain/user.dart';
 import 'package:lang_app/login/auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../../login/auth_data.dart';
+import '../../templates/toast_error_message.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -12,65 +17,52 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  _AuthPageState(){
+    AuthData.singOut();
+  }
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _sureNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  String _name = '';
-  String _sureName = '';
-  // String _phoneNumber = '';
-  String _email = '';
-  String _password = '';
   bool _showLogin = true;
 
-  final AuthService _authService = AuthService();
-
-  void loginButtonAction() async {
-    _email = _emailController.text;
-    _password = _passwordController.text;
-    if (_email.isEmpty || _password.isEmpty) {
-      showToastErrorMessage(
-          'Can`t sign you in. Please check your email/password');
-      return;
+  loginButtonAction() async {
+    var _email = _emailController.text;
+    var _password = _passwordController.text;
+    if (_email.isNotEmpty && _password.isNotEmpty) {
+      try{
+        AuthData.login(email: _email, password: _password);
+        goForward();
+        return;
+      }on String catch(_){}
     }
-    MyUser? user = await _authService.signInWithEmailAndPassword(
-        _email.trim(), _password.trim());
-    if (user == null) {
-      showToastErrorMessage(
-          'Can`t sign you in. Please check your email/password');
-    } else {
-      _emailController.clear();
-      _passwordController.clear();
-    }
+    showToastErrorMessage(
+        'Can`t sign you in. Please check your email/password');
   }
 
-  void registerButtonAction() async {
-    _name = _nameController.text;
-    _sureName = _sureNameController.text;
-    _email = _emailController.text;
-    _password = _passwordController.text;
+  registerButtonAction() async {
+    var _name = _nameController.text;
+    var _sureName = _sureNameController.text;
+    var _email = _emailController.text;
+    var _password = _passwordController.text;
 
-    MyUser? user;
     if (_name.isNotEmpty && _email.isNotEmpty && _password.isNotEmpty) {
-      user = await _authService.registerWithEmailAndPassword(
-          _name, _sureName, _email.trim(), _password.trim());
-    } else {
+      try{
+        AuthData.register(name: _name, surname: _sureName, email: _email, password: _password);
+        goForward();
+        return;
+      }on String catch(_){}
+    }
       showToastErrorMessage(
           "Can`t register you. Please check your name/email/password");
-      return;
-    }
+  }
 
-    if (user == null) {
-      showToastErrorMessage(
-          "Can`t register you. Please check your name/email/password");
-      return;
-    } else {
-      _nameController.clear();
-      _sureNameController.clear();
-      _emailController.clear();
-      _passwordController.clear();
-    }
+  goForward(){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return const MainScreen();
+    }));
   }
 
   Widget formattedButton(String text, void Function() func) {
@@ -101,98 +93,73 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  showToastErrorMessage(String message) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        fontSize: 16.0);
+  onClickChangeLoginRegister() {
+    setState(() {
+      _showLogin = !_showLogin;
+    });
   }
 
   List<Widget> registerWidgets() => <Widget>[
-    InputTextField(
-        icon: Icons.account_circle,
-        hint: 'Name',
-        controller: _nameController,
-        obscure: false),
-    const SizedBox(height: 20),
-    InputTextField(
-        icon: Icons.supervised_user_circle,
-        hint: 'Surname(optional)',
-        controller: _sureNameController,
-        obscure: false),
-    const SizedBox(height: 20),
-    InputTextField(
-        icon: Icons.email,
-        hint: 'Email',
-        controller: _emailController,
-        obscure: false),
-    const SizedBox(height: 20),
-    InputTextField(
-        icon: Icons.lock,
-        hint: 'Password',
-        controller: _passwordController,
-        obscure: true),
-    const SizedBox(height: 40),
-    formattedButton('REGISTER', registerButtonAction),
-    const SizedBox(height: 40),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text('Already registered? '),
-        GestureDetector(
-          child: Text(
-            'Login',
-            style: Theme.of(context)
+        InputTextField(
+            icon: Icons.account_circle,
+            hint: 'Name',
+            controller: _nameController,
+            obscure: false),
+        const SizedBox(height: 20),
+        InputTextField(
+            icon: Icons.supervised_user_circle,
+            hint: 'Surname(optional)',
+            controller: _sureNameController,
+            obscure: false),
+        const SizedBox(height: 20),
+        InputTextField(
+            icon: Icons.email,
+            hint: 'Email',
+            controller: _emailController,
+            obscure: false),
+        const SizedBox(height: 20),
+        InputTextField(
+            icon: Icons.lock,
+            hint: 'Password',
+            controller: _passwordController,
+            obscure: true),
+        const SizedBox(height: 40),
+        formattedButton('REGISTER', registerButtonAction),
+        const SizedBox(height: 40),
+        highlightedText(
+            text: 'Already registered? |Login|',
+            onTap: onClickChangeLoginRegister,
+            highlightedStyle: Theme.of(context)
                 .textTheme
-                .bodyText1
+                .subtitle1
                 ?.apply(color: Theme.of(context).colorScheme.primary),
-          ),
-          onTap: () {
-            setState(() {
-              _showLogin = true;
-            });
-          },
+            textStyle: Theme.of(context).textTheme.subtitle1
         ),
-      ],
-    ),
-  ];
+      ];
 
   List<Widget> loginWidgets() => [
-    InputTextField(
-        icon: Icons.email,
-        hint: 'Email',
-        controller: _emailController,
-        obscure: false),
-    const SizedBox(height: 20),
-    InputTextField(
-        icon: Icons.lock,
-        hint: 'Password',
-        controller: _passwordController,
-        obscure: true),
-    const SizedBox(height: 40),
-    formattedButton('LOGIN', loginButtonAction),
-    const SizedBox(height: 40),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text('Not registered? '),
-        GestureDetector(
-          child: Text(
-            'Register',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                ?.apply(color: Theme.of(context).colorScheme.primary),
-          ),
-          onTap: () {
-            setState(() {
-              _showLogin = false;
-            });
-          },
-        ),
-      ],
+        InputTextField(
+            icon: Icons.email,
+            hint: 'Email',
+            controller: _emailController,
+            obscure: false),
+        const SizedBox(height: 20),
+        InputTextField(
+            icon: Icons.lock,
+            hint: 'Password',
+            controller: _passwordController,
+            obscure: true),
+        const SizedBox(height: 40),
+        formattedButton('LOGIN', loginButtonAction),
+        const SizedBox(height: 40),
+    highlightedText(
+        text: 'Don\'t have account? |Register|',
+        onTap: onClickChangeLoginRegister,
+        highlightedStyle: Theme.of(context)
+            .textTheme
+            .subtitle1
+            ?.apply(color: Theme.of(context).colorScheme.primary),
+        textStyle: Theme.of(context).textTheme.subtitle1
     ),
-  ];
+      ];
 }

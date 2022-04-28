@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class MyUser {
+class UserDescription {
   String? id;
   String? displayName;
   String? email;
   String? photoURL;
-  MyUser.fromFirebase(User? user) {
+  UserDescription.fromFirebase(User? user) {
     displayName = user?.displayName;
     email = user?.email;
     photoURL = user?.photoURL;

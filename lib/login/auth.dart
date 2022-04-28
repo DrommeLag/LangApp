@@ -6,13 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
 
-  Future<MyUser?> signInWithEmailAndPassword(String email, String password) async {
-    try{
-      UserCredential result = await _fAuth.signInWithEmailAndPassword(email: email, password: password);
+  Future<UserDescription?> signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      UserCredential result = await _fAuth.signInWithEmailAndPassword(
+          email: email, password: password);
       User? user = result.user;
-      return MyUser.fromFirebase(user);
-    }
-    on FirebaseException catch(error){
+      return UserDescription.fromFirebase(user);
+    } on FirebaseException catch (error) {
       if (kDebugMode) {
         print(error.toString());
       }
@@ -20,16 +21,18 @@ class AuthService {
     }
   }
 
-  Future<MyUser?> registerWithEmailAndPassword(String name, String? surname, String email, String password) async {
-    try{
-      UserCredential result = await _fAuth.createUserWithEmailAndPassword(email: email, password: password);
+  Future<UserDescription?> registerWithEmailAndPassword(
+      String name, String? surname, String email, String password) async {
+    try {
+      UserCredential result = await _fAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
       User? user = result.user;
       await user?.updateDisplayName(name);
       await user?.reload();
-      await DatabaseService(uid: user?.uid).updateUserData(name+' ' +(surname ?? ''), email);
-      return MyUser.fromFirebase(user);
-    }
-    on FirebaseException catch(error){
+      await DatabaseService(uid: user?.uid)
+          .updateUserData(name + ' ' + (surname ?? ''), email);
+      return UserDescription.fromFirebase(user);
+    } on FirebaseException catch (error) {
       if (kDebugMode) {
         print(error.toString());
       }
@@ -41,7 +44,8 @@ class AuthService {
     await _fAuth.signOut();
   }
 
-  Stream<MyUser?> get currentUser {
-    return _fAuth.authStateChanges().map((User? user) => user != null ? MyUser.fromFirebase(user): null);
+  Stream<UserDescription?> get currentUser {
+    return _fAuth.authStateChanges().map((User? user) =>
+        user != null ? UserDescription.fromFirebase(user) : null);
   }
 }

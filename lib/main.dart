@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<MyUser?>.value(
+    return StreamProvider<UserDescription?>.value(
       value: AuthService().currentUser,
       initialData: null,
       child: MaterialApp(

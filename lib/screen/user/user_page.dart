@@ -24,8 +24,10 @@ class _UserPage extends State<UserPage> {
       child: Center(
         child: MaterialButton(
           onPressed: onPressed,
-          child: const Text(
+          color: Theme.of(context).primaryColor,
+          child:  Text(
             'exit',
+            style: Theme.of(context).primaryTextTheme.button,
           ),
         ),
       ),
