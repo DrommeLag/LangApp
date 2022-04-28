@@ -20,13 +20,13 @@ class AuthService {
     }
   }
 
-  Future<MyUser?> registerWithEmailAndPassword(String name, String surename, String email, String password) async {
+  Future<MyUser?> registerWithEmailAndPassword(String name, String? surname, String email, String password) async {
     try{
       UserCredential result = await _fAuth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
       await user?.updateDisplayName(name);
       await user?.reload();
-      await DatabaseService(uid: user?.uid).updateUserData(name+' '+surename, email);
+      await DatabaseService(uid: user?.uid).updateUserData(name+' ' +(surname ?? ''), email);
       return MyUser.fromFirebase(user);
     }
     on FirebaseException catch(error){

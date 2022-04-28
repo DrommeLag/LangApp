@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 
-class UserPage extends StatefulWidget{
+import 'auth/auth.dart';
+
+class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
 
   @override
   State<UserPage> createState() => _UserPage();
-  
 }
 
-class _UserPage extends State<UserPage>{
+class _UserPage extends State<UserPage> {
+  onPressed() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const AuthPage();
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return const Scaffold();
+    return Hero(
+      tag: 'user-settings',
+      child: Center(
+        child: MaterialButton(
+          onPressed: onPressed,
+          child: const Text(
+            'exit',
+          ),
+        ),
+      ),
+    );
   }
-  
 }
