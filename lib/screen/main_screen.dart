@@ -1,13 +1,19 @@
+
+
 import 'package:flutter/material.dart';
 
 import 'package:lang_app/screen/map/map_page.dart';
 import 'package:lang_app/screen/favorite/favorite_page.dart';
 import 'package:lang_app/screen/home/home_page.dart';
+import 'package:lang_app/screen/user/auth/auth.dart';
 import 'package:lang_app/screen/user/user_page.dart';
+
+import '../login/auth_data.dart';
 
 
 class MainScreen extends StatefulWidget{
-  const MainScreen({Key? key}): super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
+
 
 
   @override

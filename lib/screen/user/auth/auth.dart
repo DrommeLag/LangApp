@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/templates/highlighted_text.dart';
 import 'package:lang_app/screen/templates/input_text_field.dart';
-import '../../../domain/user.dart';
-import 'package:lang_app/login/auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import '../../../login/auth_data.dart';
-import '../../templates/toast_error_message.dart';
+import 'package:lang_app/login/auth_data.dart';
+import 'package:lang_app/screen/templates/toast_error_message.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
