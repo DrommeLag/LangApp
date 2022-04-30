@@ -1,20 +1,14 @@
-
-
 import 'package:flutter/material.dart';
 
 import 'package:lang_app/screen/map/map_page.dart';
 import 'package:lang_app/screen/favorite/favorite_page.dart';
 import 'package:lang_app/screen/home/home_page.dart';
-import 'package:lang_app/screen/user/auth/auth.dart';
 import 'package:lang_app/screen/user/user_page.dart';
 
-import '../login/auth_data.dart';
 
 
 class MainScreen extends StatefulWidget{
   const MainScreen({Key? key}) : super(key: key);
-
-
 
   @override
   State<MainScreen> createState() => _MainScreen();
@@ -38,6 +32,9 @@ class _MainScreen extends State<MainScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("UkrLangApp - dev-ng"),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
