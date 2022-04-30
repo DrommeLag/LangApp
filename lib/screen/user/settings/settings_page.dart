@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/screen/user/auth/auth.dart';
+import 'package:lang_app/screen/user/settings/notifications_page.dart';
 import 'package:lang_app/screen/user/user_page.dart';
 
 class SettingsPage extends StatefulWidget{
@@ -31,6 +32,7 @@ class _SettingsPage extends State<SettingsPage>{
                 title: "General",
                 children: <Widget>[
                   // buildAccountSettings(),
+                  NotificationsPage(),
                   buildLanguage(context),
                   buildRegion(context),
                 ],
@@ -118,7 +120,6 @@ class _SettingsPage extends State<SettingsPage>{
       title: "Dark Mode",
       settingKey: SettingsPage.keyDarkMode,
       leading: const Icon(Icons.dark_mode, color: Colors.yellow,),
-      onChange: (_) {},
     );
   }
 }
