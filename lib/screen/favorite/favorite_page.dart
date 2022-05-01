@@ -12,7 +12,11 @@ class _FavoritePage extends State<FavoritePage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return const Scaffold();
+    return const Scaffold(
+      body: Center(
+        child: Text("TODO !!!", style: TextStyle(fontSize: 50),),
+      ),
+    );
   }
 
 }
