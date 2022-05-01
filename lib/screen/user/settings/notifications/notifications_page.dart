@@ -19,7 +19,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return SimpleSettingsTile(
       title: "Notifications",
       subtitle: "Newsletter, App Updates",
-      leading: const Icon(Icons.notifications, color: Colors.redAccent,),
+      leading: const Icon(Icons.notifications),
       child: SettingsScreen(
         children: [
           buildSimpleNotificationButton(),
@@ -71,7 +71,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return SwitchSettingsTile(
       title: "Enable notifications",
       settingKey: NotificationsPage.keyNews,
-      leading: const Icon(Icons.message, color: Colors.blueGrey,),
+      leading: const Icon(Icons.message),
     );
   }
 
@@ -79,7 +79,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return SwitchSettingsTile(
       title: "Enable newsletter to your email",
       settingKey: NotificationsPage.keyNewsletter,
-      leading: const Icon(Icons.newspaper, color: Colors.blue,),
+      leading: const Icon(Icons.newspaper),
     );
   }
 
@@ -87,7 +87,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return SwitchSettingsTile(
       title: "Enable App Updates",
       settingKey: NotificationsPage.keyAppUpdates,
-      leading: const Icon(Icons.timer, color: Colors.lightBlueAccent,),
+      leading: const Icon(Icons.timer),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:lang_app/screen/user/settings/notifications/notifications_page.d
 import 'package:lang_app/screen/user/user_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsPage extends StatefulWidget{
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   static const keyLanguage = "key-language";
@@ -15,40 +15,45 @@ class SettingsPage extends StatefulWidget{
   State<SettingsPage> createState() => _SettingsPage();
 }
 
-class _SettingsPage extends State<SettingsPage>{
-
-
+class _SettingsPage extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("User settings"),
-        backgroundColor: Colors.orangeAccent,
+        //backgroundColor: Colors.orangeAccent,
       ),
       body: SafeArea(
-          child: ListView(
-            children: [
+        child: ListView(
+          children: [
+            SettingsGroup(title: "Appearance", children: [
               buildDarkMode(),
-              SettingsGroup(
-                title: "General",
-                children: <Widget>[
-                  // buildAccountSettings(),
-                  NotificationsPage(),
-                  buildLanguage(context),
-                  buildRegion(context),
-                ],
-              ),
-              const SizedBox(height: 20,),
-              SettingsGroup(
-                title: "FEEDBACK",
-                subtitle: "",
-                children: <Widget>[
-                  const SizedBox(height: 10,),
-                  buildReportBug(context),
-                  buildSendFeedback(context),
-                ],
-              ),
-            ],),
+            ]),
+            SettingsGroup(
+              title: "General",
+              children: <Widget>[
+                // buildAccountSettings(),
+                NotificationsPage(),
+                buildLanguage(context),
+                buildRegion(context),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SettingsGroup(
+              title: "FEEDBACK",
+              subtitle: "",
+              children: <Widget>[
+                const SizedBox(
+                  height: 10,
+                ),
+                buildReportBug(context),
+                buildSendFeedback(context),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -56,7 +61,7 @@ class _SettingsPage extends State<SettingsPage>{
   // Widget buildAccountSettings() {
   //   return SimpleSettingsTile(
   //     title: "Account Settings",
-  //     leading: const Icon(Icons.account_circle, color: Colors.greenAccent,),
+  //     leading: const Icon(Icons.account_circle),
   //     onTap: () {
   //       Navigator.push(context, MaterialPageRoute(builder: (context) {
   //         return const UserPage();
@@ -69,9 +74,8 @@ class _SettingsPage extends State<SettingsPage>{
     return SimpleSettingsTile(
       title: "Send Feedback",
       subtitle: "",
-      leading: const Icon(Icons.thumb_up, color: Colors.purple,),
-      onTap: () {
-      },
+      leading: const Icon(Icons.thumb_up),
+      onTap: () {},
     );
   }
 
@@ -79,8 +83,8 @@ class _SettingsPage extends State<SettingsPage>{
     return SimpleSettingsTile(
       title: "Report A Bug",
       subtitle: "",
-      leading: const Icon(Icons.bug_report, color: Colors.greenAccent,),
-      onTap: () async{
+      leading: const Icon(Icons.bug_report),
+      onTap: () async {
         // await launchUrl(
         //   Uri(
         //     scheme: "https",
@@ -89,7 +93,8 @@ class _SettingsPage extends State<SettingsPage>{
         //   ),
         //   mode: LaunchMode.externalNonBrowserApplication,
         // );
-        await launch("https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley");
+        await launchUrl(Uri.parse(
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
       },
     );
   }
@@ -105,8 +110,7 @@ class _SettingsPage extends State<SettingsPage>{
         3: "Spanish",
         4: "French",
       },
-      onChange: (language){
-      },
+      onChange: (language) {},
     );
   }
 
@@ -120,16 +124,24 @@ class _SettingsPage extends State<SettingsPage>{
         2: "Lviv obl",
         3: "Kyiv obl",
       },
-      onChange: (region){
-      },
+      onChange: (region) {},
     );
   }
 
-  Widget buildDarkMode(){
-    return SwitchSettingsTile(
-      title: "Dark Mode",
-      settingKey: SettingsPage.keyDarkMode,
-      leading: const Icon(Icons.dark_mode, color: Colors.yellow,),
-    );
+  Widget buildDarkMode() {
+    return RadioModalSettingsTile(
+        title: 'Dark Mode',
+        settingKey: SettingsPage.keyDarkMode,
+        selected: Settings.getValue(SettingsPage.keyDarkMode, ThemeMode.system),
+        values: const <ThemeMode, String>{
+          ThemeMode.system: 'Like system',
+          ThemeMode.dark: 'Constant dark',
+          ThemeMode.light: 'Constant light'
+        });
+    //   SwitchSettingsTile(
+    //   title: "Dark Mode",
+    //   settingKey: SettingsPage.keyDarkMode,
+    //   leading: const Icon(Icons.dark_mode),
+    // );
   }
 }

@@ -60,18 +60,17 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<UserDescription?>.value(
       value: AuthService().currentUser,
       initialData: null,
-      child: ValueChangeObserver<bool>(
+      child: ValueChangeObserver<ThemeMode>(
         cacheKey: SettingsPage.keyDarkMode,
-        defaultValue: true,
+        defaultValue: ThemeMode.system,
         builder: (_, isDarkMode, __) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Lang App',
-            theme: isDarkMode
-            ? AppTheme().dark
-            : AppTheme().light,
+            theme: AppTheme().light,
+            darkTheme: AppTheme().dark,
+            themeMode: isDarkMode,
             home: AuthData.userDescription != null ?
-            const MainScreen(): const AuthPage(),
-            //TODO add reading login data from saved storage
+              const MainScreen(): const AuthPage(),
           ),
       ),
     );
