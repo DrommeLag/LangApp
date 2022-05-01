@@ -3,6 +3,7 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/screen/user/auth/auth.dart';
 import 'package:lang_app/screen/user/settings/notifications/notifications_page.dart';
 import 'package:lang_app/screen/user/user_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget{
   const SettingsPage({Key? key}) : super(key: key);
@@ -79,7 +80,16 @@ class _SettingsPage extends State<SettingsPage>{
       title: "Report A Bug",
       subtitle: "",
       leading: const Icon(Icons.bug_report, color: Colors.greenAccent,),
-      onTap: () {
+      onTap: () async{
+        // await launchUrl(
+        //   Uri(
+        //     scheme: "https",
+        //     host: "www.youtube.com",
+        //     path: "www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",
+        //   ),
+        //   mode: LaunchMode.externalNonBrowserApplication,
+        // );
+        await launch("https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley");
       },
     );
   }
@@ -110,7 +120,7 @@ class _SettingsPage extends State<SettingsPage>{
         2: "Lviv obl",
         3: "Kyiv obl",
       },
-      onChange: (language){
+      onChange: (region){
       },
     );
   }

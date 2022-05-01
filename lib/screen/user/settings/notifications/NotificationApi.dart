@@ -41,7 +41,6 @@ class NotificationApi {
     String? payload,
     required DateTime scheduledDate,
   }) async {
-    // final scheduledDates = _scheduleWeekly(Time(9, 24), days: [DateTime.monday, DateTime.tuesday]);
     _notifications.zonedSchedule(
       id,
       title,

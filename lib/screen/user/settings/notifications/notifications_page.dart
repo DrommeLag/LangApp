@@ -56,8 +56,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           title: "Dinner with the boooooooys",
           body: "Right now",
           payload: 'dinner_asap',
-          scheduledDate: DateTime.now(),
-          // scheduledDate: DateTime.now().add(const Duration(seconds: 5)),
+          scheduledDate: DateTime.now().add(const Duration(seconds: 5)),
         );
       },
       child: Row(

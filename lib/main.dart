@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/models/user.dart';
-import 'package:lang_app/screen/home/home_page.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth.dart';
@@ -11,6 +10,7 @@ import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'package:provider/provider.dart';
 import 'package:lang_app/login/auth.dart';
 import 'login/auth_data.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async{
   await Settings.init(cacheProvider: SharePreferenceCache());
@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
     initFirebase();
     NotificationApi.init();
     listenNotifications();
+    tz.initializeTimeZones();
   }
 
   void listenNotifications(){
