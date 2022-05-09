@@ -1,19 +1,25 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/models/user.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth.dart';
+import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
+import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'package:provider/provider.dart';
 import 'package:lang_app/login/auth.dart';
-
 import 'login/auth_data.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async{
+  await Settings.init(cacheProvider: SharePreferenceCache());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await AuthData.loadLoginInfo();
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -34,6 +40,19 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initFirebase();
+    NotificationApi.init();
+    listenNotifications();
+    tz.initializeTimeZones();
+  }
+
+  void listenNotifications(){
+    NotificationApi.onNotifications.stream.listen(onClickedNotification);
+  }
+
+  void onClickedNotification(String? payload){
+    // Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (context) => const MainScreen(),
+    // ));
   }
 
   @override
@@ -41,15 +60,18 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<UserDescription?>.value(
       value: AuthService().currentUser,
       initialData: null,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Lang App',
-        theme: AppTheme().light,
-        darkTheme: AppTheme().dark,
-          home: AuthData.userDescription != null ?
-          const MainScreen(): const AuthPage(),
-        //TODO add reading login data from saved storage
-
+      child: ValueChangeObserver<ThemeMode>(
+        cacheKey: SettingsPage.keyDarkMode,
+        defaultValue: ThemeMode.system,
+        builder: (_, isDarkMode, __) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Lang App',
+            theme: AppTheme().light,
+            darkTheme: AppTheme().dark,
+            themeMode: isDarkMode,
+            home: AuthData.userDescription != null ?
+              const MainScreen(): const AuthPage(),
+          ),
       ),
     );
   }

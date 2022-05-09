@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lang_app/login/auth.dart';
 import 'package:lang_app/models/user.dart';
+import 'package:provider/provider.dart';
 
 class AuthData{
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lang_app/screen/user/settings/settings_page.dart';
 
 import 'auth/auth.dart';
 
@@ -21,16 +22,38 @@ class _UserPage extends State<UserPage> {
     // TODO: implement build
     return Hero(
       tag: 'user-settings',
-      child: Center(
-        child: MaterialButton(
-          onPressed: onPressed,
-          color: Theme.of(context).primaryColor,
-          child:  Text(
-            'exit',
-            style: Theme.of(context).primaryTextTheme.button,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AuthPage();
+              }));
+              },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),
+            ),
+            // color: Theme.of(context).primaryColor,
+            child:  Text("Log out",
+              style: Theme.of(context).primaryTextTheme.button,
           ),
         ),
-      ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+               return const SettingsPage();
+              }));
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.settings),
+                Text(" Settings"),
+              ],
+            ),
+          )
+        ]),
     );
   }
 }
