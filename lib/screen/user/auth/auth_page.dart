@@ -17,8 +17,8 @@ class _AuthPageState extends State<AuthPage> {
     _showLogin = !_showLogin;
   }
 
-  goForwardIfTrue(Future<bool>? argument) {
-    if (argument != null /*&& await argument*/) {
+  goForwardIfTrue(Future<bool>? argument) async {
+    if (argument != null && await argument) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return const MainScreen();
       }));
