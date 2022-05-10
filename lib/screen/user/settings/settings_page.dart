@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:lang_app/screen/user/auth/auth.dart';
 import 'package:lang_app/screen/user/settings/notifications/notifications_page.dart';
-import 'package:lang_app/screen/user/user_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -132,11 +130,12 @@ class _SettingsPage extends State<SettingsPage> {
     return RadioModalSettingsTile(
         title: 'Dark Mode',
         settingKey: SettingsPage.keyDarkMode,
-        selected: Settings.getValue(SettingsPage.keyDarkMode, ThemeMode.system),
-        values: const <ThemeMode, String>{
-          ThemeMode.system: 'Like system',
-          ThemeMode.dark: 'Constant dark',
-          ThemeMode.light: 'Constant light'
+        selected:
+            Settings.getValue(SettingsPage.keyDarkMode, ThemeMode.system.index),
+        values: <int, String>{
+          ThemeMode.system.index: 'Like system',
+          ThemeMode.dark.index: 'Constant dark',
+          ThemeMode.light.index: 'Constant light'
         });
     //   SwitchSettingsTile(
     //   title: "Dark Mode",
