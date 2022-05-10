@@ -6,6 +6,7 @@ import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth_page.dart';
 import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
+import 'package:lang_app/screen/user/settings/notifications/notifications_page.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 

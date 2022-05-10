@@ -83,14 +83,6 @@ class _SettingsPage extends State<SettingsPage> {
       subtitle: "",
       leading: const Icon(Icons.bug_report),
       onTap: () async {
-        // await launchUrl(
-        //   Uri(
-        //     scheme: "https",
-        //     host: "www.youtube.com",
-        //     path: "www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",
-        //   ),
-        //   mode: LaunchMode.externalNonBrowserApplication,
-        // );
         await launchUrl(Uri.parse(
             "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
       },
