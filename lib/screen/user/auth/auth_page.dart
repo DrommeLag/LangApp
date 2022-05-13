@@ -14,7 +14,9 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   onClickChangeLoginRegister() {
-    _showLogin = !_showLogin;
+    setState(() {
+      _showLogin = !_showLogin;
+    });
   }
 
   goForwardIfTrue(Future<bool>? argument) async {
