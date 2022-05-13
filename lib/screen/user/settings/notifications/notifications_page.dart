@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
+import 'package:http/http.dart' as http;
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
@@ -32,7 +35,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   Widget buildNotif(){
     return SwitchSettingsTile(
-      title: "Enable notifications",
+      title: "Enable daily reminder",
       settingKey: NotificationsPage.keyNotif,
       leading: const Icon(Icons.message),
       onChange: (value) {
@@ -52,6 +55,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
       title: "Enable newsletter to your email",
       settingKey: NotificationsPage.keyNewsletter,
       leading: const Icon(Icons.newspaper),
+      onChange: (value) {
+        if(value){
+          sendNewsletter(email: "", subject: "", message: "");
+        }
+      },
     );
   }
 
@@ -60,6 +68,35 @@ class _NotificationsPageState extends State<NotificationsPage> {
       title: "Enable App Updates",
       settingKey: NotificationsPage.keyAppUpdates,
       leading: const Icon(Icons.timer),
+    );
+  }
+
+  Future sendNewsletter({
+    required String email,
+    required String subject,
+    required String message,
+  }) async {
+    final serviceId = 'service_v90f2v7';
+    final templateId = 'template_c3g6947';
+    final userId = 'FVyO9KPzCJ4a1QVO6';
+
+    final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+    await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+
+      },
+      body: json.encode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': userId,
+        'template_params': {
+          'user_email': email,
+          'user_subject': subject,
+          'user_message': message,
+        }
+      }),
     );
   }
 }
