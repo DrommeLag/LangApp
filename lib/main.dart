@@ -6,7 +6,6 @@ import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth_page.dart';
 import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
-import 'package:lang_app/screen/user/settings/notifications/notifications_page.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -48,6 +47,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return InheritedDataProvider(
+      authService: widget.authService,
+      child: ValueChangeObserver<int>(
+        cacheKey: SettingsPage.keyDarkMode,
+        defaultValue: ThemeMode.system.index,
+        builder: (_, isDarkMode, __) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Lang App',
+          theme: AppTheme().light,
+          darkTheme: AppTheme().dark,
+          themeMode: ThemeMode.values[isDarkMode],
+          home: widget.authService.isLoggedIn
+              ? const MainScreen()
+              : const AuthPage(),
+        ),
+      ),
+    );
+  }
+
   void initFirebase() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
@@ -70,26 +90,5 @@ class _MyAppState extends State<MyApp> {
     // Navigator.of(context).push(MaterialPageRoute(
     //   builder: (context) => const MainScreen(),
     // ));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InheritedDataProvider(
-      authService: widget.authService,
-      child: ValueChangeObserver<int>(
-        cacheKey: SettingsPage.keyDarkMode,
-        defaultValue: ThemeMode.system.index,
-        builder: (_, isDarkMode, __) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Lang App',
-          theme: AppTheme().light,
-          darkTheme: AppTheme().dark,
-          themeMode: ThemeMode.values[isDarkMode],
-          home: widget.authService.isLoggedIn
-              ? const MainScreen()
-              : const AuthPage(),
-        ),
-      ),
-    );
   }
 }

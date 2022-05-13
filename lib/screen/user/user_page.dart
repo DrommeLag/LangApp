@@ -3,7 +3,7 @@ import 'package:lang_app/screen/user/settings/settings_page.dart';
 
 import 'auth/auth_page.dart';
 
-class UserPage extends StatefulWidget {
+class UserPage extends StatefulWidget{
   const UserPage({Key? key}) : super(key: key);
 
   @override
@@ -20,25 +20,25 @@ class _UserPage extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        ElevatedButton(
-          onPressed: onPressed(),
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.deepOrange),
-          ),
+    return  Padding(padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        MaterialButton(
+          onPressed: () => onPressed(),
+          color: Colors.deepOrange, 
           // color: Theme.of(context).primaryColor,
           child: Text(
             "Log out",
             style: Theme.of(context).primaryTextTheme.button,
           ),
         ),
-        ElevatedButton(
+        MaterialButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return const SettingsPage();
             }));
           },
+
+          color: Theme.of(context).primaryColor,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: const [
@@ -47,6 +47,7 @@ class _UserPage extends State<UserPage> {
             ],
           ),
         )
-      ]);
+      ]),
+    );
   }
 }
