@@ -57,6 +57,7 @@ dependencies:
   #For starting urls
   url_launcher: ^6.1.0
   http: ^0.13.4
+  mailer: ^5.1.1
 
   # For login save
   flutter_secure_storage: ^5.0.2

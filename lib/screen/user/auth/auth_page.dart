@@ -13,10 +13,50 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  onClickChangeLoginRegister() {
-    setState(() {
-      _showLogin = !_showLogin;
-    });
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _sureNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool _showLogin = true;
+
+  @override
+  void didChangeDependencies() {
+    InheritedDataProvider.of(context)!.authService.logOut();
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    late List<Widget> show;
+    if (_showLogin) {
+      show = loginWidget(context);
+    } else {
+      show = registerWidget(context);
+    }
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Create your account!'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: ListView(
+          children: show,
+        ),
+      ),
+    );
+  }
+
+  Widget formattedButton(String text, Function() func) {
+    return MaterialButton(
+      height: 50,
+      color: Theme.of(context).buttonTheme.colorScheme!.primary,
+      onPressed: () => func(),
+      child: Text(text,
+          style: Theme.of(context).textTheme.button!.apply(
+              color: Theme.of(context).buttonTheme.colorScheme!.onPrimary)),
+    );
   }
 
   goForwardIfTrue(Future<bool>? argument) async {
@@ -28,13 +68,6 @@ class _AuthPageState extends State<AuthPage> {
       //TODO think about if false
     }
   }
-
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _sureNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  bool _showLogin = true;
 
   loginButtonAction(BuildContext context) {
     var _email = _emailController.text;
@@ -48,34 +81,6 @@ class _AuthPageState extends State<AuthPage> {
       showToastErrorMessage(
           'Can`t sign you in. Please check your email/password');
     }
-  }
-
-  registerButtonAction(BuildContext context) {
-    var _name = _nameController.text;
-    var _surname = _sureNameController.text;
-    var _email = _emailController.text;
-    var _password = _passwordController.text;
-
-    if (_name.isNotEmpty && _email.isNotEmpty && _password.isNotEmpty) {
-      var result = InheritedDataProvider.of(context)
-          ?.authService
-          .registerWithEmailAndPassword(_name, _surname, _email, _password);
-      goForwardIfTrue(result);
-    } else {
-      showToastErrorMessage(
-          "Can`t register you. Please check your name/email/password");
-    }
-  }
-
-  Widget formattedButton(String text, Function() func) {
-    return MaterialButton(
-      height: 50,
-      color: Theme.of(context).buttonTheme.colorScheme!.primary,
-      onPressed: () => func(),
-      child: Text(text,
-          style: Theme.of(context).textTheme.button!.apply(
-              color: Theme.of(context).buttonTheme.colorScheme!.onPrimary)),
-    );
   }
 
   List<Widget> loginWidget(BuildContext context) {
@@ -103,6 +108,29 @@ class _AuthPageState extends State<AuthPage> {
               ?.apply(color: Theme.of(context).colorScheme.primary),
           textStyle: Theme.of(context).textTheme.subtitle1),
     ];
+  }
+
+  onClickChangeLoginRegister() {
+    setState(() {
+      _showLogin = !_showLogin;
+    });
+  }
+
+  registerButtonAction(BuildContext context) {
+    var _name = _nameController.text;
+    var _surname = _sureNameController.text;
+    var _email = _emailController.text;
+    var _password = _passwordController.text;
+
+    if (_name.isNotEmpty && _email.isNotEmpty && _password.isNotEmpty) {
+      var result = InheritedDataProvider.of(context)
+          ?.authService
+          .registerWithEmailAndPassword(_name, _surname, _email, _password);
+      goForwardIfTrue(result);
+    } else {
+      showToastErrorMessage(
+          "Can`t register you. Please check your name/email/password");
+    }
   }
 
   List<Widget> registerWidget(BuildContext context) {
@@ -142,27 +170,5 @@ class _AuthPageState extends State<AuthPage> {
               ?.apply(color: Theme.of(context).colorScheme.primary),
           textStyle: Theme.of(context).textTheme.subtitle1),
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    late List<Widget> show;
-    if (_showLogin) {
-      show = loginWidget(context);
-    } else {
-      show = registerWidget(context);
-    }
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Create your account!'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: ListView(
-          children: show,
-        ),
-      ),
-    );
   }
 }

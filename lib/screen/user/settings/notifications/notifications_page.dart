@@ -1,9 +1,14 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:lang_app/login/auth.dart';
 import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
 import 'package:http/http.dart' as http;
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
@@ -57,7 +62,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
       leading: const Icon(Icons.newspaper),
       onChange: (value) {
         if(value){
-          sendNewsletter(email: "", subject: "", message: "");
+          sendNewsletter();
         }
       },
     );
@@ -71,32 +76,59 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  Future sendNewsletter({
-    required String email,
-    required String subject,
-    required String message,
-  }) async {
-    final serviceId = 'service_v90f2v7';
-    final templateId = 'template_c3g6947';
-    final userId = 'FVyO9KPzCJ4a1QVO6';
+  Future sendNewsletter() async{
+    User? user = FirebaseAuth.instance.currentUser;
 
-    final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-    await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
+    if(user == null) return;
 
-      },
-      body: json.encode({
-        'service_id': serviceId,
-        'template_id': templateId,
-        'user_id': userId,
-        'template_params': {
-          'user_email': email,
-          'user_subject': subject,
-          'user_message': message,
-        }
-      }),
-    );
+    final email = user.email!;
+    final token = user.refreshToken!;
+
+    print("Auth: $email");
+    print("Token: $token");
+
+    final smtpServer = gmailSaslXoauth2(email, token);
+    final message = Message()
+      ..from = Address(email, 'DrommeLag')
+      ..recipients = [email]
+      ..subject = "Hi man, that`s a subject!"
+      ..text = "Test email. Hope it will work";
+
+    try {
+      await send(message, smtpServer);
+    } on MailerException catch (e) {
+      if(kDebugMode){
+        print(e);
+      }
+    }
   }
+
+  // Future sendNewsletter({
+  //   required String email,
+  //   required String subject,
+  //   required String message,
+  // }) async {
+  //   final serviceId = 'service_v90f2v7';
+  //   final templateId = 'template_c3g6947';
+  //   final userId = 'FVyO9KPzCJ4a1QVO6';
+  //
+  //   final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+  //   final response = await http.post(
+  //     url,
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: json.encode({
+  //       'service_id': serviceId,
+  //       'template_id': templateId,
+  //       'user_id': userId,
+  //       'template_params': {
+  //         'user_email': email,
+  //         'user_subject': subject,
+  //         'user_message': message,
+  //       }
+  //     }),
+  //   );
+  //   print(response.body);
+  // }
 }
