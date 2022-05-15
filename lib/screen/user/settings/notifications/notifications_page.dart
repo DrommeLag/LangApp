@@ -5,7 +5,7 @@ import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
 
-  static const keyNews = "key-news";
+  static const keyNotif = "key-notif";
   static const keyNewsletter = "key-newsletter";
   static const keyAppUpdates = "key-app-updates";
 
@@ -21,10 +21,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
       subtitle: "Newsletter, App Updates",
       leading: const Icon(Icons.notifications),
       child: SettingsScreen(
-        children: [
-          buildSimpleNotificationButton(),
-          buildScheduledNotificationButton(),
-          buildNews(),
+        children:[
+          buildNotif(),
           buildNewsletter(),
           buildAppUpdated(),
         ],
@@ -32,46 +30,20 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  Widget buildSimpleNotificationButton(){
-    return ElevatedButton(
-      onPressed: () {
-        NotificationApi.showNotification(
-          title: "Simple Notif-n",
-          body: "It`s working!!! FUCK YEAAAAAAAAAAAAAAAAAAAH",
-          payload: 'igor.owner',
-        );
-      },
-      child: Row(
-        children: const [
-          Icon(Icons.notifications_on),
-          Text("Simple notifications"),
-        ],
-      ),);
-  }
-
-  Widget buildScheduledNotificationButton(){ // throws error, caused by TimeZone package - still working on it
-    return ElevatedButton(
-      onPressed: () {
-        NotificationApi.showScheduledNotification(
-          title: "Dinner with the boooooooys",
-          body: "Right now",
-          payload: 'dinner_asap',
-          scheduledDate: DateTime.now().add(const Duration(seconds: 5)),
-        );
-      },
-      child: Row(
-        children: const [
-          Icon(Icons.schedule_send),
-          Text("Scheduled notifications"),
-        ],
-      ),);
-  }
-
-  Widget buildNews(){
+  Widget buildNotif(){
     return SwitchSettingsTile(
       title: "Enable notifications",
-      settingKey: NotificationsPage.keyNews,
+      settingKey: NotificationsPage.keyNotif,
       leading: const Icon(Icons.message),
+      onChange: (value) {
+        if(value) {
+          NotificationApi.showScheduledNotification(
+            title: "Dinner with the boooooooys",
+            body: "Right now",
+            payload: 'dinner_asap',
+          );
+        }
+      },
     );
   }
 
