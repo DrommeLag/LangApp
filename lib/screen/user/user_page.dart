@@ -19,82 +19,84 @@ class _UserPage extends State<UserPage> {
     }));
   }
 
+  var page = StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.active) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        User? user = FirebaseAuth.instance.currentUser;
+        final uid = user?.uid;
+
+        final CollectionReference usersColection =
+            FirebaseFirestore.instance.collection('users');
+
+        return FutureBuilder<DocumentSnapshot>(
+          future: usersColection.doc(uid).get(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            }
+
+            if (snapshot.hasData && !snapshot.data!.exists) {
+              return const Text("Document does not exist");
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "Hello, ${data['displayName']}\n"
+                      "Your email: ${data['email']}\n",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const AuthPage();
+                        }));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.deepOrange),
+                      ),
+                      // color: Theme.of(context).primaryColor,
+                      child: Text(
+                        "Log out",
+                        style: Theme.of(context).primaryTextTheme.button,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const SettingsPage();
+                        }));
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(Icons.settings),
+                          Text(" Settings"),
+                        ],
+                      ),
+                    )
+                  ]);
+            }
+            return const CircularProgressIndicator();
+          },
+        );
+      });
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.active) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          User? user = FirebaseAuth.instance.currentUser;
-          final uid = user?.uid;
-
-          final CollectionReference usersColection =
-          FirebaseFirestore.instance.collection('users');
-
-          return FutureBuilder<DocumentSnapshot>(
-            future: usersColection.doc(uid).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return const Text("Something went wrong");
-              }
-
-              if (snapshot.hasData && !snapshot.data!.exists) {
-                return const Text("Document does not exist");
-              }
-
-              if (snapshot.connectionState == ConnectionState.done) {
-                Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-                return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        "Hello, ${data['displayName']}\n"
-                            "Your email: ${data['email']}\n",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return const AuthPage();
-                              }));
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.deepOrange),
-                        ),
-                        // color: Theme.of(context).primaryColor,
-                        child: Text(
-                          "Log out",
-                          style: Theme.of(context).primaryTextTheme.button,
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return const SettingsPage();
-                              }));
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(Icons.settings),
-                            Text(" Settings"),
-                          ],
-                        ),
-                      )
-                    ]);
-              }
-              return const Text("Loading");
-            },
-          );
-        });
+    return page;
   }
 }
