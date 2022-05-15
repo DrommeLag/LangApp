@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lang_app/core/database.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsPage extends StatefulWidget{
   const NewsPage({Key? key}) : super(key: key);
@@ -11,34 +14,35 @@ class NewsPage extends StatefulWidget{
 class _NewsPage extends State<NewsPage>{
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ListView(
-          children: const <Widget>[
-            ListTile(
-              leading: Icon(Icons.new_releases_sharp),
-              title: Text("Big changes in 1.0.7 version"),
-              subtitle: Text("Fixed bugs, added new levels and design options! Whole info..."),
-            ),
-            ListTile(
-              leading: Icon(Icons.new_releases_sharp),
-              title: Text("Big changes in 1.0.6 version"),
-              subtitle: Text("Don`t know what to write. Lorem ipsun..."),
-            ),
-            ListTile(
-              leading: Icon(Icons.new_releases_sharp),
-              title: Text("Changes in 1.0.5 version"),
-              subtitle: Text("Don`t know what to write. Lorem ipsun..."),
-            ),
-            ListTile(
-              leading: Icon(Icons.new_releases_sharp),
-              title: Text("What`s new in 1.0.4"),
-              subtitle: Text("Nazar, fix authorization."),
-            ),
-          ],
-        )
-      ),
+    return StreamBuilder<QuerySnapshot>(
+      stream: DatabaseService().newsCollection.snapshots(),
+      builder: (context, snapshot) {
+        if(!snapshot.hasData) return Text("No news.");
+        return Center(
+          child: _buildList(snapshot.data!),
+        );
+      },
     );
   }
 
+  Widget _buildList(QuerySnapshot snapshot){
+    return ListView.builder(
+      itemCount: snapshot.docs.length,
+      itemBuilder: (context, index){
+        final doc = snapshot.docs[index];
+        return ListTile(
+          title: Text(doc['title']),
+          subtitle: Text(doc['subtitle']),
+          leading: Icon(Icons.new_releases_sharp),
+          onTap: () async{
+            await launchUrl(Uri.parse(doc['url']));
+          },
+        );
+      },
+    );
+  }
+
+  // buildNews(){
+  //   DatabaseService().addNews("Changes version 1.0.0", "Fixed several bugs, added new levels and changed graphics.", "some-url", Icon(Icons.new_releases_sharp), "v-1-0-0");
+  // }
 }
