@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +11,11 @@ class _HomePage extends State<HomePage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return const Scaffold();
+    return const Scaffold(
+      body: Center(
+        child: Text("TODO !!!", style: TextStyle(fontSize: 50),),
+      ),
+    );
   }
 
 }

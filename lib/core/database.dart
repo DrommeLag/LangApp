@@ -1,17 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lang_app/domain/user.dart';
+import 'package:flutter/cupertino.dart';
 
 class DatabaseService {
   final String? uid;
   DatabaseService({this.uid});
-  final CollectionReference usersColection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference newsCollection = FirebaseFirestore.instance.collection('news');
 
   Future updateUserData(String? displayName, String? email) async{
-    return await usersColection.doc(uid).set({
+    return await usersCollection.doc(uid).set({
       'displayName': displayName,
       'email': email,
       'photo': null,
+    });
+  }
+
+  Future addNews(String? title, String? subtitle, String? url, Icon icon, String? id) async{
+    return await newsCollection.doc(id).set({
+      'title': title,
+      'subtitle': subtitle,
+      'url': url,
+      'icon': icon,
     });
   }
 
