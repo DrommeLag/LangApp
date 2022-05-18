@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,6 +10,8 @@ class AuthService {
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
   UserDescription? _userDescription;
   final _storage = const FlutterSecureStorage();
+  bool isEmailVerified = false;
+  Timer? timer;
 
   UserDescription? get userDescription => _userDescription;
 
@@ -41,26 +45,42 @@ class AuthService {
       UserCredential result = await _fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
-      await user?.updateDisplayName(name);
-      await user?.reload();
-      await DatabaseService(uid: user?.uid)
-          .updateUserData(name + ' ' + (surname ?? ''), email);
-      _userDescription = UserDescription.fromFirebase(user);
-      bool out = _userDescription != null;
-      if (out) {
-        _storage.write(key: "login", value: email);
-        _storage.write(key: "password", value: password);
-        return true;
+      await user?.sendEmailVerification();
+      // while(!user!.emailVerified){
+      //   timer = Timer(
+      //     const Duration(seconds: 1),
+      //         () => {},
+      //   );
+      //   timer!.cancel();
+      // }
+      if(user!.emailVerified){
+        await user.updateDisplayName(name);
+        await user.reload();
+        await DatabaseService(uid: user.uid)
+            .updateUserData(name + ' ' + (surname ?? ''), email);
+        _userDescription = UserDescription.fromFirebase(user);
+        bool out = _userDescription != null;
+        if (out) {
+          _storage.write(key: "login", value: email);
+          _storage.write(key: "password", value: password);
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
-    } on FirebaseException catch (error) {
+    } on FirebaseAuthException catch (error) {
       if (kDebugMode) {
         print(error.toString());
       }
       return false;
     }
   }
+
+  // Future checkEmailVerified() async {
+  //   isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+  // }
 
   logOut() {
     _userDescription = null;
