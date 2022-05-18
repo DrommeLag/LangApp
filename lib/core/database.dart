@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+//import 'package:flutter/cupertino.dart';
 
 class DatabaseService {
   final String? uid;
@@ -15,7 +16,7 @@ class DatabaseService {
     });
   }
   Future updateDisplayName(String? displayName) async{
-    return await usersCollection.doc(uid).set({
+    return await usersCollection.doc(uid).update({
       'displayName': displayName
     });
   }

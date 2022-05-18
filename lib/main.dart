@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:lang_app/core/database.dart';
 import 'package:lang_app/login/auth.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
@@ -22,10 +23,12 @@ void main() async {
 
 class InheritedDataProvider extends InheritedWidget {
   final AuthService authService;
+  final DatabaseService databaseService;
 
   const InheritedDataProvider({
     required Widget child,
     required this.authService,
+    required this.databaseService,
     Key? key,
   }) : super(key: key, child: child);
 
@@ -40,7 +43,10 @@ class InheritedDataProvider extends InheritedWidget {
 
 class MyApp extends StatefulWidget {
   final AuthService authService;
-  const MyApp(this.authService, {Key? key}) : super(key: key);
+  final DatabaseService databaseService;
+  MyApp(this.authService, {Key? key})
+      : databaseService = DatabaseService(uid: authService.userDescription?.id),
+        super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -51,6 +57,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return InheritedDataProvider(
       authService: widget.authService,
+      databaseService: widget.databaseService,
       child: ValueChangeObserver<int>(
         cacheKey: SettingsPage.keyDarkMode,
         defaultValue: ThemeMode.system.index,

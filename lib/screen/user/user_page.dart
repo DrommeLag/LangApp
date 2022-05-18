@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lang_app/main.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import '../../core/database.dart';
 import 'auth/auth_page.dart';
 
 final _formKey = GlobalKey<FormState>();
-String? _currentName;
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -21,6 +21,8 @@ class _UserPage extends State<UserPage> {
       return const AuthPage();
     }));
   }
+
+  TextEditingController nameTextInput = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -108,18 +110,17 @@ class _UserPage extends State<UserPage> {
                                   }
                                   return null;
                                 },
-                                onChanged: (val) =>
-                                    setState(() => _currentName = val),
+                                controller: nameTextInput,
                               ),
                               ElevatedButton(
                                   child: const Text('Save'),
-                                  onPressed: () async {
+                                  onPressed: () {
                                     if (_formKey.currentState!.validate()) {
                                       print('Update');
-                                      await DatabaseService().updateDisplayName(
-                                          _currentName ?? user?.displayName);
+                                      InheritedDataProvider.of(context)!.databaseService.updateDisplayName(
+                                          nameTextInput.text);
+                                      //TODO add loading animation somehow
                                     }
-                                    Navigator.pop(context);
                                   })
                             ],
                           ))
