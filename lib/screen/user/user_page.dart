@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_app/main.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
-import '../../core/database.dart';
 import 'auth/auth_page.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -116,9 +116,13 @@ class _UserPage extends State<UserPage> {
                                   child: const Text('Save'),
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      print('Update');
-                                      InheritedDataProvider.of(context)!.databaseService.updateDisplayName(
-                                          nameTextInput.text);
+                                      if (kDebugMode) {
+                                        print('Update');
+                                      }
+                                      setState(() {
+                                        InheritedDataProvider.of(context)!.databaseService.updateDisplayName(
+                                            nameTextInput.text);
+                                      });
                                       //TODO add loading animation somehow
                                     }
                                   })
