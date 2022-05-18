@@ -14,6 +14,11 @@ class DatabaseService {
       'photo': null,
     });
   }
+  Future updateDisplayName(String? displayName) async{
+    return await usersCollection.doc(uid).set({
+      'displayName': displayName
+    });
+  }
 
   Future addNews(String? title, String? subtitle, String? url, Icon icon, String? id) async{
     return await newsCollection.doc(id).set({
