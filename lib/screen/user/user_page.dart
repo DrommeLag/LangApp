@@ -22,6 +22,8 @@ class _UserPage extends State<UserPage> {
     }));
   }
 
+  bool _isVisible = true;
+
   TextEditingController nameTextInput = TextEditingController();
 
   @override
@@ -34,7 +36,7 @@ class _UserPage extends State<UserPage> {
           }
           User? user = FirebaseAuth.instance.currentUser;
           final CollectionReference usersColection =
-          FirebaseFirestore.instance.collection('users');
+              FirebaseFirestore.instance.collection('users');
           final uid = user?.uid;
 
           return FutureBuilder<DocumentSnapshot>(
@@ -51,39 +53,87 @@ class _UserPage extends State<UserPage> {
 
               if (snapshot.connectionState == ConnectionState.done) {
                 Map<String, dynamic> data =
-                    snapshot.data!.data() as Map<String, dynamic>;
+                snapshot.data!.data() as Map<String, dynamic>;
                 return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
                         "Hello, ${data['displayName']}\n"
-                        "Your email: ${data['email']}\n",
+                            "Your email: ${data['email']}\n",
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 18),
                       ),
+                      Visibility(
+                          visible: _isVisible,
+                          child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  const Text(
+                                    'Enter name and surname below',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  TextFormField(
+                                    validator: (String? value) {
+                                      if (value != null && value.isEmpty) {
+                                        return "Please enter your name and surname:";
+                                      }
+                                      return null;
+                                    },
+                                    controller: nameTextInput,
+                                  ),
+                                  ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all<Color>(
+                                            Colors.green),
+                                      ),
+                                      child: const Text('Save',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          if (kDebugMode) {
+                                            print('Update');
+                                          }
+                                          setState(() {
+                                            InheritedDataProvider.of(context)!
+                                                .databaseService
+                                                .updateDisplayName(
+                                                nameTextInput.text);
+                                          }
+                                          );
+                                          //TODO add loading animation somehow
+                                        }
+                                      })
+                                ],
+                              ))),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: _isVisible ? MaterialStateProperty.all<Color>(
+                                Colors.red) : null,
+                          ),
+                          child: Text(
+                            _isVisible ? 'Cancel' : 'Edit display name',
+                          ),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                _isVisible = !_isVisible;
+                              },
+                            );
+                          }),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return const AuthPage();
-                          }));
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.deepOrange),
-                        ),
-                        child: Text(
-                          "Log out",
-                          style: Theme.of(context).primaryTextTheme.button,
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const SettingsPage();
-                          }));
+                                return const SettingsPage();
+                              }));
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -93,41 +143,25 @@ class _UserPage extends State<UserPage> {
                           ],
                         ),
                       ),
-                      Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const Text('Edit name and surname!'),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              TextFormField(
-                                validator: (String? value) {
-                                  if (value != null && value.isEmpty) {
-                                    return "Please enter your name and surname:";
-                                  }
-                                  return null;
-                                },
-                                controller: nameTextInput,
-                              ),
-                              ElevatedButton(
-                                  child: const Text('Save'),
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      if (kDebugMode) {
-                                        print('Update');
-                                      }
-                                      setState(() {
-                                        InheritedDataProvider.of(context)!.databaseService.updateDisplayName(
-                                            nameTextInput.text);
-                                      });
-                                      //TODO add loading animation somehow
-                                    }
-                                  })
-                            ],
-                          ))
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return const AuthPage();
+                              }));
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.deepOrange),
+                        ),
+                        child: Text(
+                          "Log out",
+                          style: Theme
+                              .of(context)
+                              .primaryTextTheme
+                              .button,
+                        ),
+                      )
                     ]);
               }
               return const Text("Loading");
