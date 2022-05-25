@@ -21,10 +21,12 @@ class _UserPage extends State<UserPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Padding(padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         MaterialButton(
           onPressed: () => onPressed(),
-          color: Colors.deepOrange, 
+          color: Colors.deepOrange,
+
           // color: Theme.of(context).primaryColor,
           child: Text(
             "Log out",

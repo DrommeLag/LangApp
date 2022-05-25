@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
+import 'package:http/http.dart' as http;
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
@@ -32,7 +37,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   Widget buildNotif(){
     return SwitchSettingsTile(
-      title: "Enable notifications",
+      title: "Enable daily reminder",
       settingKey: NotificationsPage.keyNotif,
       leading: const Icon(Icons.message),
       onChange: (value) {
@@ -52,6 +57,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
       title: "Enable newsletter to your email",
       settingKey: NotificationsPage.keyNewsletter,
       leading: const Icon(Icons.newspaper),
+      onChange: (value) {
+        if(value){
+          // sendNewsletter();
+        }
+      },
     );
   }
 
@@ -62,4 +72,32 @@ class _NotificationsPageState extends State<NotificationsPage> {
       leading: const Icon(Icons.timer),
     );
   }
+
+  // Future sendNewsletter() async{
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //
+  //   if(user == null) return;
+  //
+  //   final email = user.email!;
+  //   final auth = await user.getIdTokenResult();
+  //   final token = auth.token!;
+  //
+  //   // print("Auth: $email");
+  //   // print("Token: $token");
+  //   final smtpServer = gmailSaslXoauth2(email, token);
+  //
+  //   final message = Message()
+  //     ..from = Address(email, 'DrommeLag')
+  //     ..recipients.add(Address(email, 'Igor'))
+  //     ..subject = 'Hi man, that`s a subject!'
+  //     ..text = 'Test email. Hope it will work';
+  //
+  //   try {
+  //     await send(message, smtpServer);
+  //   } on MailerException catch (e) {
+  //     if(kDebugMode){
+  //       print(e);
+  //     }
+  //   }
+  // }
 }

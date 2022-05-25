@@ -171,4 +171,6 @@ class _AuthPageState extends State<AuthPage> {
           textStyle: Theme.of(context).textTheme.subtitle1),
     ];
   }
+
 }
+
