@@ -7,7 +7,7 @@ import 'package:lang_app/screen/themes.dart';
 
 void main(){
   runApp(MaterialApp(
-      home: Scaffold(body: TestPage(options: const["ONE", "TWO",  "FOUR"], right: 1,callback: (right)=> log(right.toString()))),
+      home: Scaffold(body: TestPage(options: const["ONE", "TWO",  "FOUR"], right: 1, callback: (right)=> log(right.toString()))),
       theme: AppTheme().light,
     ));
 }
