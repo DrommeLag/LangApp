@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 
 import 'auth/auth_page.dart';
 
-class UserPage extends StatefulWidget{
+class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
 
   @override
@@ -12,44 +14,87 @@ class UserPage extends StatefulWidget{
 
 class _UserPage extends State<UserPage> {
   onPressed() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       return const AuthPage();
     }));
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return  Padding(padding: const EdgeInsets.symmetric(horizontal: 10.0),
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.active) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          User? user = FirebaseAuth.instance.currentUser;
+          final uid = user?.uid;
 
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        MaterialButton(
-          onPressed: () => onPressed(),
-          color: Colors.deepOrange,
+          final CollectionReference usersColection =
+          FirebaseFirestore.instance.collection('users');
 
-          // color: Theme.of(context).primaryColor,
-          child: Text(
-            "Log out",
-            style: Theme.of(context).primaryTextTheme.button,
-          ),
-        ),
-        MaterialButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const SettingsPage();
-            }));
-          },
+          return FutureBuilder<DocumentSnapshot>(
+            future: usersColection.doc(uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return const Text("Something went wrong");
+              }
 
-          color: Theme.of(context).primaryColor,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.settings),
-              Text(" Settings"),
-            ],
-          ),
-        )
-      ]),
-    );
+              if (snapshot.hasData && !snapshot.data!.exists) {
+                return const Text("Document does not exist");
+              }
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+                return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "Hello, ${data['displayName']}\n"
+                            "Your email: ${data['email']}\n",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return const AuthPage();
+                              }));
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.deepOrange),
+                        ),
+                        // color: Theme.of(context).primaryColor,
+                        child: Text(
+                          "Log out",
+                          style: Theme.of(context).primaryTextTheme.button,
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return const SettingsPage();
+                              }));
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(Icons.settings),
+                            Text(" Settings"),
+                          ],
+                        ),
+                      )
+                    ]);
+              }
+              return const Text("Loading");
+            },
+          );
+        });
   }
 }
