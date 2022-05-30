@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_app/screen/test/level.dart';
-import 'package:lang_app/screen/test/test_page.dart';
 
 import '../../core/database.dart';
 
@@ -17,14 +16,14 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return StreamBuilder<QuerySnapshot>(
       stream: DatabaseService().levelsCollection.snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
+        if (!snapshot.hasData) {
           return const Center(
             child: Text("LOADING."),
           );
+        }
         return Center(
           child: _buildLevelsList(snapshot.data!),
         );

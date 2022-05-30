@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 class TestPage extends StatefulWidget {
-  const TestPage({Key? key, required List<String> options, required this.right, required this.callback})
-      : list = options,
+  TestPage({Key? key, required this.levelName, required this.question, required List<dynamic> options, required this.right, required this.callback})
+      : list = options.map((e) => e.toString()).toList(),
         super(key: key);
 
+  final String question;
+  final String levelName;
   final int right;
   final List<String> list;
 
@@ -43,7 +45,7 @@ class _TestPage extends State<TestPage> {
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-              'exercise 1',
+              widget.levelName,
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -55,7 +57,7 @@ class _TestPage extends State<TestPage> {
             height: 20,
           ),
           Text(
-            'fjdjklaskdjaklsjdksajkakldjkdfjsaijakksdjkjasidjiojfiosdkjkasjdksfklksajkjajdksdj',
+            widget.question,
             overflow: TextOverflow.visible,
             style: Theme.of(context)
                 .textTheme
@@ -75,7 +77,10 @@ class _TestPage extends State<TestPage> {
                 child: MaterialButton(
                     minWidth: 170,
                     color: Theme.of(context).colorScheme.secondary,
-                    onPressed: (isTested)? () => widget.callback(isRight): onCheckTap,
+                    onPressed: (isTested)? () {
+                      widget.callback(isRight);
+                      // todo something to move to next question, maybe change some global bool variable and use it on level.dart
+                    }: onCheckTap,
                     child: Text((isTested)?'Next':'Test'),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
