@@ -184,7 +184,6 @@ class _ChangeNameState extends State<ChangeName> {
                               .updateDisplayName(nameTextInput.text);
                         });
                         Navigator.pop(context, true);
-                        //TODO add loading animation somehow
                       }
                     })
               ],
@@ -200,7 +199,9 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  var _passwordVisible = false;
   TextEditingController passwordTextInput = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,13 +214,6 @@ class _ChangePasswordState extends State<ChangePassword> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  'Enter new password below',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
                 TextFormField(
                   validator: (String? value) {
                     if (value != null && value.isEmpty) {
@@ -228,14 +222,32 @@ class _ChangePasswordState extends State<ChangePassword> {
                     return null;
                   },
                   controller: passwordTextInput,
+                  obscureText: !_passwordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    hintText: 'Enter your password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
+                  ),
                 ),
                 ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
+                      MaterialStateProperty.all<Color>(Colors.green),
                     ),
                     child: const Text(
-                      'Save password',
+                      'Save',
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
@@ -248,7 +260,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                               ?.updatePassword(passwordTextInput.text);
                         });
                         Navigator.pop(context);
-                        //TODO add loading animation somehow
                       }
                     })
               ],
