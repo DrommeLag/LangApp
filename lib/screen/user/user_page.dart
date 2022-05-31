@@ -148,13 +148,6 @@ class _ChangeNameState extends State<ChangeName> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  'Enter name and surname below',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
                 TextFormField(
                   validator: (String? value) {
                     if (value != null && value.isEmpty) {
@@ -163,6 +156,10 @@ class _ChangeNameState extends State<ChangeName> {
                     return null;
                   },
                   controller: nameTextInput,
+                  decoration: const InputDecoration(
+                    labelText: 'Name and surname',
+                    hintText: 'Enter your name and surname',
+                  ),
                 ),
                 ElevatedButton(
                     style: ButtonStyle(
@@ -170,7 +167,7 @@ class _ChangeNameState extends State<ChangeName> {
                           MaterialStateProperty.all<Color>(Colors.green),
                     ),
                     child: const Text(
-                      'Save name',
+                      'Save',
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
