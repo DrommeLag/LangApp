@@ -22,12 +22,6 @@ class _UserPage extends State<UserPage> {
     }));
   }
 
-  bool _isNameChangeVisible = false;
-  bool _isPasswordChangeVisible = false;
-
-  TextEditingController nameTextInput = TextEditingController();
-  TextEditingController passwordTextInput = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -66,139 +60,29 @@ class _UserPage extends State<UserPage> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 18),
                       ),
-                      Visibility(
-                          visible: _isNameChangeVisible,
-                          child: Form(
-                              key: _formKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Text(
-                                    'Enter name and surname below',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  TextFormField(
-                                    validator: (String? value) {
-                                      if (value != null && value.isEmpty) {
-                                        return "Please enter your name and surname";
-                                      }
-                                      return null;
-                                    },
-                                    controller: nameTextInput,
-                                  ),
-                                  ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.green),
-                                      ),
-                                      child: const Text(
-                                        'Save name',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          if (kDebugMode) {
-                                            print('Update');
-                                          }
-                                          setState(() {
-                                            InheritedDataProvider.of(context)!
-                                                .databaseService
-                                                .updateDisplayName(
-                                                    nameTextInput.text);
-                                          });
-                                          //TODO add loading animation somehow
-                                        }
-                                      })
-                                ],
-                              ))),
                       ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: _isNameChangeVisible
-                                ? MaterialStateProperty.all<Color>(Colors.red)
-                                : null,
-                          ),
-                          child: Text(
-                            _isNameChangeVisible
-                                ? 'Cancel'
-                                : 'Edit display name',
-                          ),
-                          onPressed: () {
-                            setState(
-                              () {
-                                _isNameChangeVisible = !_isNameChangeVisible;
-                              },
+                          child: const Text('Edit display name'),
+                          onPressed: () async {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ChangeName()),
                             );
+                            if (result) {
+                              setState(() {});
+                            }
                           }),
-                      Visibility(
-                          visible: _isPasswordChangeVisible,
-                          child: Form(
-                              key: _formKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Text(
-                                    'Enter new password below',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  TextFormField(
-                                    validator: (String? value) {
-                                      if (value != null && value.isEmpty) {
-                                        return "Please enter your new password";
-                                      }
-                                      return null;
-                                    },
-                                    controller: passwordTextInput,
-                                  ),
-                                  ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.green),
-                                      ),
-                                      child: const Text(
-                                        'Save password',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          if (kDebugMode) {
-                                            print('Update');
-                                          }
-                                          setState(() {
-                                            FirebaseAuth.instance.currentUser
-                                                ?.updatePassword(
-                                                    passwordTextInput.text);
-                                          });
-                                          //TODO add loading animation somehow
-                                        }
-                                      })
-                                ],
-                              ))),
                       ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: _isPasswordChangeVisible
-                                ? MaterialStateProperty.all<Color>(Colors.red)
-                                : null,
-                          ),
-                          child: Text(
-                            _isPasswordChangeVisible
-                                ? 'Cancel'
-                                : 'Change password',
-                          ),
+                          child: const Text('Change password'),
                           onPressed: () {
                             setState(
                               () {
-                                _isPasswordChangeVisible =
-                                    !_isPasswordChangeVisible;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ChangePassword()),
+                                );
                               },
                             );
                           }),
@@ -213,7 +97,7 @@ class _UserPage extends State<UserPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: const [
                             Icon(Icons.settings),
-                            Text(" Settings"),
+                            Text("Settings"),
                           ],
                         ),
                       ),
@@ -239,5 +123,135 @@ class _UserPage extends State<UserPage> {
             },
           );
         });
+  }
+}
+
+class ChangeName extends StatefulWidget {
+  const ChangeName({Key? key}) : super(key: key);
+
+  @override
+  State<ChangeName> createState() => _ChangeNameState();
+}
+
+class _ChangeNameState extends State<ChangeName> {
+  TextEditingController nameTextInput = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Change name'),
+        ),
+        body: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  'Enter name and surname below',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextFormField(
+                  validator: (String? value) {
+                    if (value != null && value.isEmpty) {
+                      return "Please enter your name and surname";
+                    }
+                    return null;
+                  },
+                  controller: nameTextInput,
+                ),
+                ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                    ),
+                    child: const Text(
+                      'Save name',
+                      textAlign: TextAlign.center,
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (kDebugMode) {
+                          print('Update');
+                        }
+                        setState(() {
+                          InheritedDataProvider.of(context)!
+                              .databaseService
+                              .updateDisplayName(nameTextInput.text);
+                        });
+                        Navigator.pop(context, true);
+                        //TODO add loading animation somehow
+                      }
+                    })
+              ],
+            )));
+  }
+}
+
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({Key? key}) : super(key: key);
+
+  @override
+  State<ChangePassword> createState() => _ChangePasswordState();
+}
+
+class _ChangePasswordState extends State<ChangePassword> {
+  TextEditingController passwordTextInput = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Change password'),
+        ),
+        body: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  'Enter new password below',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextFormField(
+                  validator: (String? value) {
+                    if (value != null && value.isEmpty) {
+                      return "Please enter your new password";
+                    }
+                    return null;
+                  },
+                  controller: passwordTextInput,
+                ),
+                ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                    ),
+                    child: const Text(
+                      'Save password',
+                      textAlign: TextAlign.center,
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (kDebugMode) {
+                          print('Update');
+                        }
+                        setState(() {
+                          FirebaseAuth.instance.currentUser
+                              ?.updatePassword(passwordTextInput.text);
+                        });
+                        Navigator.pop(context);
+                        //TODO add loading animation somehow
+                      }
+                    })
+              ],
+            )));
   }
 }
