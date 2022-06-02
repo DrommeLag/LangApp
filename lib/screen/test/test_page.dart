@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import 'level_page.dart';
+
 class TestPage extends StatefulWidget {
   TestPage({Key? key, required this.levelName, required this.question, required List<dynamic> options, required this.right, required this.callback})
       : list = options.map((e) => e.toString()).toList(),
@@ -11,6 +13,7 @@ class TestPage extends StatefulWidget {
   final String levelName;
   final int right;
   final List<String> list;
+  final int index = 0;
 
   final Function(bool) callback;
 
@@ -79,7 +82,6 @@ class _TestPage extends State<TestPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     onPressed: (isTested)? () {
                       widget.callback(isRight);
-                      // todo something to move to next question, maybe change some global bool variable and use it on level.dart
                     }: onCheckTap,
                     child: Text((isTested)?'Next':'Test'),
                     shape: RoundedRectangleBorder(
