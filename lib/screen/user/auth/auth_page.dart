@@ -37,7 +37,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Create your account!'),
+        title: const Text('Створіть свій акаунт!'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -79,7 +79,7 @@ class _AuthPageState extends State<AuthPage> {
       goForwardIfTrue(result);
     } else {
       showToastErrorMessage(
-          'Can`t sign you in. Please check your email/password');
+          'Не можемо вас залогінити. Перевірте свій email/пароль.');
     }
   }
 
@@ -93,14 +93,14 @@ class _AuthPageState extends State<AuthPage> {
       const SizedBox(height: 20),
       InputTextField(
           icon: Icons.lock,
-          hint: 'Password',
+          hint: 'Пароль',
           controller: _passwordController,
           obscure: true),
       const SizedBox(height: 40),
-      formattedButton('LOGIN', () => loginButtonAction(context)),
+      formattedButton('ВВІЙТИ', () => loginButtonAction(context)),
       const SizedBox(height: 40),
       highlightedText(
-          text: 'Don\'t have account? |Register|',
+          text: 'Не маєте акаунта? |Реєстрація|',
           onTap: onClickChangeLoginRegister,
           highlightedStyle: Theme.of(context)
               .textTheme
@@ -129,7 +129,7 @@ class _AuthPageState extends State<AuthPage> {
       goForwardIfTrue(result);
     } else {
       showToastErrorMessage(
-          "Can`t register you. Please check your name/email/password");
+          "Не можемо вас зареєструвати. Перевірте ім'я/email/пароль.");
     }
   }
 
@@ -137,13 +137,13 @@ class _AuthPageState extends State<AuthPage> {
     return <Widget>[
       InputTextField(
           icon: Icons.account_circle,
-          hint: 'Name',
+          hint: 'Ім\`я',
           controller: _nameController,
           obscure: false),
       const SizedBox(height: 20),
       InputTextField(
           icon: Icons.supervised_user_circle,
-          hint: 'Surname(optional)',
+          hint: 'Прізвище(за бажанням)',
           controller: _sureNameController,
           obscure: false),
       const SizedBox(height: 20),
@@ -155,14 +155,14 @@ class _AuthPageState extends State<AuthPage> {
       const SizedBox(height: 20),
       InputTextField(
           icon: Icons.lock,
-          hint: 'Password',
+          hint: 'Пароль',
           controller: _passwordController,
           obscure: true),
       const SizedBox(height: 40),
-      formattedButton('REGISTER', () => registerButtonAction(context)),
+      formattedButton('ЗАРЕЄСТРУВАТИСЬ', () => registerButtonAction(context)),
       const SizedBox(height: 40),
       highlightedText(
-          text: 'Already registered? |Login|',
+          text: 'Вже зареєстровані? |Увійти|',
           onTap: onClickChangeLoginRegister,
           highlightedStyle: Theme.of(context)
               .textTheme

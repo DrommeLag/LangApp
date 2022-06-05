@@ -9,7 +9,7 @@ class LevelPage extends StatefulWidget {
         super(key: key);
 
   final List list;
-  final int index = 0;
+  static int index = 0;
 
   @override
   State<LevelPage> createState() => _LevelPageState();
@@ -18,13 +18,20 @@ class LevelPage extends StatefulWidget {
 class _LevelPageState extends State<LevelPage> {
   @override
   Widget build(BuildContext context) {
-    switch(widget.index){
+    switch (LevelPage.index) {
       case 0:
-        return TestPage(levelName: "level" + (widget.index+1).toString(), question: widget.list[0]["question"], options: widget.list[0]["options"], right: widget.list[0]["correct"], callback: (right)=> log(right.toString()));
+        return TestPage(levelName: "Рівень " + (LevelPage.index + 1).toString(),
+            question: widget.list[0]["question"],
+            options: widget.list[0]["options"],
+            right: widget.list[0]["correct"],
+            callback: (right) => log(right.toString()));
       case 1:
-        return TestPage(levelName: "level" + (widget.index+1).toString(), question: widget.list[1]["question"], options: widget.list[1]["options"], right: widget.list[1]["correct"], callback: (right)=> log(right.toString()));
+        return TestPage(levelName: "level" + (LevelPage.index + 1).toString(),
+            question: widget.list[1]["question"],
+            options: widget.list[1]["options"],
+            right: widget.list[1]["correct"],
+            callback: (right) => log(right.toString()));
     }
-    return Text("Loading");
-    // return TestPage(levelName: "level" + (widget.index+1).toString(), question: widget.list[0]["question"], options: widget.list[0]["options"], right: widget.list[0]["correct"], callback: (right)=> log(right.toString()));
+    return const Text("Завантаження...");
   }
 }

@@ -17,7 +17,7 @@ class _NewsPage extends State<NewsPage>{
     return StreamBuilder<QuerySnapshot>(
       stream: DatabaseService().newsCollection.snapshots(),
       builder: (context, snapshot) {
-        if(!snapshot.hasData) return Text("No news.");
+        if(!snapshot.hasData) return Text("Завантаження...");
         return Center(
           child: _buildList(snapshot.data!),
         );
@@ -41,8 +41,4 @@ class _NewsPage extends State<NewsPage>{
       },
     );
   }
-
-  // buildNews(){
-  //   DatabaseService().addNews("Changes version 1.0.0", "Fixed several bugs, added new levels and changed graphics.", "some-url", Icon(Icons.new_releases_sharp), "v-1-0-0");
-  // }
 }

@@ -29,7 +29,7 @@ class _UserPage extends State<UserPage> {
 
           // color: Theme.of(context).primaryColor,
           child: Text(
-            "Log out",
+            "Вийти з акаунту",
             style: Theme.of(context).primaryTextTheme.button,
           ),
         ),
@@ -45,7 +45,7 @@ class _UserPage extends State<UserPage> {
             mainAxisSize: MainAxisSize.min,
             children: const [
               Icon(Icons.settings),
-              Text(" Settings"),
+              Text("Налаштування"),
             ],
           ),
         )

@@ -21,7 +21,7 @@ class _HomePage extends State<HomePage> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
-            child: Text("LOADING."),
+            child: Text("Завантаження..."),
           );
         }
         return Center(

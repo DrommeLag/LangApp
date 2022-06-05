@@ -82,8 +82,9 @@ class _TestPage extends State<TestPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     onPressed: (isTested)? () {
                       widget.callback(isRight);
+                      LevelPage.index ++;
                     }: onCheckTap,
-                    child: Text((isTested)?'Next':'Test'),
+                    child: Text((isTested)?'Далі':'Перевірити'),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     )),
