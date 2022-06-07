@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:lang_app/models/test.dart';
 
-import 'level_page.dart';
-
 class TestPage extends StatefulWidget {
   TestPage({Key? key, required this.test, required this.callback}):super(key: key){
     var rightString = test.answers[0];
@@ -46,11 +44,7 @@ class _TestPage extends State<TestPage> {
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-<<<<<<< HEAD
               widget.test.headline,
-=======
-              widget.levelName,
->>>>>>> origin/tests
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -62,11 +56,7 @@ class _TestPage extends State<TestPage> {
             height: 20,
           ),
           Text(
-<<<<<<< HEAD
             widget.test.question,
-=======
-            widget.question,
->>>>>>> origin/tests
             overflow: TextOverflow.visible,
             style: Theme.of(context)
                 .textTheme
@@ -88,7 +78,6 @@ class _TestPage extends State<TestPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     onPressed: (isTested)? () {
                       widget.callback(isRight);
-                      LevelPage.index ++;
                     }: onCheckTap,
                     child: Text((isTested)?'Далі':'Перевірити'),
                     shape: RoundedRectangleBorder(
