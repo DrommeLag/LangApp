@@ -14,10 +14,8 @@ void main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  var authService = AuthService();
-  await authService.loadLoginInfo();
   runApp(MaterialApp(
-    home: MyApp(authService),
+    home: MyApp(),
   ));
 }
 
@@ -53,6 +51,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  late final AuthService authService;
+  late final DatabaseService databaseService;
+
   @override
   Widget build(BuildContext context) {
     return InheritedDataProvider(
@@ -67,7 +69,7 @@ class _MyAppState extends State<MyApp> {
           theme: AppTheme().light,
           darkTheme: AppTheme().dark,
           themeMode: ThemeMode.values[isDarkMode],
-          home: widget.authService.isLoggedIn
+          home: authService.isLoggedIn
               ? const MainScreen()
               : const AuthPage(),
         ),
@@ -87,6 +89,10 @@ class _MyAppState extends State<MyApp> {
     NotificationApi.init();
     listenNotifications();
     tz.initializeTimeZones();
+
+    databaseService = DatabaseService();
+    authService = AuthService(databaseService);
+    authService.loadLoginInfo();
   }
 
   void listenNotifications() {

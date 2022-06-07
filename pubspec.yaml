@@ -43,7 +43,7 @@ dependencies:
 
   #https://pub.dev/packages/flutter_settings_screens there are wiki
   #Settings when you're a bit (actually not a bit) lazy
-  flutter_settings_screens: ^0.3.2-null-safety
+  flutter_settings_screens: ^0.3.3-null-safety
 
   #Notifications
   flutter_local_notifications: ^9.4.1
@@ -109,8 +109,3 @@ flutter:
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
