@@ -1,15 +1,17 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:lang_app/models/test.dart';
 
 class TestPage extends StatefulWidget {
-  const TestPage({Key? key, required List<String> options, required this.right, required this.callback})
-      : list = options,
-        super(key: key);
+  TestPage({Key? key, required this.test, required this.callback}):super(key: key){
+    var rightString = test.answers[0];
+    test.answers.shuffle();
+    right = test.answers.indexOf(rightString);
+  }
 
-  final int right;
-  final List<String> list;
-
+  final Test test;
+  late final int right;
   final Function(bool) callback;
 
   @override
@@ -17,6 +19,17 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPage extends State<TestPage> {
+
+  @override
+  didChangeDependencies(){
+    super.didChangeDependencies();
+    setState(() {
+      
+    choosed = -1;
+    isTested = false;
+    isRight = false;
+    });
+  }
   int choosed = -1;
 
   bool isTested = false;
@@ -25,25 +38,13 @@ class _TestPage extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: <Color>[
-          Color.fromRGBO(10, 103, 233, 1),
-          Color.fromRGBO(11, 108, 229, 1),
-          Color.fromRGBO(57, 165, 180, 1),
-        ],
-      )),
-      child: Column(
+    return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-              'exercise 1',
+              widget.test.headline,
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -55,17 +56,17 @@ class _TestPage extends State<TestPage> {
             height: 20,
           ),
           Text(
-            'fjdjklaskdjaklsjdksajkakldjkdfjsaijakksdjkjasidjiojfiosdkjkasjdksfklksajkjajdksdj',
+            widget.test.question,
             overflow: TextOverflow.visible,
             style: Theme.of(context)
                 .textTheme
-                .bodyMedium!
+                .titleMedium!
                 .copyWith(color: Theme.of(context).colorScheme.onPrimary),
           ),
           const SizedBox(
             height: 80,
           ),
-          ...buildOptions(context, widget.list),
+          ...buildOptions(context, widget.test.answers),
           ...<Widget>[
             Column(children: [
               const SizedBox(
@@ -88,8 +89,7 @@ class _TestPage extends State<TestPage> {
             ])
           ],
         ],
-      ),
-    );
+      );
   }
 
   choose(int position) {
@@ -109,7 +109,7 @@ class _TestPage extends State<TestPage> {
     }
   }
 
-  List<Widget> buildOptions(BuildContext context, List<String> list) {
+  Iterable<Widget> buildOptions(BuildContext context, List<String> list) {
     return list
         .asMap()
         .entries
@@ -138,7 +138,7 @@ class _TestPage extends State<TestPage> {
                     ),
                     Text(
                       entry.value,
-                      //style: Theme.of(context).textTheme.headline3
+                      style: Theme.of(context).textTheme.bodyMedium
                     ),
                     const Spacer(),
                     Visibility(
@@ -157,7 +157,6 @@ class _TestPage extends State<TestPage> {
               onTap: () => choose(entry.key),
             ),
           ) as Widget,
-        )
-        .toList();
+        );
   }
 }

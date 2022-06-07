@@ -2,14 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lang_app/core/database.dart';
-import 'package:lang_app/models/user.dart';
 
 class AuthService {
-  final FirebaseAuth _fAuth = FirebaseAuth.instance;
-  UserDescription? _userDescription;
-  final _storage = const FlutterSecureStorage();
+  AuthService(this.databaseService);
 
-  UserDescription? get userDescription => _userDescription;
+  final DatabaseService databaseService;
+  final FirebaseAuth _fAuth = FirebaseAuth.instance;
+  final _storage = const FlutterSecureStorage();
 
   //Return true if success
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
@@ -17,8 +16,7 @@ class AuthService {
       UserCredential result = await _fAuth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
-      _userDescription = UserDescription.fromFirebase(user);
-      bool out = _userDescription != null;
+      bool out = _fAuth.currentUser != null;
       if (out) {
         _storage.write(key: "login", value: email);
         _storage.write(key: "password", value: password);
@@ -43,10 +41,9 @@ class AuthService {
       User? user = result.user;
       await user?.updateDisplayName(name);
       await user?.reload();
-      await DatabaseService(uid: user?.uid)
+      await databaseService
           .updateUserData(name + ' ' + (surname ?? ''), email);
-      _userDescription = UserDescription.fromFirebase(user);
-      bool out = _userDescription != null;
+      bool out = _fAuth.currentUser != null;
       if (out) {
         _storage.write(key: "login", value: email);
         _storage.write(key: "password", value: password);
@@ -63,7 +60,6 @@ class AuthService {
   }
 
   logOut() {
-    _userDescription = null;
     _fAuth.signOut();
     _storage.deleteAll();
   }
@@ -79,10 +75,5 @@ class AuthService {
     return await signInWithEmailAndPassword(login, password);
   }
 
-  Stream<UserDescription?> get currentUser {
-    return _fAuth.authStateChanges().map((User? user) =>
-        user != null ? UserDescription.fromFirebase(user) : null);
-  }
-
-  bool get isLoggedIn => _userDescription != null;
+  bool get isLoggedIn => _fAuth.currentUser != null;
 }
