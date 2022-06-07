@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/screen/test/test_holder.dart';
 import 'package:lang_app/core/database.dart';
 
@@ -16,7 +17,7 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: DatabaseService().levelsCollection.snapshots(),
+      stream: InheritedDataProvider.of(context)!.databaseService.testEpisodeRef.snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
@@ -41,7 +42,7 @@ class _HomePage extends State<HomePage> {
               return TestHolder(testEpisodeId: '0');
             }));
           },
-          child: Text(doc["name"]),
+          child: Text(doc["0"]),
           color: Colors.orangeAccent,
         );
       },

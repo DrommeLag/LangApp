@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth_page.dart';
@@ -17,26 +18,6 @@ void main() async {
   runApp(MaterialApp(
     home: MyApp(),
   ));
-}
-
-class InheritedDataProvider extends InheritedWidget {
-  final AuthService authService;
-  final DatabaseService databaseService;
-
-  const InheritedDataProvider({
-    required Widget child,
-    required this.authService,
-    required this.databaseService,
-    Key? key,
-  }) : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(InheritedDataProvider oldWidget) =>
-      authService != oldWidget.authService;
-
-  static InheritedDataProvider? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<InheritedDataProvider>();
-  }
 }
 
 class MyApp extends StatefulWidget {

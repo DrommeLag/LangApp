@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/models/test.dart';
 import 'package:lang_app/screen/test/test_page.dart';
+import 'package:lang_app/screen/test/test_summary.dart';
 
 class TestHolder extends StatefulWidget {
   TestHolder({Key? key, required this.testEpisodeId}) : super(key: key);
@@ -29,24 +30,25 @@ class _TestHolder extends State<TestHolder> {
 
   int now = 0;
 
+  int result = 0;
+
   List<Future<Test>> test = [];
 
   late Test active;
 
   initTests() async {
-      pageContent = const CircularProgressIndicator();
-      await InheritedDataProvider.of(context)!
-          .databaseService
-          .getTestEpisode(widget.testEpisodeId)
-          .then((value) {
-        for (String id in value) {
-          test.add(InheritedDataProvider.of(context)!
-              .databaseService
-              .getTestData(id));
-        }
-        targetSize = value.length;
-      });
-      prepareTest();
+    pageContent = const CircularProgressIndicator();
+    await InheritedDataProvider.of(context)!
+        .databaseService
+        .getTestEpisode(widget.testEpisodeId)
+        .then((value) {
+      for (String id in value) {
+        test.add(
+            InheritedDataProvider.of(context)!.databaseService.getTestData(id));
+      }
+      targetSize = value.length;
+    });
+    prepareTest();
   }
 
   Future prepareTest() async {
@@ -54,6 +56,12 @@ class _TestHolder extends State<TestHolder> {
 
     if (now >= targetSize || test.isEmpty) {
       log("Something bad happened here in test holder");
+      setState(() {
+        pageContent = TestSummary(
+            callback: (() => Navigator.pop(context)),
+            questionsQuantity: targetSize,
+            result: result);
+      });
     } else {
       active = await test[now];
 
@@ -61,7 +69,10 @@ class _TestHolder extends State<TestHolder> {
         pageContent = TestPage(
             key: widget._key,
             test: active,
-            callback: ((result) => prepareTest() ));
+            callback: ((answer) {
+              result += answer ? 1 : 0;
+              prepareTest();
+            }));
         widget._key.currentState?.didChangeDependencies();
       });
 

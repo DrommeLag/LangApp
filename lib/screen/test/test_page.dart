@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/models/test.dart';
 
 class TestPage extends StatefulWidget {
-  TestPage({Key? key, required this.test, required this.callback}):super(key: key){
+  TestPage({Key? key, required this.test, required this.callback})
+      : super(key: key) {
     var rightString = test.answers[0];
     test.answers.shuffle();
     right = test.answers.indexOf(rightString);
@@ -19,17 +20,16 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPage extends State<TestPage> {
-
   @override
-  didChangeDependencies(){
+  didChangeDependencies() {
     super.didChangeDependencies();
     setState(() {
-      
-    choosed = -1;
-    isTested = false;
-    isRight = false;
+      choosed = -1;
+      isTested = false;
+      isRight = false;
     });
   }
+
   int choosed = -1;
 
   bool isTested = false;
@@ -39,59 +39,65 @@ class _TestPage extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: Text(
-              widget.test.headline,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5!
-                  .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-              textAlign: TextAlign.left,
-            ),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(
+            widget.test.headline,
+            style: Theme.of(context)
+                .textTheme
+                .headline5!
+                .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+            textAlign: TextAlign.left,
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(
             widget.test.question,
             overflow: TextOverflow.visible,
+            textAlign: TextAlign.left,
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
                 .copyWith(color: Theme.of(context).colorScheme.onPrimary),
           ),
-          const SizedBox(
-            height: 80,
-          ),
-          ...buildOptions(context, widget.test.answers),
-          ...<Widget>[
-            Column(children: [
-              const SizedBox(
-                height: 50,
-              ),
-              Visibility(
-                child: MaterialButton(
-                    minWidth: 170,
-                    color: Theme.of(context).colorScheme.secondary,
-                    onPressed: (isTested)? () {
-                      widget.callback(isRight);
-                    }: onCheckTap,
-                    child: Text((isTested)?'Далі':'Перевірити'),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )),
-                visible: choosed != -1,
-                maintainSize: true,
-                maintainState: true,
-                maintainAnimation: true,
-              )
-            ])
-          ],
+        ),
+        const SizedBox(
+          height: 80,
+        ),
+        ...buildOptions(context, widget.test.answers),
+        ...<Widget>[
+          Column(children: [
+            const SizedBox(
+              height: 50,
+            ),
+            Visibility(
+              child: MaterialButton(
+                  minWidth: 170,
+                  color: Theme.of(context).colorScheme.secondary,
+                  onPressed: (isTested)
+                      ? () {
+                          widget.callback(isRight);
+                        }
+                      : onCheckTap,
+                  child: Text((isTested) ? 'Далі' : 'Перевірити'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+              visible: choosed != -1,
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
+            )
+          ])
         ],
-      );
+      ],
+    );
   }
 
   choose(int position) {
@@ -112,10 +118,7 @@ class _TestPage extends State<TestPage> {
   }
 
   Iterable<Widget> buildOptions(BuildContext context, List<String> list) {
-    return list
-        .asMap()
-        .entries
-        .map(
+    return list.asMap().entries.map(
           // ignore: unnecessary_cast
           (entry) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -138,10 +141,8 @@ class _TestPage extends State<TestPage> {
                     const SizedBox(
                       width: 20,
                     ),
-                    Text(
-                      entry.value,
-                      style: Theme.of(context).textTheme.bodyMedium
-                    ),
+                    Text(entry.value,
+                        style: Theme.of(context).textTheme.bodyMedium),
                     const Spacer(),
                     Visibility(
                         visible: isTested && entry.key == choosed,
