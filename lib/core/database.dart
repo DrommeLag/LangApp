@@ -1,12 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-<<<<<<< HEAD
-import 'package:flutter/material.dart';
-//import 'package:flutter/cupertino.dart';
-=======
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lang_app/models/test.dart';
->>>>>>> test-page
 
 class DatabaseService {
 
@@ -22,23 +17,13 @@ class DatabaseService {
     toFirestore: ((data, options) => data.asMap().map((key, value) => MapEntry(key.toString(), value)))
   );
 
-  Future updateUserData(String? displayName, String? email) async{
+  Future updateUserData({String? displayName, String? email}) async{
     if(displayName != null){
       FirebaseAuth.instance.currentUser!.updateDisplayName(displayName);
     }
     if(email != null){
       FirebaseAuth.instance.currentUser!.updateEmail(email);
     }
-    // return await usersCollection.doc(uid).set({
-    //   'displayName': displayName,
-    //   'email': email,
-    //   'photo': null,
-    // });
-  }
-  Future updateDisplayName(String? displayName) async{
-    return await usersCollection.doc(uid).update({
-      'displayName': displayName
-    });
   }
 
   Future addNews(String? title, String? subtitle, String? url, Icon icon, String? id) async{
@@ -57,10 +42,4 @@ class DatabaseService {
   Future<List<String>> getTestEpisode(String id) async{
     return testEpisodeRef.doc(id).get().then((value) => value.data()!);
   }
-
-  // Future updatePhotoURL(File? photo) async{
-  //   return await usersColection.doc(uid).set({
-  //     'photo': photo,
-  //   });
-  // }
 }

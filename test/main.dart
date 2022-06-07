@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lang_app/core/auth.dart';
+import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
 import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/models/test.dart';

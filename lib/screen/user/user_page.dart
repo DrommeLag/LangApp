@@ -254,7 +254,7 @@ class _ChangeNameState extends State<ChangeName> {
                         setState(() {
                           InheritedDataProvider.of(context)!
                               .databaseService
-                              .updateDisplayName(nameTextInput.text);
+                              .updateUserData(displayName: nameTextInput.text);
                         });
                         Navigator.pop(context, true);
                       }

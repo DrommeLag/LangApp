@@ -42,7 +42,7 @@ class AuthService {
       await user?.updateDisplayName(name);
       await user?.reload();
       await databaseService
-          .updateUserData(name + ' ' + (surname ?? ''), email);
+          .updateUserData(displayName: name + ' ' + (surname ?? ''), email:email);
       bool out = _fAuth.currentUser != null;
       if (out) {
         _storage.write(key: "login", value: email);

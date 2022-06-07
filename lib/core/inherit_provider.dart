@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:lang_app/core/auth.dart';
+import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
 
 class InheritedDataProvider extends InheritedWidget {
