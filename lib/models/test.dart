@@ -1,25 +1,25 @@
-
 class Test{
-  final String question;
-  final String headline;
-  final List<String> answers;
+  Test({required this.name, required this.description, required this.taskIds});
 
-  Test(this.question, this.headline, this.answers);
-  Test.fromFirebase(Map<String, Object?> data)
-    : question = data[questionName] as String,
-      headline = data[headlineName] as String,
-      answers = (data[answersName] as List<dynamic>).map((e) => e as String).toList();
-  
+  Test.fromFirestore(Map<String, Object?> data)
+  :name = data[nameIndifier] as String,
+   description = data[descriptionIndifier] as String,
+   taskIds = (data[taskIndifier] as List<dynamic>).map((e) => e as String).toList();
+
   Map<String, Object?> toFirestore(){
     return {
-      questionName: question,
-      headlineName: headline,
-      answersName: answers,
+      nameIndifier: name,
+      descriptionIndifier: description,
+      taskIndifier: taskIds,
     };
   }
 
-  static const String questionName = 'question';
-  static const String headlineName = 'headline';
-  static const String answersName = 'answers';
+  static const String nameIndifier = 'name';
+  static const String descriptionIndifier = 'description';
+  static const String taskIndifier = 'tasks';
 
+  final String name;
+  final String description;
+  final List<String> taskIds;
+  
 }

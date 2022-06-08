@@ -2,14 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/inherit_provider.dart';
+import 'package:lang_app/models/task.dart';
 import 'package:lang_app/models/test.dart';
-import 'package:lang_app/screen/test/test_page.dart';
-import 'package:lang_app/screen/test/test_summary.dart';
+import 'package:lang_app/screen/levels/test/test_page.dart';
+import 'package:lang_app/screen/levels/test/test_summary.dart';
 
 class TestHolder extends StatefulWidget {
-  TestHolder({Key? key, required this.testEpisodeId}) : super(key: key);
+  TestHolder({Key? key, required this.test}) : super(key: key);
 
-  final String testEpisodeId;
+  final Test test;
   final _key = GlobalKey();
 
   @override
@@ -32,29 +33,24 @@ class _TestHolder extends State<TestHolder> {
 
   int result = 0;
 
-  List<Future<Test>> test = [];
+  List<Future<Task>> tasks = [];
 
-  late Test active;
+  late Task activeTask;
 
   initTests() async {
     pageContent = const CircularProgressIndicator();
-    await InheritedDataProvider.of(context)!
-        .databaseService
-        .getTestEpisode(widget.testEpisodeId)
-        .then((value) {
-      for (String id in value) {
-        test.add(
-            InheritedDataProvider.of(context)!.databaseService.getTestData(id));
-      }
-      targetSize = value.length;
+    widget.test.taskIds.forEach((element) {
+        tasks.add(
+            InheritedDataProvider.of(context)!.databaseService.getTask(element));
     });
+    targetSize = tasks.length;
     prepareTest();
   }
 
   Future prepareTest() async {
     pageContent = const CircularProgressIndicator();
 
-    if (now >= targetSize || test.isEmpty) {
+    if (now >= targetSize || tasks.isEmpty) {
       log("Something bad happened here in test holder");
       setState(() {
         pageContent = TestSummary(
@@ -63,12 +59,12 @@ class _TestHolder extends State<TestHolder> {
             result: result);
       });
     } else {
-      active = await test[now];
+      activeTask = await tasks[now];
 
       setState(() {
         pageContent = TestPage(
             key: widget._key,
-            test: active,
+            task: activeTask,
             callback: ((answer) {
               result += answer ? 1 : 0;
               prepareTest();

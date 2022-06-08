@@ -1,17 +1,17 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:lang_app/models/test.dart';
+import 'package:lang_app/models/task.dart';
 
 class TestPage extends StatefulWidget {
-  TestPage({Key? key, required this.test, required this.callback})
+  TestPage({Key? key, required this.task, required this.callback})
       : super(key: key) {
-    var rightString = test.answers[0];
-    test.answers.shuffle();
-    right = test.answers.indexOf(rightString);
+    var rightString = task.answers[0];
+    task.answers.shuffle();
+    right = task.answers.indexOf(rightString);
   }
 
-  final Test test;
+  final Task task;
   late final int right;
   final Function(bool) callback;
 
@@ -44,7 +44,7 @@ class _TestPage extends State<TestPage> {
         Align(
           alignment: AlignmentDirectional.centerStart,
           child: Text(
-            widget.test.headline,
+            widget.task.headline,
             style: Theme.of(context)
                 .textTheme
                 .headline5!
@@ -58,7 +58,7 @@ class _TestPage extends State<TestPage> {
         Align(
           alignment: AlignmentDirectional.centerStart,
           child: Text(
-            widget.test.question,
+            widget.task.question,
             overflow: TextOverflow.visible,
             textAlign: TextAlign.left,
             style: Theme.of(context)
@@ -70,7 +70,7 @@ class _TestPage extends State<TestPage> {
         const SizedBox(
           height: 80,
         ),
-        ...buildOptions(context, widget.test.answers),
+        ...buildOptions(context, widget.task.answers),
         ...<Widget>[
           Column(children: [
             const SizedBox(

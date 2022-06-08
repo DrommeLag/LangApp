@@ -7,9 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
 import 'package:lang_app/core/inherit_provider.dart';
-import 'package:lang_app/models/test.dart';
-import 'package:lang_app/screen/test/test_holder.dart';
-import 'package:lang_app/screen/test/test_page.dart';
+import 'package:lang_app/screen/levels/test/test_holder.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 
@@ -20,9 +18,9 @@ Future<void> main() async {
   var databaseService = DatabaseService();
   var authService = AuthService(databaseService);
   await authService.loadLoginInfo();
-  // var a = Test('Where are you live?', 'Test 1', ['Lviv', 'Kyiv', 'Chernivtsy']);
 
-  // databaseService.testRef.doc('3').set(a);
+  var test = await databaseService.getTest('0');
+
   runApp(MaterialApp(
       home: InheritedDataProvider(
       authService: authService,
@@ -36,7 +34,7 @@ Future<void> main() async {
           theme: AppTheme().light,
           darkTheme: AppTheme().light,
           themeMode: ThemeMode.values[isDarkMode],
-          home: TestHolder(testEpisodeId: '0',)
+          home: TestHolder(test: test,)
         ),
       ),
     ),

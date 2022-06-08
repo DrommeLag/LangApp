@@ -4,12 +4,14 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
 import 'package:lang_app/core/inherit_provider.dart';
+import 'package:lang_app/generated/l10n.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth_page.dart';
 import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
@@ -33,6 +35,18 @@ class _MyAppState extends State<MyApp> {
   late final DatabaseService databaseService;
 
   @override
+  initState() {
+    super.initState();
+    NotificationApi.init();
+    listenNotifications();
+    tz.initializeTimeZones();
+
+    databaseService = DatabaseService();
+    authService = AuthService(databaseService);
+    authService.loadLoginInfo();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InheritedDataProvider(
       authService: authService,
@@ -41,8 +55,18 @@ class _MyAppState extends State<MyApp> {
         cacheKey: SettingsPage.keyDarkMode,
         defaultValue: ThemeMode.system.index,
         builder: (_, isDarkMode, __) => MaterialApp(
+          //Localization
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+
+
           debugShowCheckedModeBanner: false,
-          title: 'Lang App',
+          title: 'LangApp',
           theme: AppTheme().light,
           darkTheme: AppTheme().dark,
           themeMode: ThemeMode.values[isDarkMode],
@@ -52,24 +76,6 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-  }
-
-  void initFirebase() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-  }
-
-  @override
-  initState() {
-    super.initState();
-    initFirebase();
-    NotificationApi.init();
-    listenNotifications();
-    tz.initializeTimeZones();
-
-    databaseService = DatabaseService();
-    authService = AuthService(databaseService);
-    authService.loadLoginInfo();
   }
 
   void listenNotifications() {

@@ -1,47 +1,70 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lang_app/models/news.dart';
+import 'package:lang_app/models/task.dart';
 import 'package:lang_app/models/test.dart';
 
 class DatabaseService {
+  final CollectionReference<News> _newsRef = FirebaseFirestore.instance
+      .collection('news')
+      .withConverter(
+          fromFirestore: ((snapshot, options) =>
+              News.fromFirebase(snapshot.data()!)),
+          toFirestore: ((news, options) => news.toFirebase()));
 
-  final CollectionReference newsCollection = FirebaseFirestore.instance.collection('news');
-  final CollectionReference levelsCollection = FirebaseFirestore.instance.collection('levels');
-  final CollectionReference testsCollection = FirebaseFirestore.instance.collection('some');
+  final _taskRef = FirebaseFirestore.instance
+      .collection('levels')
+      .withConverter<Task>(
+          fromFirestore: ((snapshot, options) =>
+              Task.fromFirebase(snapshot.data()!)),
+          toFirestore: ((test, options) => test.toFirestore()));
 
-  final testRef = FirebaseFirestore.instance.collection('levels').withConverter<Test>(
-    fromFirestore: ((snapshot, options) => Test.fromFirebase(snapshot.data()!)), 
-    toFirestore: ((test, options) => test.toFirestore())
-  );
+  final _testRef = FirebaseFirestore.instance
+      .collection('tests')
+      .withConverter<Test>(
+          fromFirestore: ((snapshot, options) =>
+              Test.fromFirestore(snapshot.data()!)),
+          toFirestore: ((data, options) => data.toFirestore()));
 
-  final testEpisodeRef = FirebaseFirestore.instance.collection('test_episodes').withConverter<List<String>>(
-    fromFirestore: ((snapshot, options) => snapshot.data()!.values.map((e) => e as String).toList()),
-    toFirestore: ((data, options) => data.asMap().map((key, value) => MapEntry(key.toString(), value)))
-  );
-
-  Future updateUserData({String? displayName, String? email}) async{
-    if(displayName != null){
+  Future updateUserData({String? displayName, String? email}) async {
+    if (displayName != null) {
       FirebaseAuth.instance.currentUser!.updateDisplayName(displayName);
     }
-    if(email != null){
+    if (email != null) {
       FirebaseAuth.instance.currentUser!.updateEmail(email);
     }
   }
 
-  Future addNews(String? title, String? subtitle, String? url, Icon icon, String? id) async{
-    return await newsCollection.doc(id).set({
-      'title': title,
-      'subtitle': subtitle,
-      'url': url,
-      'icon': icon,
-    });
+  Future setNews(News news, String id) async {
+    _newsRef.doc(id).set(news);
   }
 
-  Future<Test> getTestData(String id) async{
-    return testRef.doc(id).get().then((value) => value.data()!);
+  Future<News> getNews(String id) async {
+    return _newsRef.doc(id).get().then((value) => value.data()!);
   }
 
-  Future<List<String>> getTestEpisode(String id) async{
-    return testEpisodeRef.doc(id).get().then((value) => value.data()!);
+  Future<Iterable<News>> getAllNews() async {
+    return _newsRef.get().then((value) => value.docs.map((e) => e.data()));
+  }
+
+  Future<Task> getTask(String id) async {
+    return _taskRef.doc(id).get().then((value) => value.data()!);
+  }
+
+  setTask(Task task, String id) {
+    _taskRef.doc(id).set(task);
+  }
+
+  Future<Test> getTest(String id) async {
+    return _testRef.doc(id).get().then((value) => value.data()!);
+  }
+
+  Future<Iterable<Test>> getTests() async {
+    return _testRef.get().then((value) => value.docs.map((e) => e.data()));
+  }
+
+  setTest(Test test, String id) {
+    _testRef.doc(id).set(test);
   }
 }
