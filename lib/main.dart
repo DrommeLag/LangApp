@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:lang_app/login/auth.dart';
+import 'package:lang_app/core/auth.dart';
+import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth_page.dart';
@@ -13,45 +15,30 @@ void main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  var authService = AuthService();
-  await authService.loadLoginInfo();
   runApp(MaterialApp(
-    home: MyApp(authService),
+    home: MyApp(),
   ));
 }
 
-class InheritedDataProvider extends InheritedWidget {
-  final AuthService authService;
-
-  const InheritedDataProvider({
-    required Widget child,
-    required this.authService,
-    Key? key,
-  }) : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(InheritedDataProvider oldWidget) =>
-      authService != oldWidget.authService;
-
-  static InheritedDataProvider? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<InheritedDataProvider>();
-  }
-}
 
 class MyApp extends StatefulWidget {
-  final AuthService authService;
+  const MyApp({Key? key}) : super(key: key);
 
-  const MyApp(this.authService, {Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
+  late final AuthService authService;
+  late final DatabaseService databaseService;
+
   @override
   Widget build(BuildContext context) {
     return InheritedDataProvider(
-      authService: widget.authService,
+      authService: authService,
+      databaseService: databaseService,
       child: ValueChangeObserver<int>(
         cacheKey: SettingsPage.keyDarkMode,
         defaultValue: ThemeMode.system.index,
@@ -61,7 +48,7 @@ class _MyAppState extends State<MyApp> {
           theme: AppTheme().light,
           darkTheme: AppTheme().dark,
           themeMode: ThemeMode.values[isDarkMode],
-          home: widget.authService.isLoggedIn
+          home: authService.isLoggedIn
               ? const MainScreen()
               : const AuthPage(),
         ),
@@ -81,6 +68,10 @@ class _MyAppState extends State<MyApp> {
     NotificationApi.init();
     listenNotifications();
     tz.initializeTimeZones();
+
+    databaseService = DatabaseService();
+    authService = AuthService(databaseService);
+    authService.loadLoginInfo();
   }
 
   void listenNotifications() {

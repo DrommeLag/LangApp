@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/main.dart';
+import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/templates/highlighted_text.dart';
 import 'package:lang_app/screen/templates/input_text_field.dart';
