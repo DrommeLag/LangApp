@@ -18,17 +18,17 @@ class _SettingsPage extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User settings"),
+        title: Text("Налаштування користувача"),
         //backgroundColor: Colors.orangeAccent,
       ),
       body: SafeArea(
         child: ListView(
           children: [
-            SettingsGroup(title: "Appearance", children: [
+            SettingsGroup(title: "Вигляд", children: [
               buildDarkMode(),
             ]),
             SettingsGroup(
-              title: "General",
+              title: "Загальні",
               children: <Widget>[
                 // buildAccountSettings(),
                 NotificationsPage(),
@@ -40,7 +40,7 @@ class _SettingsPage extends State<SettingsPage> {
               height: 20,
             ),
             SettingsGroup(
-              title: "FEEDBACK",
+              title: "Зворотний зв'язок",
               subtitle: "",
               children: <Widget>[
                 const SizedBox(
@@ -70,7 +70,7 @@ class _SettingsPage extends State<SettingsPage> {
 
   Widget buildSendFeedback(BuildContext context) {
     return SimpleSettingsTile(
-      title: "Send Feedback",
+      title: "Надіслати фідбек",
       subtitle: "",
       leading: const Icon(Icons.thumb_up),
       onTap: () {},
@@ -79,7 +79,7 @@ class _SettingsPage extends State<SettingsPage> {
 
   Widget buildReportBug(BuildContext context) {
     return SimpleSettingsTile(
-      title: "Report A Bug",
+      title: "Повідомити про помилку",
       subtitle: "",
       leading: const Icon(Icons.bug_report),
       onTap: () async {
@@ -92,10 +92,10 @@ class _SettingsPage extends State<SettingsPage> {
   Widget buildLanguage(BuildContext context) {
     return DropDownSettingsTile(
       settingKey: SettingsPage.keyLanguage,
-      title: "Language",
+      title: "Мова",
       selected: 1,
       values: const <int, String>{
-        1: "Ukrainian",
+        1: "Українська",
         2: "English",
         3: "Spanish",
         4: "French",
@@ -107,12 +107,12 @@ class _SettingsPage extends State<SettingsPage> {
   Widget buildRegion(BuildContext context) {
     return DropDownSettingsTile(
       settingKey: SettingsPage.keyLocation,
-      title: "Region",
+      title: "Регіон",
       selected: 1,
       values: const <int, String>{
-        1: "Chernivtsi obl",
-        2: "Lviv obl",
-        3: "Kyiv obl",
+        1: "Чернівецька обл.",
+        2: "Львівська обл.",
+        3: "Київська обл.",
       },
       onChange: (region) {},
     );
@@ -120,19 +120,14 @@ class _SettingsPage extends State<SettingsPage> {
 
   Widget buildDarkMode() {
     return RadioModalSettingsTile(
-        title: 'Dark Mode',
+        title: 'Тема додатку',
         settingKey: SettingsPage.keyDarkMode,
         selected:
             Settings.getValue(SettingsPage.keyDarkMode, ThemeMode.system.index),
         values: <int, String>{
-          ThemeMode.system.index: 'Like system',
-          ThemeMode.dark.index: 'Constant dark',
-          ThemeMode.light.index: 'Constant light'
+          ThemeMode.system.index: 'Тема системи',
+          ThemeMode.dark.index: 'Темна тема',
+          ThemeMode.light.index: 'Світла тема',
         });
-    //   SwitchSettingsTile(
-    //   title: "Dark Mode",
-    //   settingKey: SettingsPage.keyDarkMode,
-    //   leading: const Icon(Icons.dark_mode),
-    // );
   }
 }

@@ -40,6 +40,7 @@ class InheritedDataProvider extends InheritedWidget {
 
 class MyApp extends StatefulWidget {
   final AuthService authService;
+
   const MyApp(this.authService, {Key? key}) : super(key: key);
 
   @override
@@ -86,9 +87,5 @@ class _MyAppState extends State<MyApp> {
     NotificationApi.onNotifications.stream.listen(onClickedNotification);
   }
 
-  void onClickedNotification(String? payload) {
-    // Navigator.of(context).push(MaterialPageRoute(
-    //   builder: (context) => const MainScreen(),
-    // ));
-  }
+  void onClickedNotification(String? payload) {}
 }

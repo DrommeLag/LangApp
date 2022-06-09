@@ -21,13 +21,15 @@ class _UserPage extends State<UserPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Padding(padding: const EdgeInsets.symmetric(horizontal: 10.0),
+
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         MaterialButton(
           onPressed: () => onPressed(),
           color: Colors.deepOrange,
+
           // color: Theme.of(context).primaryColor,
           child: Text(
-            "Log out",
+            "Вийти з акаунту",
             style: Theme.of(context).primaryTextTheme.button,
           ),
         ),
@@ -43,7 +45,7 @@ class _UserPage extends State<UserPage> {
             mainAxisSize: MainAxisSize.min,
             children: const [
               Icon(Icons.settings),
-              Text(" Settings"),
+              Text("Налаштування"),
             ],
           ),
         )
