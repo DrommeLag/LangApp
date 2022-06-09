@@ -6,6 +6,8 @@ import 'package:lang_app/models/test.dart';
 class DatabaseService {
 
   final CollectionReference newsCollection = FirebaseFirestore.instance.collection('news');
+  final CollectionReference levelsCollection = FirebaseFirestore.instance.collection('levels');
+  final CollectionReference testsCollection = FirebaseFirestore.instance.collection('some');
 
   final testRef = FirebaseFirestore.instance.collection('levels').withConverter<Test>(
     fromFirestore: ((snapshot, options) => Test.fromFirebase(snapshot.data()!)), 
