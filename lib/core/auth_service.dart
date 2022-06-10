@@ -1,21 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:lang_app/core/database.dart';
 
 class AuthService {
-  AuthService(this.databaseService);
 
-  final DatabaseService databaseService;
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
   final _storage = const FlutterSecureStorage();
+
+  get uid => _fAuth.currentUser!.uid;
 
   //Return true if success
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _fAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      User? user = result.user;
+      await _fAuth.signInWithEmailAndPassword(email: email, password: password);
       bool out = _fAuth.currentUser != null;
       if (out) {
         _storage.write(key: "login", value: email);
@@ -36,13 +33,10 @@ class AuthService {
   Future<bool> registerWithEmailAndPassword(
       String name, String? surname, String email, String password) async {
     try {
-      UserCredential result = await _fAuth.createUserWithEmailAndPassword(
+      await _fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      User? user = result.user;
-      await user?.updateDisplayName(name);
-      await user?.reload();
-      await databaseService
-          .updateUserData(displayName: name + ' ' + (surname ?? ''), email:email);
+      await _fAuth.currentUser?.reload();
+      _fAuth.currentUser?.updateDisplayName(name + ' ' + (surname ?? ''));
       bool out = _fAuth.currentUser != null;
       if (out) {
         _storage.write(key: "login", value: email);
@@ -73,6 +67,14 @@ class AuthService {
       return false;
     }
     return await signInWithEmailAndPassword(login, password);
+  }
+
+  Future updateDisplayName(String name) async{
+    User? user = _fAuth.currentUser;
+    if(user == null){
+      throw "Error! User isn't logged in!!";
+    }
+    await user.updateDisplayName(name);
   }
 
   bool get isLoggedIn => _fAuth.currentUser != null;

@@ -42,8 +42,14 @@ class _MyAppState extends State<MyApp> {
     tz.initializeTimeZones();
 
     databaseService = DatabaseService();
-    authService = AuthService(databaseService);
+    authService = AuthService();
     authService.loadLoginInfo();
+
+    checkIfThereAreUserProgressRegistered();
+  }
+
+  checkIfThereAreUserProgressRegistered() async {
+    databaseService.checkProgress(authService.uid);
   }
 
   @override

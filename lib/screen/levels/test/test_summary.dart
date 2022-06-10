@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:lang_app/core/inherit_provider.dart';
 
 class TestSummary extends StatelessWidget {
+
   const TestSummary(
       {Key? key,
-      required this.callback,
       required this.questionsQuantity,
-      required this.result})
+      required this.result,
+      required this.callback,
+      required this.onComplete})
       : super(key: key);
-  final Function() callback;
+
   final int result;
   final int questionsQuantity;
+
+  final Function(int result) onComplete;
+  final Function() callback;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    onComplete.call(result);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

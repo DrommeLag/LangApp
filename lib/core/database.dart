@@ -31,15 +31,6 @@ class DatabaseService {
   final _userProgressRef =
       FirebaseFirestore.instance.collection('user-progress');
 
-  Future updateUserData({String? displayName, String? email}) async {
-    if (displayName != null) {
-      FirebaseAuth.instance.currentUser!.updateDisplayName(displayName);
-    }
-    if (email != null) {
-      FirebaseAuth.instance.currentUser!.updateEmail(email);
-    }
-  }
-
   Future setNews(News news, String id) async {
     _newsRef.doc(id).set(news);
   }
@@ -83,5 +74,13 @@ class DatabaseService {
     _userProgressRef
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({level.toString(): status});
+  }
+
+  checkProgress(String uid) async {
+    _userProgressRef.doc(uid).get().then((value){ 
+      if(value.data() == null){
+        _userProgressRef.doc(uid).set(UserProgress.template.toFirestore());
+      }
+      });
   }
 }

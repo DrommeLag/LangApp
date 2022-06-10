@@ -8,10 +8,12 @@ import 'package:lang_app/screen/levels/test/test_page.dart';
 import 'package:lang_app/screen/levels/test/test_summary.dart';
 
 class TestHolder extends StatefulWidget {
-  TestHolder({Key? key, required this.test}) : super(key: key);
+  TestHolder({Key? key, required this.test, required this.onComplete}) : super(key: key);
 
   final Test test;
   final _key = GlobalKey();
+
+  final Function(int result) onComplete;
 
   @override
   State<StatefulWidget> createState() => _TestHolder();
@@ -56,7 +58,8 @@ class _TestHolder extends State<TestHolder> {
         pageContent = TestSummary(
             callback: (() => Navigator.pop(context)),
             questionsQuantity: targetSize,
-            result: result);
+            result: result,
+            onComplete: widget.onComplete);
       });
     } else {
       activeTask = await tasks[now];

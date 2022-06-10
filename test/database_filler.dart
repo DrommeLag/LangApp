@@ -8,9 +8,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   var databaseService = DatabaseService();
-  var authService = AuthService(databaseService);
+  var authService = AuthService();
   authService.signInWithEmailAndPassword('nz54ds@gmail.com', 'password');
 
-  Test a = Test(name: "Тест 1", description: "Вчися на фільмах", taskIds: ['0', '1','2','3']);
-  databaseService.setTest(a, '0');
+  Test a = Test(name: "Тест 6", description: "Вчися на фільмах", taskIds: ['0', '1','2','3']);
+  databaseService.setTest(a, '5');
 }

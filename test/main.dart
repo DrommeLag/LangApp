@@ -16,7 +16,7 @@ Future<void> main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
   await Firebase.initializeApp();
   var databaseService = DatabaseService();
-  var authService = AuthService(databaseService);
+  var authService = AuthService();
   await authService.loadLoginInfo();
 
   var test = await databaseService.getTest('0');
