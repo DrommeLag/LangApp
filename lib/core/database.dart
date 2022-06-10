@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lang_app/models/news.dart';
+import 'package:lang_app/models/progress.dart';
 import 'package:lang_app/models/task.dart';
 import 'package:lang_app/models/test.dart';
 
@@ -26,6 +27,9 @@ class DatabaseService {
           fromFirestore: ((snapshot, options) =>
               Test.fromFirestore(snapshot.data()!)),
           toFirestore: ((data, options) => data.toFirestore()));
+
+  final _userProgressRef =
+      FirebaseFirestore.instance.collection('user-progress');
 
   Future updateUserData({String? displayName, String? email}) async {
     if (displayName != null) {
@@ -66,5 +70,18 @@ class DatabaseService {
 
   setTest(Test test, String id) {
     _testRef.doc(id).set(test);
+  }
+
+  Future<UserProgress> getProgress() {
+    return _userProgressRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) => UserProgress.fromFirestore(value.data()!));
+  }
+
+  updateProgress(int level, int status) {
+    _userProgressRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({level.toString(): status});
   }
 }

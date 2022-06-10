@@ -6,8 +6,10 @@ class AppTheme {
         colorScheme: ColorScheme(
             brightness: Brightness.light,
             primary: const Color(0xff0068C9),
+            primaryContainer: const Color(0xFF193EBC),
             onPrimary: Colors.white,
-            secondary: const Color.fromRGBO(255, 227, 77, 1),
+            secondary: const Color(0xFFF2D84F),
+            secondaryContainer: const Color(0xFFF8F49F),
             onSecondary: Colors.black,
             error: Colors.red[800]!,
             onError: Colors.white,
