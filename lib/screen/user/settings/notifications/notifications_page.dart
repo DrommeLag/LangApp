@@ -6,7 +6,7 @@ class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
 
   static const keyNotif = "key-notif";
-  static const keyNewsletter = "key-newsletter";
+  static const keyNewsletter = "key-map";
   static const keyAppUpdates = "key-app-updates";
 
   @override
