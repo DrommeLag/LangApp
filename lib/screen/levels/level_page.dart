@@ -3,6 +3,7 @@ import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/models/progress.dart';
 import 'package:lang_app/models/test.dart';
 import 'package:lang_app/screen/levels/context_onscreen_message.dart';
+import 'package:lang_app/screen/templates/gradients.dart';
 
 class LevelPage extends StatefulWidget {
   const LevelPage({Key? key}) : super(key: key);
@@ -99,11 +100,7 @@ class _LevelPage extends State<LevelPage> {
     return Container(
       child: Center(child: page),
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF0A67E9), Color(0xFF0B6CE5), Color(0xFF39A5B4)],
-            stops: [0, 0.1, 1]),
+        gradient: backgroundGradient,
       ),
     );
   }
