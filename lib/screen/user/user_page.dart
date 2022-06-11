@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/core/inherit_provider.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'auth/auth_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -131,13 +132,13 @@ class _UserPage extends State<UserPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        "Hello, ${data['displayName']}\n"
-                        "Your email: ${data['email']}\n",
+                        "Вітаю, ${data['displayName']}\n"
+                        "Ваш емейл: ${data['email']}\n",
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 18),
                       ),
                       ElevatedButton(
-                          child: const Text('Edit display name'),
+                          child: Text(AppLocalizations.of(context)!.editDisplayName),
                           onPressed: () async {
                             final result = await Navigator.push(
                               context,
@@ -149,7 +150,7 @@ class _UserPage extends State<UserPage> {
                             }
                           }),
                       ElevatedButton(
-                          child: const Text('Change password'),
+                          child: Text(AppLocalizations.of(context)!.editPassword),
                           onPressed: () {
                             setState(
                               () {
@@ -171,9 +172,9 @@ class _UserPage extends State<UserPage> {
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(Icons.settings),
-                            Text("Settings"),
+                          children: [
+                            const Icon(Icons.settings),
+                            Text(AppLocalizations.of(context)!.settings),
                           ],
                         ),
                       ),
@@ -189,13 +190,13 @@ class _UserPage extends State<UserPage> {
                               Colors.deepOrange),
                         ),
                         child: Text(
-                          "Log out",
+                          AppLocalizations.of(context)!.logOut,
                           style: Theme.of(context).primaryTextTheme.button,
                         ),
                       )
                     ]);
               }
-              return const Text("Loading");
+              return Text(AppLocalizations.of(context)!.loading);
             },
           );
         });
@@ -216,7 +217,7 @@ class _ChangeNameState extends State<ChangeName> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Change name'),
+          title: Text(AppLocalizations.of(context)!.editDisplayName),
         ),
         body: Form(
             key: _formKey,
@@ -227,14 +228,14 @@ class _ChangeNameState extends State<ChangeName> {
                 TextFormField(
                   validator: (String? value) {
                     if (value != null && value.isEmpty) {
-                      return "Please enter your name and surname";
+                      return AppLocalizations.of(context)!.editDisplayNameExp;
                     }
                     return null;
                   },
                   controller: nameTextInput,
-                  decoration: const InputDecoration(
-                    labelText: 'Name and surname',
-                    hintText: 'Enter your name and surname',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.nameSurname,
+                    hintText: AppLocalizations.of(context)!.editDisplayNameExp,
                   ),
                 ),
                 ElevatedButton(
@@ -242,8 +243,7 @@ class _ChangeNameState extends State<ChangeName> {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.green),
                     ),
-                    child: const Text(
-                      'Save',
+                    child: Text(AppLocalizations.of(context)!.save,
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
@@ -279,7 +279,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Change password'),
+          title: Text(AppLocalizations.of(context)!.editPassword),
         ),
         body: Form(
             key: _formKey,
@@ -290,15 +290,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                 TextFormField(
                   validator: (String? value) {
                     if (value != null && value.isEmpty) {
-                      return "Please enter your new password";
+                      return AppLocalizations.of(context)!.editPasswordExp;
                     }
                     return null;
                   },
                   controller: passwordTextInput,
                   obscureText: !_passwordVisible,
                   decoration: InputDecoration(
-                    labelText: 'Password',
-                    hintText: 'Enter your password',
+                    labelText: AppLocalizations.of(context)!.password,
+                    hintText: AppLocalizations.of(context)!.editPasswordExp,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _passwordVisible
@@ -319,8 +319,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.green),
                     ),
-                    child: const Text(
-                      'Save',
+                    child: Text(
+                      AppLocalizations.of(context)!.save,
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
