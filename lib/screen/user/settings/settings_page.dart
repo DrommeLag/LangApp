@@ -33,7 +33,6 @@ class _SettingsPage extends State<SettingsPage> {
                 // buildAccountSettings(),
                 const NotificationsPage(),
                 buildLanguage(context),
-                buildRegion(context),
               ],
             ),
             const SizedBox(
@@ -46,7 +45,6 @@ class _SettingsPage extends State<SettingsPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                buildReportBug(context),
                 buildSendFeedback(context),
               ],
             ),
@@ -77,17 +75,6 @@ class _SettingsPage extends State<SettingsPage> {
     );
   }
 
-  Widget buildReportBug(BuildContext context) {
-    return SimpleSettingsTile(
-      title: "Повідомити про помилку",
-      subtitle: "",
-      leading: const Icon(Icons.bug_report),
-      onTap: () async {
-        await launchUrl(Uri.parse(
-            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
-      },
-    );
-  }
 
   Widget buildLanguage(BuildContext context) {
     return DropDownSettingsTile(
@@ -104,26 +91,13 @@ class _SettingsPage extends State<SettingsPage> {
     );
   }
 
-  Widget buildRegion(BuildContext context) {
-    return DropDownSettingsTile(
-      settingKey: SettingsPage.keyLocation,
-      title: "Регіон",
-      selected: 1,
-      values: const <int, String>{
-        1: "Чернівецька обл.",
-        2: "Львівська обл.",
-        3: "Київська обл.",
-      },
-      onChange: (region) {},
-    );
-  }
 
   Widget buildDarkMode() {
     return RadioModalSettingsTile(
         title: 'Тема додатку',
         settingKey: SettingsPage.keyDarkMode,
         selected:
-            Settings.getValue(SettingsPage.keyDarkMode, defaultValue: ThemeMode.system.index),
+            Settings.getValue(SettingsPage.keyDarkMode, ThemeMode.system.index),
         values: <int, String>{
           ThemeMode.system.index: 'Тема системи',
           ThemeMode.dark.index: 'Темна тема',

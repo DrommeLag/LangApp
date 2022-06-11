@@ -78,4 +78,8 @@ class AuthService {
   }
 
   bool get isLoggedIn => _fAuth.currentUser != null;
+
+  User getUser() {
+    return _fAuth.currentUser!;
+  }
 }
