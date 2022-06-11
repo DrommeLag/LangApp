@@ -10,8 +10,10 @@ class MapPage extends StatefulWidget {
 class _MapPage extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement page
-    throw UnimplementedError();
+    return Stack(fit: StackFit.expand, children: <Widget>[
+      Image.asset('assets/images/ornament.png', fit: BoxFit.cover),
+      Image.asset('assets/images/ukraine.png'),
+    ],
+    );
   }
-
 }
