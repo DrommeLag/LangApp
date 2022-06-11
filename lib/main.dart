@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         builder: (_, isDarkMode, __) => MaterialApp(
           //Localization
           localizationsDelegates: const [
-            AppLocalizations.delegate, // Add this line
+            AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
