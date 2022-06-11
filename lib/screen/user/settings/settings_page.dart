@@ -18,7 +18,7 @@ class _SettingsPage extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Налаштування користувача"),
+        title: const Text("Налаштування користувача"),
         //backgroundColor: Colors.orangeAccent,
       ),
       body: SafeArea(
@@ -31,7 +31,7 @@ class _SettingsPage extends State<SettingsPage> {
               title: "Загальні",
               children: <Widget>[
                 // buildAccountSettings(),
-                NotificationsPage(),
+                const NotificationsPage(),
                 buildLanguage(context),
                 buildRegion(context),
               ],

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/inherit_provider.dart';
 
 class TestSummary extends StatelessWidget {
-
   const TestSummary(
       {Key? key,
       required this.questionsQuantity,
@@ -48,7 +46,7 @@ class TestSummary extends StatelessWidget {
           minWidth: 170,
           color: Theme.of(context).colorScheme.secondary,
           onPressed: callback,
-          child: Text('Завершити'),
+          child: const Text('Завершити'),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

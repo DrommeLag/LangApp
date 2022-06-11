@@ -8,7 +8,8 @@ import 'package:lang_app/screen/levels/test/test_page.dart';
 import 'package:lang_app/screen/levels/test/test_summary.dart';
 
 class TestHolder extends StatefulWidget {
-  TestHolder({Key? key, required this.test, required this.onComplete}) : super(key: key);
+  TestHolder({Key? key, required this.test, required this.onComplete})
+      : super(key: key);
 
   final Test test;
   final _key = GlobalKey();
@@ -41,10 +42,10 @@ class _TestHolder extends State<TestHolder> {
 
   initTests() async {
     pageContent = const CircularProgressIndicator();
-    widget.test.taskIds.forEach((element) {
-        tasks.add(
-            InheritedDataProvider.of(context)!.databaseService.getTask(element));
-    });
+    for (String curentId in widget.test.taskIds) {
+      tasks.add(
+          InheritedDataProvider.of(context)!.databaseService.getTask(curentId));
+    }
     targetSize = tasks.length;
     prepareTest();
   }

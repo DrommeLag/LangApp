@@ -8,7 +8,7 @@ import 'package:lang_app/generated/l10n.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/themes.dart';
 import 'package:lang_app/screen/user/auth/auth_page.dart';
-import 'package:lang_app/screen/user/settings/notifications/NotificationApi.dart';
+import 'package:lang_app/screen/user/settings/notifications/notification_api.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,13 +17,13 @@ void main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) :super(key: key);
+  const MyApp({Key? key}) :super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();

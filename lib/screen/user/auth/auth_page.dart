@@ -137,7 +137,7 @@ class _AuthPageState extends State<AuthPage> {
     return <Widget>[
       InputTextField(
           icon: Icons.account_circle,
-          hint: 'Ім\`я',
+          hint: 'Ім`я',
           controller: _nameController,
           obscure: false),
       const SizedBox(height: 20),

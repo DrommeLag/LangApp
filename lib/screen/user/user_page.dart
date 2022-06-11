@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/inherit_provider.dart';
-import 'package:lang_app/main.dart';
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'auth/auth_page.dart';
 
