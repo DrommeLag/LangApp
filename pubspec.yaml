@@ -70,6 +70,7 @@ dependencies:
 
   #for floating action buttons
   flutter_speed_dial: ^4.3.0
+  expansion_widget: ^0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -97,7 +98,6 @@ flutter:
     - assets/images/language.png
     - assets/images/culture.png
     - assets/images/attractions.png
-    -
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
