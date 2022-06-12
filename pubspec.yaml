@@ -43,7 +43,12 @@ dependencies:
 
   #https://pub.dev/packages/flutter_settings_screens there are wiki
   #Settings when you're a bit (actually not a bit) lazy
+<<<<<<< HEAD
   flutter_settings_screens: 0.3.2-null-safety
+=======
+
+  flutter_settings_screens: ^0.3.3-null-safety
+>>>>>>> 8b5cb9d6ee3eb742607cf353c6411844a32bcd04
 
   #Notifications
   flutter_local_notifications: ^9.4.1
