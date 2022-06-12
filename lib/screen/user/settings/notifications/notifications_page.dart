@@ -10,7 +10,7 @@ class NotificationsPage extends StatefulWidget {
   static const keyAppUpdates = "key-app-updates";
 
   @override
-  _NotificationsPageState createState() => _NotificationsPageState();
+  State<StatefulWidget> createState() => _NotificationsPageState();
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {

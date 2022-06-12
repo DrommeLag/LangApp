@@ -46,10 +46,10 @@ class TestSummary extends StatelessWidget {
           minWidth: 170,
           color: Theme.of(context).colorScheme.secondary,
           onPressed: callback,
-          child: const Text('Завершити'),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
+          child: const Text('Завершити'),
         ),
       ],
     );

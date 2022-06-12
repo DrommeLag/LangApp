@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/inherit_provider.dart';
+import 'package:lang_app/core/auth_service.dart';
+import 'package:lang_app/core/database.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/templates/highlighted_text.dart';
 import 'package:lang_app/screen/templates/input_text_field.dart';
 import 'package:lang_app/screen/templates/toast_error_message.dart';
 
+/**
+ * TOTOTOOTODO: make invalid email/ password input field
+ */
+
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
 
   @override
-  _AuthPageState createState() => _AuthPageState();
+  State<StatefulWidget> createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
@@ -22,7 +27,7 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   void didChangeDependencies() {
-    InheritedDataProvider.of(context)!.authService.logOut();
+    AuthService().logOut();
     super.didChangeDependencies();
   }
 
@@ -61,6 +66,9 @@ class _AuthPageState extends State<AuthPage> {
 
   goForwardIfTrue(Future<bool>? argument) async {
     if (argument != null && await argument) {
+
+      DatabaseService().checkProgress(AuthService().uid);
+
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return const MainScreen();
       }));
@@ -70,12 +78,12 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   loginButtonAction(BuildContext context) {
-    var _email = _emailController.text;
-    var _password = _passwordController.text;
-    if (_email.isNotEmpty && _password.isNotEmpty) {
-      Future<bool>? result = InheritedDataProvider.of(context)
-          ?.authService
-          .signInWithEmailAndPassword(_email, _password);
+    var email = _emailController.text;
+    var password = _passwordController.text;
+    if (email.isNotEmpty && password.isNotEmpty) {
+      Future<bool>? result =
+          AuthService()
+          .signInWithEmailAndPassword(email, password);
       goForwardIfTrue(result);
     } else {
       showToastErrorMessage(
@@ -117,15 +125,14 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   registerButtonAction(BuildContext context) {
-    var _name = _nameController.text;
-    var _surname = _sureNameController.text;
-    var _email = _emailController.text;
-    var _password = _passwordController.text;
+    var name = _nameController.text;
+    var surname = _sureNameController.text;
+    var email = _emailController.text;
+    var password = _passwordController.text;
 
-    if (_name.isNotEmpty && _email.isNotEmpty && _password.isNotEmpty) {
-      var result = InheritedDataProvider.of(context)
-          ?.authService
-          .registerWithEmailAndPassword(_name, _surname, _email, _password);
+    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+      var result = AuthService()
+          .registerWithEmailAndPassword(name, surname, email, password);
       goForwardIfTrue(result);
     } else {
       showToastErrorMessage(

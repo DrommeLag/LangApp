@@ -11,8 +11,8 @@ Row highlightedText(
     children: [
       Text(lines[0], style: textStyle),
       GestureDetector(
-        child: Text(lines[1], style: highlightedStyle),
         onTap: onTap,
+        child: Text(lines[1], style: highlightedStyle),
       ),
       Text(lines[2], style: textStyle),
     ],

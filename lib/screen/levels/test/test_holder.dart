@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/inherit_provider.dart';
+import 'package:lang_app/core/database.dart';
 import 'package:lang_app/models/task.dart';
 import 'package:lang_app/models/test.dart';
 import 'package:lang_app/screen/levels/test/test_page.dart';
@@ -44,7 +44,7 @@ class _TestHolder extends State<TestHolder> {
     pageContent = const CircularProgressIndicator();
     for (String curentId in widget.test.taskIds) {
       tasks.add(
-          InheritedDataProvider.of(context)!.databaseService.getTask(curentId));
+          DatabaseService().getTask(curentId));
     }
     targetSize = tasks.length;
     prepareTest();

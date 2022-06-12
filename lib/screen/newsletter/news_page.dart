@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/inherit_provider.dart';
+import 'package:lang_app/core/database.dart';
 import 'package:lang_app/models/news.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,8 +25,7 @@ class _NewsPage extends State<NewsPage> {
   }
 
   _loadNews() async {
-    news = await InheritedDataProvider.of(context)!
-        .databaseService
+    news = await DatabaseService() 
         .getAllNews()
         .then((value) => value.toList());
     _updatePage();

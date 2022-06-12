@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/inherit_provider.dart';
+import 'package:lang_app/core/database.dart';
 import 'package:lang_app/models/progress.dart';
 import 'package:lang_app/models/test.dart';
 import 'package:lang_app/screen/levels/context_onscreen_message.dart';
@@ -11,6 +11,8 @@ class LevelPage extends StatefulWidget {
   @override
   State<LevelPage> createState() => _LevelPage();
 }
+
+enum TestStatus { unlocked, locked, completed }
 
 class _Level extends StatelessWidget {
   final String text;
@@ -89,8 +91,7 @@ class _Level extends StatelessWidget {
 }
 
 class _LevelPage extends State<LevelPage> {
-  Widget page = const CircularProgressIndicator();
-
+  late Widget page;
   List<Test> testList = <Test>[];
 
   late UserProgress userProgress;
@@ -98,10 +99,10 @@ class _LevelPage extends State<LevelPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: page),
       decoration: const BoxDecoration(
         gradient: backgroundGradient,
       ),
+      child: Center(child: page),
     );
   }
 
@@ -109,9 +110,18 @@ class _LevelPage extends State<LevelPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    page = const CircularProgressIndicator();
+
+    _loadData();
+  }
+
+  _loadData() async{
+
+    await _loadUserProgress();
     if (testList.isEmpty) {
-      _loadData();
+      await _loadTestAndUpdateProgress();
     }
+    _updatePage();
   }
 
   Widget _buildLevelsList() {
@@ -181,26 +191,28 @@ class _LevelPage extends State<LevelPage> {
     }
   }
 
-  _loadData() async {
-    await InheritedDataProvider.of(context)!
-        .databaseService
-        .getProgress()
-        .then((value) {
-      userProgress = value;
-    });
+  _loadTestAndUpdateProgress() async {
     testList =
-        (await InheritedDataProvider.of(context)!.databaseService.getTests())
+        (await DatabaseService().getTests())
             .toList();
     if (testList.length != userProgress.testStatuses.length) {
       for (var i = testList.length;
           i <= userProgress.testStatuses.length;
           i++) {
-        InheritedDataProvider.of(context)!
-            .databaseService
+        DatabaseService()
             .updateProgress(i, -1);
       }
     }
-    _updatePage();
+  }
+
+  Future _loadUserProgress() async {
+    await DatabaseService()
+        .getProgress()
+        .then((value) {
+      setState(() {
+        userProgress = value;
+      });
+    });
   }
 
   _updatePage() {
@@ -211,15 +223,12 @@ class _LevelPage extends State<LevelPage> {
 
   _updateResultAndUnlockNext(int result, int level) {
     if (userProgress.testStatuses[level] < result) {
-      InheritedDataProvider.of(context)!
-          .databaseService
-          .updateProgress(level, result);
+          DatabaseService().updateProgress(level, result);
       userProgress.testStatuses[level] = result;
       if (result == testList[level].taskIds.length &&
           level < testList.length - 1 &&
           userProgress.testStatuses[level + 1] == -1) {
-        InheritedDataProvider.of(context)!
-            .databaseService
+        DatabaseService()
             .updateProgress(level + 1, 0);
         userProgress.testStatuses[level + 1] = 0;
         didChangeDependencies();
@@ -269,5 +278,3 @@ class _LineBetweenLevels extends CustomPainter {
     return true;
   }
 }
-
-enum TestStatus { unlocked, locked, completed }

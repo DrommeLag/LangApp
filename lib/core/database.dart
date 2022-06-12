@@ -6,6 +6,14 @@ import 'package:lang_app/models/task.dart';
 import 'package:lang_app/models/test.dart';
 
 class DatabaseService {
+  DatabaseService._privateCons();
+
+  static final DatabaseService _instance = DatabaseService._privateCons();
+
+  factory DatabaseService() {
+    return _instance;
+  }
+  
   final CollectionReference<News> _newsRef = FirebaseFirestore.instance
       .collection('news')
       .withConverter(

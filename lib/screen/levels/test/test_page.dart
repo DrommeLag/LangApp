@@ -75,22 +75,23 @@ class _TestPage extends State<TestPage> {
               height: 50,
             ),
             Visibility(
+              visible: choosed != -1,
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
               child: MaterialButton(
                   minWidth: 170,
                   color: Theme.of(context).colorScheme.secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   onPressed: (isTested)
                       ? () {
                           widget.callback(isRight);
                         }
                       : onCheckTap,
                   child: Text((isTested) ? 'Далі' : 'Перевірити'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-              visible: choosed != -1,
-              maintainSize: true,
-              maintainState: true,
-              maintainAnimation: true,
+                  ),
             )
           ])
         ],

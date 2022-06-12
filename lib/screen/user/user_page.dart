@@ -22,8 +22,7 @@ class _UserPage extends State<UserPage> {
     Color iconColor = Theme.of(context).primaryColorLight;
     Color textColor = Theme.of(context).primaryColor;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
       children: [
         Container(
           decoration: const BoxDecoration(
@@ -38,7 +37,7 @@ class _UserPage extends State<UserPage> {
             buildTile(Icons.account_circle_outlined, 'Account settings',
                 textColor, iconColor,
                 callback: () =>
-                    materialPushPage(context, AccountSettingsPage())),
+                    materialPushPage(context, const AccountSettingsPage())),
             buildTile(Icons.star_border_outlined, 'Your achiebements',
                 textColor, iconColor),
             buildTile(Icons.settings_outlined, 'Settings', textColor, iconColor,
