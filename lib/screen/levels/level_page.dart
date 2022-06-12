@@ -94,7 +94,7 @@ class _LevelPage extends State<LevelPage> {
   late Widget page;
   List<Test> testList = <Test>[];
 
-  late UserProgress userProgress;
+  UserProgress? userProgress;
 
   @override
   Widget build(BuildContext context) {
@@ -108,15 +108,14 @@ class _LevelPage extends State<LevelPage> {
 
   @override
   void didChangeDependencies() {
+    _loadData();
+
     super.didChangeDependencies();
 
     page = const CircularProgressIndicator();
-
-    _loadData();
   }
 
-  _loadData() async{
-
+  _loadData() async {
     await _loadUserProgress();
     if (testList.isEmpty) {
       await _loadTestAndUpdateProgress();
@@ -141,7 +140,7 @@ class _LevelPage extends State<LevelPage> {
     } else {
       index -= 1;
       late TestStatus testStatus;
-      int testStatusInt = userProgress.testStatuses[index];
+      int testStatusInt = userProgress!.testStatuses[index];
       if (testStatusInt == testList[index].taskIds.length) {
         testStatus = TestStatus.completed;
       } else if (testStatusInt != -1) {
@@ -168,7 +167,7 @@ class _LevelPage extends State<LevelPage> {
                         _updateResultAndUnlockNext(result, index);
                       },
                       testStatus: testStatus,
-                      completed: userProgress.testStatuses[index]),
+                      completed: userProgress!.testStatuses[index]),
                 );
               },
               testStatus: testStatus,
@@ -192,45 +191,45 @@ class _LevelPage extends State<LevelPage> {
   }
 
   _loadTestAndUpdateProgress() async {
-    testList =
-        (await DatabaseService().getTests())
-            .toList();
-    if (testList.length != userProgress.testStatuses.length) {
+    testList = (await DatabaseService().getTests()).toList();
+    if (testList.length != userProgress!.testStatuses.length) {
       for (var i = testList.length;
-          i <= userProgress.testStatuses.length;
+          i <= userProgress!.testStatuses.length;
           i++) {
-        DatabaseService()
-            .updateProgress(i, -1);
+        DatabaseService().updateProgress(i, -1);
       }
     }
   }
 
   Future _loadUserProgress() async {
-    await DatabaseService()
-        .getProgress()
-        .then((value) {
-      setState(() {
+    await DatabaseService().getProgress().then((value) {
+      if (mounted) {
+        setState(() {
+          userProgress = value;
+        });
+      } else {
         userProgress = value;
-      });
+      }
     });
   }
 
   _updatePage() {
-    setState(() {
-      page = _buildLevelsList();
-    });
+    if (mounted) {
+      setState(() {
+        page = _buildLevelsList();
+      });
+    }
   }
 
   _updateResultAndUnlockNext(int result, int level) {
-    if (userProgress.testStatuses[level] < result) {
-          DatabaseService().updateProgress(level, result);
-      userProgress.testStatuses[level] = result;
+    if (userProgress!.testStatuses[level] < result) {
+      DatabaseService().updateProgress(level, result);
+      userProgress!.testStatuses[level] = result;
       if (result == testList[level].taskIds.length &&
           level < testList.length - 1 &&
-          userProgress.testStatuses[level + 1] == -1) {
-        DatabaseService()
-            .updateProgress(level + 1, 0);
-        userProgress.testStatuses[level + 1] = 0;
+          userProgress!.testStatuses[level + 1] == -1) {
+        DatabaseService().updateProgress(level + 1, 0);
+        userProgress!.testStatuses[level + 1] = 0;
         didChangeDependencies();
       }
     }

@@ -25,9 +25,7 @@ class _NewsPage extends State<NewsPage> {
   }
 
   _loadNews() async {
-    news = await DatabaseService() 
-        .getAllNews()
-        .then((value) => value.toList());
+    news = await DatabaseService().getAllNews().then((value) => value.toList());
     _updatePage();
   }
 
@@ -53,12 +51,14 @@ class _NewsPage extends State<NewsPage> {
   }
 
   void _updatePage() {
-    setState(() {
-      if (news.isEmpty) {
-        page = const CircularProgressIndicator();
-      } else {
-        page = _buildList();
-      }
-    });
+    if (mounted) {
+      setState(() {
+        if (news.isEmpty) {
+          page = const CircularProgressIndicator();
+        } else {
+          page = _buildList();
+        }
+      });
+    }
   }
 }
