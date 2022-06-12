@@ -10,6 +10,12 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPage extends State<MapPage> {
+  String language = "assets/images/language.png";
+  String culture = "assets/images/culture.png";
+  String attractions = "assets/images/attractions.png";
+  String imagePath = "assets/images/language.png";
+
+
   Widget buildTile(context) {
     return Align(
       alignment: Alignment.centerRight,
@@ -19,7 +25,7 @@ class _MapPage extends State<MapPage> {
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/attractions.png'),
+            image: AssetImage(imagePath),
           ),
         ),
       ),
@@ -29,7 +35,7 @@ class _MapPage extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints.expand(),
+      constraints: const BoxConstraints.expand(),
       child: Stack(
         children: [
           Scaffold(
@@ -39,7 +45,7 @@ class _MapPage extends State<MapPage> {
                 backgroundColor: const Color(0xff0068C9),
                 foregroundColor: Colors.white,
                 activeBackgroundColor: const Color(0xFFF2D84F),
-                activeForegroundColor: Colors.white,
+                activeForegroundColor: Colors.black,
                 buttonSize: 56.0,
                 visible: true,
                 closeManually: false,
@@ -48,48 +54,96 @@ class _MapPage extends State<MapPage> {
                 overlayOpacity: 0.5,
                 children: [
                   SpeedDialChild(
-                      //speed dial child
-                      child: const Icon(Icons.accessibility),
-                      label: 'Language'),
+                    child: const Icon(Icons.language_rounded),
+                    backgroundColor: const Color(0xFFF2D84F),
+                    foregroundColor: Colors.black,
+                    label: 'Мова',
+                    onTap: () {
+                      if (imagePath == attractions) {
+                        imagePath = language;
+                      } else if (imagePath == culture) {
+                        imagePath = language;
+                      } else {
+                        imagePath = language;
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: const Icon(Icons.people_outline_rounded),
+                    backgroundColor: const Color(0xFFF2D84F),
+                    foregroundColor: Colors.black,
+                    label: 'Культура',
+                    onTap: () {
+                      if (imagePath == attractions) {
+                        imagePath = culture;
+                      } else if (imagePath == language) {
+                        imagePath = culture;
+                      } else {
+                        imagePath = culture;
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: const Icon(Icons.location_on_outlined),
+                    backgroundColor: const Color(0xFFF2D84F),
+                    foregroundColor: Colors.black,
+                    label: "Пам'ятки",
+                    onTap: () {
+                      if (imagePath == culture) {
+                        imagePath = attractions;
+                      } else if (imagePath == culture) {
+                        imagePath = attractions;
+                      } else {
+                        imagePath = attractions;
+                      }
+                      setState(() {});
+                    },
+                  ),
                 ],
               ),
               body: Container()),
-          Image.asset('assets/images/ornament.png', fit: BoxFit.cover),
-          Image.asset('assets/images/ukraine.png'),
-          ConstrainedBox(
-            constraints:
-                BoxConstraints(maxWidth: 120, minWidth: 90, minHeight: 80),
-            child: ExpansionWidget(
-              titleBuilder:
-                  (double animationValue, _, bool isExpaned, toogleFunction) {
-                return InkWell(
-                    onTap: () => toogleFunction(animated: true),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Transform.rotate(
-                            angle: 3.14 * animationValue / 2,
-                            child: Icon(Icons.arrow_right, size: 40),
-                            alignment: Alignment.center,
-                          ),
-                          buildTile(context),
-                        ],
-                      ),
-                    );
-              },
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  buildTile(context),
-                  buildTile(context),
-                  buildTile(context),
-                  buildTile(context),
-                  buildTile(context),
-                ],
+          Align(
+              alignment: Alignment.center,
+              child: Image.asset('assets/images/ukraine.png')),
+          Align(
+            alignment: Alignment.topRight,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                  maxWidth: 120, minWidth: 90, minHeight: 80),
+              child: ExpansionWidget(
+                titleBuilder: (double animationValue, _, bool isExpanded,
+                    toggleFunction) {
+                  return InkWell(
+                    onTap: () => toggleFunction(animated: true),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Transform.rotate(
+                          angle: 3.14 * animationValue / 2,
+                          child: const Icon(Icons.arrow_right, size: 40),
+                          alignment: Alignment.center,
+                        ),
+                        buildTile(context),
+                      ],
+                    ),
+                  );
+                },
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    buildTile(context),
+                    buildTile(context),
+                    buildTile(context),
+                    buildTile(context),
+                    buildTile(context),
+                  ],
+                ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
