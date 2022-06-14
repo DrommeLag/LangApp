@@ -1,0 +1,18 @@
+{
+    "nameSurname": "Ім'я і прізвище",
+    "editDisplayName": "Змінити ім'я",
+    "editDisplayNameExp": "Введіть ваше ім'я та прізвище",
+    "@editDisplayNameExp": {
+                          "description": "Пояснення до зміни імені"
+                        },
+    "password": "Пароль",
+    "editPassword": "Змінити пароль",
+    "editPasswordExp": "Введіть ваш новий пароль",
+    "@editPasswordExp": {
+                      "description": "Пояснення до зміни паролю"
+                    },
+    "settings": "Налаштування",
+    "loading": "Завантаження",
+    "save": "Зберегти",
+    "logOut": "Вийти"
+}

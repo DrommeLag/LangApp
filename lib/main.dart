@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
-import 'package:lang_app/generated/l10n.dart';
 import 'package:lang_app/screen/main_screen.dart';
 import 'package:lang_app/screen/templates/gradients.dart';
 import 'package:lang_app/screen/themes.dart';
@@ -12,6 +11,7 @@ import 'package:lang_app/screen/user/settings/notifications/notification_api.dar
 import 'package:lang_app/screen/user/settings/settings_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
@@ -37,7 +37,6 @@ class _MyAppState extends State<MyApp> {
     NotificationApi.init();
     listenNotifications();
     tz.initializeTimeZones();
-
   }
 
   initFirestore() async {
@@ -67,13 +66,14 @@ class _MyAppState extends State<MyApp> {
       builder: (_, isDarkMode, __) => MaterialApp(
         //Localization
         localizationsDelegates: const [
-          S.delegate,
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: S.delegate.supportedLocales,
-
+        supportedLocales: const [
+          Locale('uk', ''), // Ukrainian
+        ],
         debugShowCheckedModeBanner: false,
         title: 'LangApp',
         theme: AppTheme().light,

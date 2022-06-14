@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/screen/home/home_page.dart';
 import 'package:lang_app/screen/levels/level_page.dart';
 
-import 'package:lang_app/screen/newsletter/news_page.dart';
+import 'package:lang_app/screen/map/map_page.dart';
 import 'package:lang_app/screen/user/user_page.dart';
 
-import 'newsletter/news_page.dart';
+import 'map/map_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _MainScreen extends State<MainScreen> {
   List<Widget> pages = const <Widget>[
     HomePage(), //0
     LevelPage(), //1
-    NewsPage(), //2
+    MapPage(), //2
     UserPage(), //3
   ];
 

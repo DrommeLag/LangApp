@@ -148,30 +148,30 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text('Display Name:', style: shadowStyle)),
-                textField(displayNameController, 'Enter display name',
-                    displayNameError ? 'Invalid name' : null),
+                    child: Text("Ваше ім'я:", style: shadowStyle)),
+                textField(displayNameController, "Введіть ваше ім'я",
+                    displayNameError ? "Неправильне ім'я" : null),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text('Email: ', style: shadowStyle)),
-                textField(emailController, 'Enter email',
-                    (emailError) ? 'Invalid email' : null),
+                    child: Text('Електронна пошта: ', style: shadowStyle)),
+                textField(emailController, 'Введіть вашу електронну пошту',
+                    (emailError) ? 'Неправильна пошта' : null),
                 const SizedBox(height: 15),
                 buildTile(
                     Icons.lock_outlined,
-                    'Change password',
+                    'Змінити пароль',
                     Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColorLight),
+                    Theme.of(context).primaryColor.withOpacity(0.5)),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text('Your place', style: shadowStyle)),
+                    child: Text('Ваше місце', style: shadowStyle)),
                 buildRegion(context),
                 const SizedBox(height: 10),
                 buildTile(
                   Icons.bug_report,
-                  'Report bug',
+                  'Повідомити про помилку',
                   Theme.of(context).colorScheme.error,
                   Theme.of(context).colorScheme.errorContainer.withOpacity(0.5),
                   callback: () async {
@@ -186,7 +186,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                     color: Theme.of(context).colorScheme.shadow,
                     minWidth: 230,
                     textColor: Theme.of(context).colorScheme.onPrimary,
-                    child: const Text('Exit'),
+                    child: const Text('Вийти'),
                   ),
                 ),
                 Center(
@@ -195,7 +195,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       color: Theme.of(context).colorScheme.errorContainer,
                       textColor: Theme.of(context).colorScheme.onError,
                       minWidth: 250,
-                      child: const Text('Delete and exit')),
+                      child: const Text('Видалити акаунт та вийти')),
                 )
               ],
             ),
