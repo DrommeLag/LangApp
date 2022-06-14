@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.drommelag.lang_app">
    <application
-        android:label="lang_app"
+        android:label="LangApp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
