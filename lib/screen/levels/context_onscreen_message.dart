@@ -62,7 +62,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
               color: Theme.of(context).colorScheme.shadow,
               size: textStyleForStatus.fontSize),
           Text(
-            'LOCKED',
+            'Закрито',
             style: textStyleForStatus.copyWith(
                 color: Theme.of(context).colorScheme.shadow),
           )
@@ -76,7 +76,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
             size: textStyleForStatus.fontSize,
           ),
           Text(
-            'Completed',
+            'Завершено',
             style: textStyleForStatus,
           )
         ];
@@ -108,7 +108,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'headline',
+                      test.name,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -130,11 +130,11 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                     ),
                     Text.rich(
                       TextSpan(
-                        text: "Format:",
+                        text: "Опис: ",
                         style: Theme.of(context).textTheme.titleMedium,
                         children: [
                           TextSpan(
-                            text: 'something about',
+                            text: test.description,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
@@ -149,7 +149,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                       height: 10,
                     ),
                     Text(
-                      'progress:',
+                      'Прогрес:',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(
@@ -179,7 +179,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                         child: Container(
                           alignment: Alignment.center,
                           color: Theme.of(context).colorScheme.shadow,
-                          child: Text('back',
+                          child: Text('Назад',
                               style: Theme.of(context).textTheme.titleLarge),
                         ),
                       ),
@@ -191,7 +191,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                           alignment: Alignment.center,
                           color: Theme.of(context).colorScheme.secondary,
                           child: Text(
-                            'next',
+                            'Почати',
                             style: nextButtonTextStyle,
                           ),
                         ),

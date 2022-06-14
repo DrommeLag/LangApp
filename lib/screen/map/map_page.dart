@@ -15,7 +15,6 @@ class _MapPage extends State<MapPage> {
   String attractions = "assets/images/attractions.png";
   String imagePath = "assets/images/language.png";
 
-
   Widget buildTile(context) {
     return Align(
       alignment: Alignment.centerRight,
@@ -109,7 +108,8 @@ class _MapPage extends State<MapPage> {
               child: Image.asset('assets/images/ukraine.png')),
           Align(
             alignment: Alignment.topRight,
-            child: ConstrainedBox(
+            child: Container(
+              margin: const EdgeInsets.all(10),
               constraints: const BoxConstraints(
                   maxWidth: 120, minWidth: 90, minHeight: 80),
               child: ExpansionWidget(
@@ -122,7 +122,10 @@ class _MapPage extends State<MapPage> {
                       children: [
                         Transform.rotate(
                           angle: 3.14 * animationValue / 2,
-                          child: const Icon(Icons.arrow_right, size: 40),
+                          child: Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Theme.of(context).colorScheme.shadow,
+                          ),
                           alignment: Alignment.center,
                         ),
                         buildTile(context),
@@ -143,7 +146,7 @@ class _MapPage extends State<MapPage> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
