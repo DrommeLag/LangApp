@@ -27,9 +27,34 @@ class AppTheme {
       ),
     );
     this.light = light;
+
+    
+    var dark = ThemeData.from(
+        colorScheme: ColorScheme(
+            brightness: Brightness.dark,
+            primary: const Color(0xff5b95fd),
+            primaryContainer: const Color(0xFF0068C9),
+            onPrimary: Colors.black,
+            secondary: const Color(0xFfffff7e),
+            secondaryContainer: const Color(0xFFF2d84c),
+            onSecondary: Colors.black,
+            error: Colors.red[800]!,
+            onError: Colors.black,
+            background: Colors.grey[900]!,
+            onBackground: Colors.white,
+            surface: const Color(0xFFbca70f),
+            onSurface: Colors.white,
+            shadow: Colors.grey[300]!),
+        textTheme: ThemeData.dark().textTheme
+            );
+    dark = dark.copyWith(
+      bottomNavigationBarTheme: light.bottomNavigationBarTheme.copyWith(
+        backgroundColor: light.colorScheme.primary,
+        selectedIconTheme: IconThemeData(color: light.colorScheme.secondary),
+      ),
+    );
+    this.dark = dark;
   }
   late final ThemeData light;
-  final ThemeData dark = ThemeData.from(
-      colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.orange, brightness: Brightness.dark));
-}
+  late final ThemeData dark;}
+
