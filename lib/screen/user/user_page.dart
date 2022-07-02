@@ -32,8 +32,7 @@ class _UserPage extends State<UserPage> {
           ),
           height: 200,
         ),
-        ListView(
-          shrinkWrap: true,
+        Column(
           children: [
             buildTile(Icons.account_circle_outlined, 'Налаштування акаунта',
                 textColor, iconColor,
@@ -46,9 +45,9 @@ class _UserPage extends State<UserPage> {
                     materialPushPage(context, const SettingsPage())),
             buildTile(Icons.light_mode_outlined, 'Змінити тему', textColor,
                 iconColor),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text('Потрібна допомога?'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 10),
+              child: const Text('Потрібна допомога?'),
             ),
             buildTile(
                 Icons.messenger_outline_sharp, 'Допомога', textColor, iconColor),
