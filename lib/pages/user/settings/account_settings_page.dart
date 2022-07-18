@@ -28,57 +28,6 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
   bool displayNameError = false;
   bool emailError = false;
 
-  onEditingDone() {
-    if (displayName != displayNameController.text ||
-        email != emailController.text) {
-      setState(() {
-        needsUpdate = true;
-      });
-    } else {
-      setState(() {
-        needsUpdate = false;
-      });
-    }
-  }
-
-  saveData() async {
-    DialogLoadingIndicator indicator = DialogLoadingIndicator(context);
-
-    if (displayName != displayNameController.text) {
-      if (displayNameController.text.isEmpty) {
-        indicator.pop();
-        setState(() {
-          displayNameError = true;
-        });
-      } else {
-        await AuthService()
-            .updateDisplayName(displayNameController.text)
-            .then((value) {
-          indicator.pop();
-          setState(() {
-            displayNameError = !value;
-          });
-        });
-      }
-    }
-
-    if (email != emailController.text) {
-      if (emailController.text.isEmpty) {
-        indicator.pop();
-        setState(() {
-          emailError = true;
-        });
-      } else {
-        await AuthService().updateEmail(emailController.text).then((value) {
-          indicator.pop();
-          setState(() {
-            emailError = !value;
-          });
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     TextStyle shadowStyle = Theme.of(context)
@@ -215,5 +164,56 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
 
     displayNameController = TextEditingController(text: displayName);
     emailController = TextEditingController(text: email);
+  }
+
+  onEditingDone() {
+    if (displayName != displayNameController.text ||
+        email != emailController.text) {
+      setState(() {
+        needsUpdate = true;
+      });
+    } else {
+      setState(() {
+        needsUpdate = false;
+      });
+    }
+  }
+
+  saveData() async {
+    DialogLoadingIndicator indicator = DialogLoadingIndicator(context);
+
+    if (displayName != displayNameController.text) {
+      if (displayNameController.text.isEmpty) {
+        indicator.pop();
+        setState(() {
+          displayNameError = true;
+        });
+      } else {
+        await AuthService()
+            .updateDisplayName(displayNameController.text)
+            .then((_) {
+          indicator.pop();
+          setState(() {
+            displayNameError = false;
+          });
+        });
+      }
+    }
+
+    if (email != emailController.text) {
+      if (emailController.text.isEmpty) {
+        indicator.pop();
+        setState(() {
+          emailError = true;
+        });
+      } else {
+        await AuthService().updateEmail(emailController.text).then((value) {
+          indicator.pop();
+          setState(() {
+            emailError = !value;
+          });
+        });
+      }
+    }
   }
 }
