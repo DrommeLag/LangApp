@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/level_loading_service.dart';
 import 'package:lang_app/models/progress.dart';
 import 'package:lang_app/models/test.dart';
-import 'package:lang_app/screen/levels/context_onscreen_message.dart';
-import 'package:lang_app/screen/templates/gradients.dart';
+import 'package:lang_app/pages/levels/context_onscreen_message.dart';
+import 'package:lang_app/pages/templates/gradients.dart';
 
 class LevelPage extends StatefulWidget {
   const LevelPage({Key? key}) : super(key: key);
@@ -92,9 +93,8 @@ class _Level extends StatelessWidget {
 
 class _LevelPage extends State<LevelPage> {
   late Widget page;
-  List<Test> testList = <Test>[];
+  late LevelsService levelsService;
 
-  UserProgress? userProgress;
 
   @override
   Widget build(BuildContext context) {
@@ -108,26 +108,23 @@ class _LevelPage extends State<LevelPage> {
 
   @override
   void didChangeDependencies() {
-    _loadData();
+    LevelsService.instance.then((value) {
+      levelsService = value;
+      _updatePage();
+  });
 
     super.didChangeDependencies();
 
     page = const CircularProgressIndicator();
   }
 
-  _loadData() async {
-    await _loadUserProgress();
-    if (testList.isEmpty) {
-      await _loadTestAndUpdateProgress();
-    }
-    _updatePage();
-  }
 
   Widget _buildLevelsList() {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 70),
       reverse: true,
-      itemCount: testList.length + 1,
+      //Using userProgress because it is sure loaded
+      itemCount: levelsService.userProgress.testStatuses.length + 1,
       itemBuilder: _listviewItemBuilder,
     );
   }
@@ -140,8 +137,8 @@ class _LevelPage extends State<LevelPage> {
     } else {
       index -= 1;
       late TestStatus testStatus;
-      int testStatusInt = userProgress!.testStatuses[index];
-      if (testStatusInt == testList[index].taskIds.length) {
+      int testStatusInt = levelsService.userProgress.testStatuses[index];
+      if (testStatusInt == levelsService.testList[index].taskIds.length) {
         testStatus = TestStatus.completed;
       } else if (testStatusInt != -1) {
         testStatus = TestStatus.unlocked;
@@ -149,7 +146,7 @@ class _LevelPage extends State<LevelPage> {
         testStatus = TestStatus.locked;
       }
       bool isRight = index % 2 == 0;
-      bool isLast = testList.length - 1 == index;
+      bool isLast = levelsService.testList.length - 1 == index;
 
       List<Widget> rowWidgets = [
         SizedBox(
@@ -162,12 +159,12 @@ class _LevelPage extends State<LevelPage> {
                 Navigator.push(
                   context,
                   ContextOnscreenMessage(
-                      test: testList[index],
+                      test: levelsService.testList[index],
                       onComplete: (result) {
-                        _updateResultAndUnlockNext(result, index);
+                        levelsService.updateResult(result, index);
                       },
                       testStatus: testStatus,
-                      completed: userProgress!.testStatuses[index]),
+                      completed: levelsService.userProgress.testStatuses[index]),
                 );
               },
               testStatus: testStatus,
@@ -190,30 +187,8 @@ class _LevelPage extends State<LevelPage> {
     }
   }
 
-  _loadTestAndUpdateProgress() async {
-    testList = (await DatabaseService().getTests()).toList();
-    if (testList.length != userProgress!.testStatuses.length) {
-      for (var i = testList.length;
-          i <= userProgress!.testStatuses.length;
-          i++) {
-        DatabaseService().updateProgress(i, -1);
-      }
-    }
-  }
 
-  Future _loadUserProgress() async {
-    await DatabaseService().getProgress().then((value) {
-      if (mounted) {
-        setState(() {
-          userProgress = value;
-        });
-      } else {
-        userProgress = value;
-      }
-    });
-  }
-
-  _updatePage() {
+  _updatePage() async{
     if (mounted) {
       setState(() {
         page = _buildLevelsList();
@@ -221,19 +196,6 @@ class _LevelPage extends State<LevelPage> {
     }
   }
 
-  _updateResultAndUnlockNext(int result, int level) {
-    if (userProgress!.testStatuses[level] < result) {
-      DatabaseService().updateProgress(level, result);
-      userProgress!.testStatuses[level] = result;
-      if (result == testList[level].taskIds.length &&
-          level < testList.length - 1 &&
-          userProgress!.testStatuses[level + 1] == -1) {
-        DatabaseService().updateProgress(level + 1, 0);
-        userProgress!.testStatuses[level + 1] = 0;
-        didChangeDependencies();
-      }
-    }
-  }
 }
 
 class _LineBetweenLevels extends CustomPainter {

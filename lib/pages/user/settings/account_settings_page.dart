@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
-import 'package:lang_app/screen/templates/dialog_loading.dart';
-import 'package:lang_app/screen/templates/gradients.dart';
-import 'package:lang_app/screen/templates/list_tile.dart';
-import 'package:lang_app/screen/user/settings/settings_page.dart';
+import 'package:lang_app/pages/templates/dialog_loading.dart';
+import 'package:lang_app/pages/templates/gradients.dart';
+import 'package:lang_app/pages/templates/list_tile.dart';
+import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountSettingsPage extends Material {

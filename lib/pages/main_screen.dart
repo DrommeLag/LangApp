@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/screen/home/home_page.dart';
-import 'package:lang_app/screen/levels/level_page.dart';
-
-import 'package:lang_app/screen/map/map_page.dart';
-import 'package:lang_app/screen/user/user_page.dart';
-
-import 'map/map_page.dart';
+import 'package:lang_app/pages/home/home_page.dart';
+import 'package:lang_app/pages/levels/level_page.dart';
+import 'package:lang_app/pages/map/map_page.dart';
+import 'package:lang_app/pages/user/user_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

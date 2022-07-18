@@ -1,17 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
-import 'package:lang_app/screen/main_screen.dart';
-import 'package:lang_app/screen/templates/gradients.dart';
-import 'package:lang_app/screen/themes.dart';
-import 'package:lang_app/screen/user/auth/auth_page.dart';
-import 'package:lang_app/screen/user/settings/notifications/notification_api.dart';
-import 'package:lang_app/screen/user/settings/settings_page.dart';
+import 'package:lang_app/pages/main_screen.dart';
+import 'package:lang_app/pages/templates/gradients.dart';
+import 'package:lang_app/pages/themes.dart';
+import 'package:lang_app/pages/user/auth/auth_page.dart';
+import 'package:lang_app/pages/user/settings/notifications/notification_api.dart';
+import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/screen/templates/gradients.dart';
-import 'package:lang_app/screen/templates/list_tile.dart';
-import 'package:lang_app/screen/templates/material_push_template.dart';
-import 'package:lang_app/screen/user/settings/account_settings_page.dart';
-import 'package:lang_app/screen/user/settings/settings_page.dart';
+import 'package:lang_app/pages/templates/gradients.dart';
+import 'package:lang_app/pages/templates/list_tile.dart';
+import 'package:lang_app/pages/templates/material_push_template.dart';
+import 'package:lang_app/pages/user/settings/account_settings_page.dart';
+import 'package:lang_app/pages/user/settings/settings_page.dart';
 
 import 'auth/auth_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
