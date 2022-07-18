@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/core/database.dart';
 import 'package:lang_app/models/task.dart';
 import 'package:lang_app/models/test.dart';
-import 'package:lang_app/screen/levels/test/test_page.dart';
-import 'package:lang_app/screen/levels/test/test_summary.dart';
+import 'package:lang_app/pages/levels/test/test_page.dart';
+import 'package:lang_app/pages/levels/test/test_summary.dart';
 
 class TestHolder extends StatefulWidget {
   TestHolder({Key? key, required this.test, required this.onComplete})
