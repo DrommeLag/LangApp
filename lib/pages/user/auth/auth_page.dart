@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database.dart';
-import 'package:lang_app/screen/main_screen.dart';
-import 'package:lang_app/screen/templates/highlighted_text.dart';
-import 'package:lang_app/screen/templates/input_text_field.dart';
-import 'package:lang_app/screen/templates/toast_error_message.dart';
+import 'package:lang_app/pages/main_screen.dart';
+import 'package:lang_app/pages/templates/highlighted_text.dart';
+import 'package:lang_app/pages/templates/input_text_field.dart';
+import 'package:lang_app/pages/templates/toast_error_message.dart';
 
 /**
  * TOTOTOOTODO: make invalid email/ password input field

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/models/test.dart';
-import 'package:lang_app/screen/levels/level_page.dart';
-import 'package:lang_app/screen/levels/test/test_holder.dart';
+import 'package:lang_app/pages/levels/level_page.dart';
+import 'package:lang_app/pages/levels/test/test_holder.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ContextOnscreenMessage extends ModalRoute<void> {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:lang_app/screen/user/settings/notifications/notification_api.dart';
+import 'package:lang_app/pages/user/settings/notifications/notification_api.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);

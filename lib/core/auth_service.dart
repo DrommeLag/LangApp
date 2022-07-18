@@ -80,19 +80,19 @@ class AuthService {
     return await signInWithEmailAndPassword(login, password);
   }
 
-  Future<bool> updateDisplayName(String name) async {
+  updateDisplayName(String name) async {
     User? user = _fAuth.currentUser;
     if (user == null) {
       throw "Error! User isn't logged in!!";
     }
     await user.updateDisplayName(name);
-    return true;
+    await user.reload();
   }
 
   bool get isLoggedIn => _fAuth.currentUser != null;
 
   User getUser() {
-    return _userCredential!.user!;
+    return _fAuth.currentUser!;
   }
 
   Future<bool> updateEmail(String email) async {
