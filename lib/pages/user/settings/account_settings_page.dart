@@ -6,7 +6,7 @@ import 'package:lang_app/pages/templates/dialog_loading.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class AccountSettingsPage extends Material {
   const AccountSettingsPage({Key? key}) : super(key: key);
@@ -124,8 +124,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                   Theme.of(context).colorScheme.error,
                   Theme.of(context).colorScheme.errorContainer.withOpacity(0.5),
                   callback: () async {
-                    await launchUrl(Uri.parse(
-                        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
+                    // await launchUrl(Uri.parse(
+                    //     "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
                   },
                 ),
                 const SizedBox(height: 30),

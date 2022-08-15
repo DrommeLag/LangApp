@@ -13,7 +13,7 @@ import 'package:lang_app/pages/user/settings/notifications/notification_api.dart
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-void main() async {
+main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

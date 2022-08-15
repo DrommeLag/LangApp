@@ -96,7 +96,7 @@ class _SettingsPage extends State<SettingsPage> {
         title: 'Тема додатку',
         settingKey: SettingsPage.keyDarkMode,
         selected:
-            Settings.getValue(SettingsPage.keyDarkMode, ThemeMode.system.index),
+            Settings.getValue(SettingsPage.keyDarkMode, defaultValue: ThemeMode.system.index),
         values: <int, String>{
           ThemeMode.system.index: 'Тема системи',
           ThemeMode.dark.index: 'Темна тема',
