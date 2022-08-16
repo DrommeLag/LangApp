@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/database.dart';
 import 'package:lang_app/models/news.dart';
+import 'package:lang_app/models/post.dart';
+import 'package:lang_app/pages/home/post_widget.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/input_text_field.dart';
 
@@ -47,18 +49,24 @@ class _HomePage extends State<HomePage> {
   }
 
   Widget _tabBuilder(String label) {
-    return Tab(text: label);
+    return Tab(
+      text: label,
+      height: 20,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     var containerBorder = BorderRadius.all(Radius.circular(10));
 
+    String filler =
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+
     return DefaultTabController(
       length: widget.categories.length,
       child: Scaffold(
         appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150),
+          preferredSize: Size.fromHeight(150),
           child: Column(
             children: [
               Stack(
@@ -129,13 +137,13 @@ class _HomePage extends State<HomePage> {
               TabBar(
                 tabs: widget.categories.map((e) => _tabBuilder(e)).toList(),
                 isScrollable: true,
-                labelStyle: Theme.of(context).textTheme.headline6,
-                labelColor: Colors.black,
+                labelStyle: Theme.of(context).textTheme.bodyLarge,
+                labelColor: Theme.of(context).colorScheme.primary,
                 indicator: UnderlineTabIndicator(
                     borderSide: BorderSide(
                       color: Colors.yellow,
                     ),
-                    insets: EdgeInsets.symmetric(horizontal: 15)),
+                    insets: EdgeInsets.symmetric(horizontal: 20)),
               ),
             ],
           ),
@@ -145,7 +153,25 @@ class _HomePage extends State<HomePage> {
 
             //Body
             TabBarView(
-          children: widget.categories.map((e) => Text(e)).toList(),
+          children: widget.categories
+              .map(
+                (e) => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: ListView(
+                  children: List.filled(
+                    5,
+                    PostWidget(
+                      () {},
+                      Post(
+                        e,
+                        filler,
+                        const AssetImage("assets/tests/test.png"),
+                      ),
+                    ),
+                  ),
+                ),
+              ),)
+              .toList(),
         ),
       ),
     );
