@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/task.dart';
 import 'package:lang_app/models/test.dart';
 import 'package:lang_app/pages/levels/test/test_page.dart';

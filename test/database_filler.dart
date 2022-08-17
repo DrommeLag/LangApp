@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lang_app/core/auth_service.dart';
-import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/test.dart';
 
 Future<void> main() async {

@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lang_app/models/post.dart';
+import 'package:lang_app/models/article.dart';
 
-class PostWidget extends StatelessWidget {
-  const PostWidget(this.feedback, this.post, {Key? key}) : super(key: key);
+class ArticleWidget extends StatelessWidget {
+  const ArticleWidget(this.feedback, this.post, {Key? key}) : super(key: key);
 
   final Function() feedback;
 
-  final Post post;
+  final Article post;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,7 @@ class PostWidget extends StatelessWidget {
         Text(
           post.label,
           textAlign: TextAlign.start,
-          style: theme.textTheme.headlineSmall!
-              .copyWith(color: theme.colorScheme.primaryContainer),
+          style: theme.textTheme.headlineSmall
         ),
         SizedBox(
           height: 20,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/auth_service.dart';
-import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/pages/main_screen.dart';
 import 'package:lang_app/pages/templates/highlighted_text.dart';
 import 'package:lang_app/pages/templates/input_text_field.dart';

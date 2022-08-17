@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
-import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/pages/main_screen.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/themes.dart';
