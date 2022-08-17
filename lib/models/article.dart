@@ -7,7 +7,7 @@ class Article {
 
   final Future<String> Function() _getRestText;
 
-  String? restText = null;
+  String? restText;
 
   String get text => shortDescription + ((restText == null) ? '' : restText!);
 

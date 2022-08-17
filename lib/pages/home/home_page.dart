@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/database_service.dart';
-import 'package:lang_app/models/news.dart';
 import 'package:lang_app/models/article.dart';
 import 'package:lang_app/pages/home/article_page.dart';
 import 'package:lang_app/pages/home/headline_article_widget.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
-import 'package:lang_app/pages/templates/input_text_field.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   var searchController = TextEditingController();
 
-  var _textInputFocus = FocusNode();
+  final _textInputFocus = FocusNode();
 
   @override
   void initState() {
@@ -40,12 +37,12 @@ class _HomePage extends State<HomePage> {
     super.dispose();
   }
 
-  var _borderAsPadding = EdgeInsets.all(1);
+  var _borderAsPadding = const EdgeInsets.all(1);
   _toggleFocusInInput() {
     if (_textInputFocus.hasFocus) {
-      _borderAsPadding = EdgeInsets.all(2);
+      _borderAsPadding = const EdgeInsets.all(2);
     } else {
-      _borderAsPadding = EdgeInsets.all(1);
+      _borderAsPadding = const EdgeInsets.all(1);
     }
     setState(() {});
   }
@@ -59,27 +56,18 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var containerBorder = BorderRadius.all(Radius.circular(10));
+    var containerBorder = const BorderRadius.all(Radius.circular(10));
 
     String filler =
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
     String longDesc =
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        + "\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]"
-        + "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        + "\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]"
-        +"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        + "\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]"
-        +"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        + "\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]"
-        +"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        + "\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]";
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]";
     return DefaultTabController(
       length: widget.categories.length,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(150),
+          preferredSize: const Size.fromHeight(150),
           child: Column(
             children: [
               Stack(
@@ -101,7 +89,7 @@ class _HomePage extends State<HomePage> {
                   //TextField
                   //Border
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 30),
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
                     height: 50,
                     decoration: BoxDecoration(
                       gradient: searchbarGradient,
@@ -121,7 +109,7 @@ class _HomePage extends State<HomePage> {
 
                         //TextField itself
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: TextField(
                             controller: searchController,
                             style: Theme.of(context).textTheme.titleMedium,
@@ -132,7 +120,7 @@ class _HomePage extends State<HomePage> {
                                   .inputDecorationTheme
                                   .hintStyle,
                               isDense: true,
-                              contentPadding: EdgeInsets.all(10),
+                              contentPadding: const EdgeInsets.all(10),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius: containerBorder,
@@ -152,7 +140,7 @@ class _HomePage extends State<HomePage> {
                 isScrollable: true,
                 labelStyle: Theme.of(context).textTheme.bodyLarge,
                 labelColor: Theme.of(context).colorScheme.primary,
-                indicator: UnderlineTabIndicator(
+                indicator: const UnderlineTabIndicator(
                     borderSide: BorderSide(
                       color: Colors.yellow,
                     ),
@@ -175,7 +163,7 @@ class _HomePage extends State<HomePage> {
               () async => longDesc,
             );
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: ListView(
                 children: List.filled(
                   5,

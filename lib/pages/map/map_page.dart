@@ -122,11 +122,11 @@ class _MapPage extends State<MapPage> {
                       children: [
                         Transform.rotate(
                           angle: 3.14 * animationValue / 2,
+                          alignment: Alignment.center,
                           child: Icon(
                             Icons.arrow_forward_ios_outlined,
                             color: Theme.of(context).colorScheme.shadow,
                           ),
-                          alignment: Alignment.center,
                         ),
                         buildTile(context),
                       ],

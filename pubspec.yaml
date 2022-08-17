@@ -72,6 +72,8 @@ dependencies:
   #for floating action buttons
   flutter_speed_dial: ^4.3.0
   expansion_widget: ^0.0.3
+    
+  collection: ^1.16.0
 
 dev_dependencies:
   flutter_test:

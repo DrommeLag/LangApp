@@ -21,13 +21,13 @@ class ArticleWidget extends StatelessWidget {
           textAlign: TextAlign.start,
           style: theme.textTheme.headlineSmall
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Image(
           image: post.image,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Text(post.shortDescription),
@@ -38,7 +38,7 @@ class ArticleWidget extends StatelessWidget {
                   .copyWith(color: theme.colorScheme.primary),
               recognizer: TapGestureRecognizer()..onTap = feedback),
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
       ],

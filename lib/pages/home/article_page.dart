@@ -6,10 +6,11 @@ import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:collection/collection.dart';
 
 class ArticlePage extends StatefulWidget {
-  ArticlePage({Key? key, required this.article}) : super(key: key) {
-    loadIndicator = article.loadRestText();
-  }
-  late Future<void> loadIndicator;
+  ArticlePage({Key? key, required this.article})
+      : loadIndicator = article.loadRestText(),
+        super(key: key);
+
+  final Future<void> loadIndicator;
 
   final Article article;
 
@@ -38,10 +39,10 @@ class _ArticlePage extends State<ArticlePage> {
 
   Widget imageRoundedAndWithPadding(Widget child) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: ClipRRect(
-        child: child,
         borderRadius: BorderRadius.circular(10),
+        child: child,
       ),
     );
   }
@@ -79,7 +80,8 @@ class _ArticlePage extends State<ArticlePage> {
         ],
       );
     } else {
-      body = Container(
+      body = const Align(
+        alignment: Alignment.center,
         child: CircularProgressIndicator(),
       );
     }
@@ -88,45 +90,53 @@ class _ArticlePage extends State<ArticlePage> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(130),
+          preferredSize: const Size.fromHeight(130),
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+                gradient: backgroundGradient,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(10))),
             child: Row(
               children: [
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                    child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: theme.colorScheme.secondary),
-                  width: 40,
-                  height: 40,
-                  alignment: Alignment.center,
-                  child: Icon(Icons.arrow_back, size: 20,)
-                ),),
-                Spacer(),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          color: theme.colorScheme.secondary),
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.arrow_back,
+                        size: 20,
+                      )),
+                ),
+                const Spacer(),
                 GestureDetector(
                   onTap: () => log("Share clicked"),
-                    child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: theme.colorScheme.secondary),
-                  width: 40,
-                  height: 40,
-                  alignment: Alignment.center,
-                  child: Icon(Icons.share, size: 20,)
-                ),),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          color: theme.colorScheme.secondary),
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.share,
+                        size: 20,
+                      )),
+                ),
               ],
             ),
-            decoration: BoxDecoration(
-                gradient: backgroundGradient,
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(10))),
           ),
         ),
         body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: body,
-          padding: EdgeInsets.symmetric(horizontal: 30),
         ));
   }
 

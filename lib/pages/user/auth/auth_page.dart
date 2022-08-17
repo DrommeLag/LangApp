@@ -6,9 +6,7 @@ import 'package:lang_app/pages/templates/highlighted_text.dart';
 import 'package:lang_app/pages/templates/input_text_field.dart';
 import 'package:lang_app/pages/templates/toast_error_message.dart';
 
-/**
- * TOTOTOOTODO: make invalid email/ password input field
- */
+/// TODO TOOTODO: make invalid email/ password input field
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
