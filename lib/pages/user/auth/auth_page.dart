@@ -80,14 +80,17 @@ class _AuthPageState extends State<AuthPage> {
   loginButtonAction(BuildContext context) {
     var email = _emailController.text;
     var password = _passwordController.text;
-    if (email.isNotEmpty && password.isNotEmpty) {
+    if (email.isEmpty) {
+      showToastErrorMessage("Без імейлу не пройдете!");
+    }
+    else if (password.isEmpty) {
+      showToastErrorMessage("Ми впевнені, що ви створювали пароль. Тож введіть його, не соромтесь☺");
+    }
+    else {
       Future<bool>? result =
-          AuthService()
+      AuthService()
           .signInWithEmailAndPassword(email, password);
       goForwardIfTrue(result);
-    } else {
-      showToastErrorMessage(
-          'Не можемо вас залогінити. Перевірте свій email/пароль.');
     }
   }
 
@@ -129,14 +132,19 @@ class _AuthPageState extends State<AuthPage> {
     var surname = _sureNameController.text;
     var email = _emailController.text;
     var password = _passwordController.text;
-
-    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+    if (name.isEmpty) {
+      showToastErrorMessage("Секретні ви наші, ім'я не може бути пустим!☺");
+    }
+    else if (email.isEmpty){
+      showToastErrorMessage("Без імейлу - то прикол, але все ж краще введіть його!☺");
+    }
+    else if (password.isEmpty){
+      showToastErrorMessage("Без паролю??? Ви що, хочете щоб вас взламали легше, ніж то і так є?");
+    }
+    else {
       var result = AuthService()
           .registerWithEmailAndPassword(name, surname, email, password);
       goForwardIfTrue(result);
-    } else {
-      showToastErrorMessage(
-          "Не можемо вас зареєструвати. Перевірте ім'я/email/пароль.");
     }
   }
 

@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
@@ -14,9 +16,9 @@ class AuthService {
   } 
 
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
+
   final _storage = const FlutterSecureStorage();
   UserCredential? _userCredential;
-
 
   String get uid => _userCredential!.user!.uid;
 
@@ -43,19 +45,41 @@ class AuthService {
   //Return true if success
   Future<bool> registerWithEmailAndPassword(
       String name, String? surname, String email, String password) async {
+    var acs = ActionCodeSettings(
+      // URL you want to redirect back to. The domain (www.example.com) for this
+      // URL must be whitelisted in the Firebase Console.
+        url: 'https://www.example.com/finishSignUp?cartId=1234',
+        // This must be true
+        handleCodeInApp: true,
+        iOSBundleId: 'com.example.ios',
+        androidPackageName: 'com.example.android',
+        // installIfNotAvailable
+        androidInstallApp: true,
+        // minimumVersion
+        androidMinimumVersion: '12');
     try {
       _userCredential = await _fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      await _fAuth.currentUser?.reload();
-      _fAuth.currentUser?.updateDisplayName("$name ${(surname ?? '')}");
-      bool out = _fAuth.currentUser != null;
-      if (out) {
-        _storage.write(key: "login", value: email);
-        _storage.write(key: "password", value: password);
-        return true;
-      } else {
-        return false;
+      User? user = FirebaseAuth.instance.currentUser;
+      print(user != null);
+      if (user != null && !user.emailVerified) {
+        print("Sending...");
+        await user.sendEmailVerification().then((value) => print("sent"));
       }
+      if (user!.emailVerified)
+        {
+          await _fAuth.currentUser?.reload();
+          _fAuth.currentUser?.updateDisplayName("$name ${(surname ?? '')}");
+          bool out = _fAuth.currentUser != null;
+          if (out) {
+          _storage.write(key: "login", value: email);
+          _storage.write(key: "password", value: password);
+          return true;
+          } else {
+          return false;
+          }
+        }
+      return false;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         print(error.toString());
