@@ -144,6 +144,7 @@ class _AuthPageState extends State<AuthPage> {
     else {
       var result = AuthService()
           .registerWithEmailAndPassword(name, surname, email, password);
+      showToastErrorMessage("Надіслали Вам листа з підтвердженянм імейлу (Перевірте спам, наш розробник, себто я, півроку не міг зрозуміти куди скидується цей лист, поки не перевірив спам...)");
       goForwardIfTrue(result);
     }
   }
