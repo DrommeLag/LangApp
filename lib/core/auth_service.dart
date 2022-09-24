@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:lang_app/pages/templates/toast_error_message.dart';
 
 class AuthService {
   AuthService._privateCons();
@@ -25,13 +26,20 @@ class AuthService {
   //Return true if success
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     try {
-      _userCredential = await _fAuth.signInWithEmailAndPassword(email: email, password: password);
-      bool out = _fAuth.currentUser != null;
-      if (out) {
-        _storage.write(key: "login", value: email);
-        _storage.write(key: "password", value: password);
-        return true;
-      } else {
+      _userCredential = await _fAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (_fAuth.currentUser!.emailVerified) {
+        bool out = _fAuth.currentUser != null;
+        if (out) {
+          _storage.write(key: "login", value: email);
+          _storage.write(key: "password", value: password);
+          return true;
+        } else {
+          return false;
+        }
+      }
+      else {
+        showToastErrorMessage("Ваш акаунт ще не верифікований - чекніть імейл (особливо спам, порада від розробника)");
         return false;
       }
     } on FirebaseException catch (error) {
