@@ -102,7 +102,9 @@ flutter:
     - assets/images/language.png
     - assets/images/culture.png
     - assets/images/attractions.png
-    - assets/images/culture_preview.png
+    - assets/images/ethimology/culture_preview.png
+    - assets/images/ethimology/history_preview.png
+    - assets/images/ethimology/citizens_preview.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

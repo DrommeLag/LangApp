@@ -1,7 +1,7 @@
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:lang_app/pages/culture/culture_page.dart';
+import 'package:lang_app/pages/ethimology/browse_page.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 
 class MapPage extends StatefulWidget {
@@ -83,7 +83,7 @@ class _MapPage extends State<MapPage> {
                       } else {
                         imagePath = culture;
                       }
-                      materialPushPage(context, CulturePage());
+                      materialPushPage(context, BrowsePage());
                       setState(() {});
                     },
                   ),

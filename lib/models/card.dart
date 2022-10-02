@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lang_app/pages/templates/material_push_template.dart';
 
 class StyledCard extends StatelessWidget {
   final String title;
   final String description;
   final String imagePath;
+  final Widget page;
 
-  StyledCard(this.title, this.description, this.imagePath);
+  StyledCard(this.title, this.description, this.imagePath, this.page);
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +17,14 @@ class StyledCard extends StatelessWidget {
           .colorScheme
           .secondaryContainer,
       child: InkWell(
-        splashColor: Colors.yellow[600],
+        splashColor: Theme.of(context).colorScheme.surface,
         onTap: () {
           debugPrint('Card tapped.');
+          materialPushPage(context, page);
         },
         child: SizedBox(
           width: 50,
-          height: 300,
+          height: 310,
           child: Center(
               child: Column(
                 children: [
