@@ -5,6 +5,8 @@ import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/pages/templates/dialog_loading.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
+import 'package:lang_app/pages/templates/material_push_template.dart';
+import 'package:lang_app/pages/user/auth/auth_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -135,7 +137,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 30),
                 Center(
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () => materialPushPage(context, const AuthPage()),
                     color: theme.colorScheme.shadow,
                     minWidth: 230,
                     textColor: theme.colorScheme.onPrimary,
