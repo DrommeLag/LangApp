@@ -16,21 +16,19 @@ class ArticleWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          post.label,
-          textAlign: TextAlign.start,
-          style: theme.textTheme.headlineSmall
-        ),
+        Text(post.label,
+            textAlign: TextAlign.start, style: theme.textTheme.headlineSmall),
         const SizedBox(
           height: 20,
         ),
         Image(
-          image: post.image,
+          image: post.article[0].image,
         ),
         const SizedBox(
           height: 20,
         ),
-        Text(post.shortDescription),
+        Text(post.article[1].text!
+            .substring(0, post.article[1].text!.indexOf(' ', 200) - 1)),
         Text.rich(
           TextSpan(
               text: 'Read more',

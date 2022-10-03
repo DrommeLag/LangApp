@@ -1,5 +1,11 @@
+import 'dart:developer';
+
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/article.dart';
+import 'package:lang_app/models/article_tag.dart';
 import 'package:lang_app/pages/home/article_page.dart';
 import 'package:lang_app/pages/home/headline_article_widget.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
@@ -29,6 +35,10 @@ class _HomePage extends State<HomePage> {
   void initState() {
     super.initState();
     _textInputFocus.addListener(_toggleFocusInInput);
+
+    for (var cat in ArticleCategory.values) {
+      _listLoader(cat);
+    }
   }
 
   @override
@@ -54,15 +64,37 @@ class _HomePage extends State<HomePage> {
     );
   }
 
+  List<bool> isAll = List.filled(ArticleCategory.values.length, false);
+  List<List<Article>> buffer = ArticleCategory.values.map((e) => <Article>[]).toList();
+  List<ScrollController> controllers =
+      ArticleCategory.values.map((_) => ScrollController()).toList();
+
+  void _listLoader(ArticleCategory category) async {
+    await DatabaseService()
+        .getRecentArticleByCategory(
+            category, buffer[category.index].lastOrNull?.publishing)
+        .then((value) => buffer[category.index].addAll(value));
+    if (buffer[category.index].length % 10 != 0) {
+      isAll[category.index] = true;
+    }
+
+    setState(() {});
+  }
+
+  bool _handleScrollNotification(
+      ScrollNotification notification, ArticleCategory category) {
+    if (notification is ScrollEndNotification) {
+      if (controllers[category.index].position.extentAfter == 0) {
+        _listLoader(category);
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     var containerBorder = const BorderRadius.all(Radius.circular(10));
 
-    String filler =
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-
-    String longDesc =
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\\img[https://www.verywellmind.com/thmb/yzwrx39kF66ZyCPi9RbkmwD8qP8=/800x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-172163714-56910a493df78cafda818537.jpg]";
     return DefaultTabController(
       length: widget.categories.length,
       child: Scaffold(
@@ -136,7 +168,9 @@ class _HomePage extends State<HomePage> {
 
               //Categories
               TabBar(
-                tabs: widget.categories.map((e) => _tabBuilder(e)).toList(),
+                tabs: ArticleCategory.values
+                    .map((e) => _tabBuilder(e.name))
+                    .toList(),
                 isScrollable: true,
                 labelStyle: Theme.of(context).textTheme.bodyLarge,
                 labelColor: Theme.of(context).colorScheme.primary,
@@ -154,29 +188,22 @@ class _HomePage extends State<HomePage> {
 
             //Body
             TabBarView(
-//TODO: rewrite on deployment. ONLY FOR TESTS
-          children: widget.categories.map((e) {
-            var article = Article(
-              e,
-              filler,
-              const AssetImage("assets/tests/test.png"),
-              () async => longDesc,
-            );
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: ListView(
-                children: List.filled(
-                  5,
-                  ArticleWidget(
-                    () => materialPushPage(
-                        context, ArticlePage(article: article)),
-                    article,
-                  ),
+          children: ArticleCategory.values
+              .map(
+                (e) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: NotificationListener<ScrollNotification>(
+                      onNotification: (notification) =>
+                          _handleScrollNotification(notification, e),
+                      child: ListView(
+                        controller: controllers[e.index],
+                        children: buffer[e.index]
+                            .map((a) => ArticleWidget(() {materialPushPage(context, ArticlePage(article: a));}, a))
+                            .toList(),
+                      )),
                 ),
-              ),
-            );
-          }).toList(),
-//Up to here
+              )
+              .toList(),
         ),
       ),
     );
