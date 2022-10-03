@@ -92,7 +92,7 @@ class _SettingsPage extends State<SettingsPage> {
 
 
   Widget buildDarkMode() {
-    return RadioModalSettingsTile(
+    return RadioModalSettingsTile<int>(
         title: 'Тема додатку',
         settingKey: SettingsPage.keyDarkMode,
         selected:
