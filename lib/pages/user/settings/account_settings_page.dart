@@ -7,6 +7,7 @@ import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
+import 'package:lang_app/pages/user/settings/password/password_change_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -110,10 +111,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                     (emailError) ? 'Неправильна пошта' : null),
                 const SizedBox(height: 15),
                 buildTile(
-                    Icons.lock_outlined,
-                    'Змінити пароль',
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColor.withOpacity(0.5)),
+                    Icons.lock_outlined, 'Змінити пароль', Theme.of(context).primaryColor, Theme.of(context).primaryColor.withOpacity(0.5),
+                    callback: () => materialPushPage(context, const PasswordChangePage())),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
@@ -126,8 +125,14 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                   Theme.of(context).colorScheme.error,
                   Theme.of(context).colorScheme.errorContainer.withOpacity(0.5),
                   callback: () async {
-                    await launchUrl(Uri.parse(
-                        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
+                    String email = Uri.encodeComponent("drommelagua@gmail.com");
+                    String subject = Uri.encodeComponent("Звіт щодо помилки");
+                    Uri mail = Uri.parse("mailto:$email?subject=$subject");
+                    if (await launchUrl(mail)) {
+                      //open email app
+                    } else {
+                      //don't open email app
+                    }
                   },
                 ),
                 const SizedBox(height: 30),

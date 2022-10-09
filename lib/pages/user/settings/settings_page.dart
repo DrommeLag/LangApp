@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/pages/user/settings/notifications/notifications_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -66,7 +67,16 @@ class _SettingsPage extends State<SettingsPage> {
       title: "Надіслати фідбек",
       subtitle: "",
       leading: const Icon(Icons.thumb_up),
-      onTap: () {},
+      onTap: () async {
+        String email = Uri.encodeComponent("drommelagua@gmail.com");
+        String subject = Uri.encodeComponent("Фідбек");
+        Uri mail = Uri.parse("mailto:$email?subject=$subject");
+        if (await launchUrl(mail)) {
+          //open email app
+        } else {
+          //don't open email app
+        }
+      },
     );
   }
 

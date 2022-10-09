@@ -11,7 +11,7 @@ class AuthService {
 
   factory AuthService(){
     return _instance;
-  } 
+  }
 
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
   final _storage = const FlutterSecureStorage();
@@ -23,7 +23,8 @@ class AuthService {
   //Return true if success
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     try {
-      _userCredential = await _fAuth.signInWithEmailAndPassword(email: email, password: password);
+      _userCredential =
+      await _fAuth.signInWithEmailAndPassword(email: email, password: password);
       bool out = _fAuth.currentUser != null;
       if (out) {
         _storage.write(key: "login", value: email);
@@ -41,8 +42,8 @@ class AuthService {
   }
 
   //Return true if success
-  Future<bool> registerWithEmailAndPassword(
-      String name, String? surname, String email, String password) async {
+  Future<bool> registerWithEmailAndPassword(String name, String? surname,
+      String email, String password) async {
     try {
       _userCredential = await _fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -101,7 +102,7 @@ class AuthService {
       throw "Error! USer isn't logged in!";
     }
     try {
-      if(!await loadLoginInfo()){
+      if (!await loadLoginInfo()) {
         throw 'We are doomed!!';
       }
       await user.updateEmail(email);
@@ -113,6 +114,23 @@ class AuthService {
       log(a.message ?? 'Without');
       return false;
     }
-    
+  }
+
+  Future<bool> updatePassword(String newPassword) async {
+    User? user = _fAuth.currentUser;
+    if (user == null) {
+      throw "Error! User isn't logged in!";
+    }
+    try {
+      if (!await loadLoginInfo()) {
+        throw 'No user info';
+      }
+      await user.updatePassword(newPassword);
+      user.reload();
+      return true;
+    } on FirebaseAuthException catch (a) {
+      log(a.message ?? 'Without');
+      return false;
+    }
   }
 }
