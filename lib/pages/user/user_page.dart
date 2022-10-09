@@ -4,6 +4,7 @@ import 'package:lang_app/pages/templates/list_tile.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/settings/account_settings_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
+import 'package:lang_app/pages/user/settings/theme/theme_page.dart';
 
 import 'auth/auth_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -43,8 +44,9 @@ class _UserPage extends State<UserPage> {
             buildTile(Icons.settings_outlined, 'Налаштування', textColor, iconColor,
                 callback: () =>
                     materialPushPage(context, const SettingsPage())),
-            buildTile(Icons.light_mode_outlined, 'Змінити тему', textColor,
-                iconColor),
+            buildTile(Icons.light_mode_outlined, 'Змінити тему', textColor, iconColor,
+                callback: () =>
+                    materialPushPage(context, const ThemePage())),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 10),
               child: const Text('Потрібна допомога?'),

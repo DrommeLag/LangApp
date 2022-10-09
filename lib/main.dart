@@ -10,7 +10,7 @@ import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/themes.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
 import 'package:lang_app/pages/user/settings/notifications/notification_api.dart';
-import 'package:lang_app/pages/user/settings/settings_page.dart';
+import 'package:lang_app/pages/user/settings/theme/theme_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ValueChangeObserver<int>(
-      cacheKey: SettingsPage.keyDarkMode,
+      cacheKey: ThemePage.keyDarkMode,
       defaultValue: ThemeMode.system.index,
       builder: (_, isDarkMode, __) => MaterialApp(
         //Localization
