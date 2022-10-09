@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     setState(() {
-      home = loggedIn ? const MainScreen() : const AuthPage();
+      home = loggedIn ? const MainScreen(index: 0,) : const AuthPage();
     });
   }
 

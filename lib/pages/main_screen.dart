@@ -5,7 +5,8 @@ import 'package:lang_app/pages/map/map_page.dart';
 import 'package:lang_app/pages/user/user_page.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key, required this.index}) : super(key: key);
+  final int index;
 
   @override
   State<MainScreen> createState() => _MainScreen();
@@ -20,10 +21,16 @@ class _MainScreen extends State<MainScreen> {
     UserPage(), //3
   ];
 
-  _onTap(int a) {
+  _onTap(int index) {
     setState(() {
-      pos = a;
+      pos = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    pos = widget.index;
   }
 
   @override
