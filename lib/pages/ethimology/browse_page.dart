@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/pages/ethimology/culture/culture_page.dart';
 import 'package:lang_app/pages/main_screen.dart';
-import 'package:lang_app/pages/templates/material_push_template.dart';
+import 'package:lang_app/pages/templates/styled_elevated_button.dart';
 
 import '../../models/card.dart';
 import '../home/home_page.dart';
@@ -26,7 +26,13 @@ class _BrowsePageState extends State<BrowsePage> {
   ];
 
   _onTap(int index) {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(index: index)));
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(index: index)));
+    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(index: index)));
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(index: index)), (route) => false);
+  }
+
+  _onPressed() {
+
   }
 
   @override
@@ -35,14 +41,27 @@ class _BrowsePageState extends State<BrowsePage> {
       appBar: AppBar(
         title: const Text("Let it be Volyn"),
       ),
-      body: Center(
-        child: ListView(
-          children: [
-            StyledCard("Культура", "", "assets/images/ethimology/culture_preview.png", CulturePage()),
-            StyledCard("Населення", "", "assets/images/ethimology/citizens_preview.png", CulturePage()),
-            StyledCard("Історичні події", "", "assets/images/ethimology/history_preview.png", CulturePage()),
-          ],
-        ),
+      body:  ListView(
+        children: [
+          Container(
+            height: 60,
+            color: Theme.of(context).colorScheme.primaryContainer,
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                StyledElevatedButton(onPressed: () {}, child: const Text("VIII - IX ст"),),
+                StyledElevatedButton(onPressed: () {}, child: const Text("X - XII ст"),),
+                StyledElevatedButton(onPressed: () {}, child: const Text("XIII - XV ст"),),
+                StyledElevatedButton(onPressed: () {}, child: const Text("XVI - XVIII ст"),),
+                StyledElevatedButton(onPressed: () {}, child: const Text("XIX - XXI ст"),),
+              ],
+            ),
+          ),
+          StyledCard("Культура", "", "assets/images/ethimology/culture_preview.png", CulturePage()),
+          StyledCard("Населення", "", "assets/images/ethimology/citizens_preview.png", CulturePage()),
+          StyledCard("Історичні події", "", "assets/images/ethimology/history_preview.png", CulturePage()),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
