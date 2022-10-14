@@ -12,10 +12,8 @@ class StyledCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme
-          .of(context)
-          .colorScheme
-          .secondaryContainer,
+      color: Colors.transparent,
+      elevation: 0,
       child: InkWell(
         splashColor: Theme.of(context).colorScheme.surface,
         onTap: () {
