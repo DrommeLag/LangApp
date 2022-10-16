@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lang_app/pages/ethimology/culture/culture_page.dart';
 import 'package:lang_app/pages/main_screen.dart';
@@ -17,6 +19,7 @@ class BrowsePage extends StatefulWidget {
 }
 
 class _BrowsePageState extends State<BrowsePage> {
+  var isSelected = 0;
   int pos = 2;
   List<Widget> pages = const <Widget>[
     HomePage(), //0
@@ -26,13 +29,7 @@ class _BrowsePageState extends State<BrowsePage> {
   ];
 
   _onTap(int index) {
-    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(index: index)));
-    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(index: index)));
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(index: index)), (route) => false);
-  }
-
-  _onPressed() {
-
   }
 
   @override
@@ -44,17 +41,38 @@ class _BrowsePageState extends State<BrowsePage> {
       body:  ListView(
         children: [
           Container(
-            height: 60,
+            height: 50,
             color: Theme.of(context).colorScheme.primaryContainer,
-            padding: const EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 140),
               scrollDirection: Axis.horizontal,
               children: [
-                StyledElevatedButton(onPressed: () {}, child: const Text("VIII - IX ст"),),
-                StyledElevatedButton(onPressed: () {}, child: const Text("X - XII ст"),),
-                StyledElevatedButton(onPressed: () {}, child: const Text("XIII - XV ст"),),
-                StyledElevatedButton(onPressed: () {}, child: const Text("XVI - XVIII ст"),),
-                StyledElevatedButton(onPressed: () {}, child: const Text("XIX - XXI ст"),),
+                StyledElevatedButton(
+                  onPressed: () => setState(() => isSelected = 0),
+                  selected: isSelected == 0,
+                  child: const Text("VIII - IX ст"),
+                ),
+                StyledElevatedButton(
+                  onPressed: () => setState(() => isSelected = 1),
+                  selected: isSelected == 1,
+                  child: const Text("X - XII ст"),
+                ),
+                StyledElevatedButton(
+                  onPressed: () => setState(() => isSelected = 2),
+                  selected: isSelected == 2,
+                  child: const Text("XIII - XV ст"),
+                ),
+                StyledElevatedButton(
+                  onPressed: () => setState(() => isSelected = 3),
+                  selected: isSelected == 3,
+                  child: const Text("XVI - XVIII ст"),
+                ),
+                StyledElevatedButton(
+                  onPressed: () => setState(() => isSelected = 4),
+                  selected: isSelected == 4,
+                  child: const Text("XIX - XXI ст"),
+                ),
               ],
             ),
           ),

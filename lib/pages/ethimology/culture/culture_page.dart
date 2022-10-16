@@ -16,13 +16,17 @@ class _CulturePageState extends State<CulturePage> {
         title: const Text("Let it be Volyn"),
       ),
       body: Center(
-        child: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return StyledCard("title", "description", "assets/images/ethimology/culture_preview.png", const Scaffold(body: Center(child: Text("Default"),),));
-          },
+        child: Scrollbar(
+          thumbVisibility: true,
+          thickness: 10,
+          child: ListView.builder(
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return StyledCard("title", "description", "assets/images/ethimology/culture_preview.png", const Scaffold(body: Center(child: Text("Default"),),));
+            },
+          ),
         ),
-      ),
+      )
     );
   }
 }
