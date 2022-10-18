@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/article.dart';
@@ -65,20 +62,24 @@ class _HomePage extends State<HomePage> {
   }
 
   List<bool> isAll = List.filled(ArticleCategory.values.length, false);
-  List<List<Article>> buffer = ArticleCategory.values.map((e) => <Article>[]).toList();
+  List<List<ArticleTag>> buffer =
+      ArticleCategory.values.map((e) => <ArticleTag>[]).toList();
   List<ScrollController> controllers =
       ArticleCategory.values.map((_) => ScrollController()).toList();
 
   void _listLoader(ArticleCategory category) async {
-    await DatabaseService()
-        .getRecentArticleByCategory(
-            category, buffer[category.index].lastOrNull?.publishing)
-        .then((value) => buffer[category.index].addAll(value));
-    if (buffer[category.index].length % 10 != 0) {
-      isAll[category.index] = true;
-    }
+    if (!isAll[category.index]) {
+      int lastLen = buffer[category.index].length;
+      await DatabaseService()
+          .getRecentArticleTagByCategory(
+              category, buffer[category.index].lastOrNull?.publishing)
+          .then((value) => buffer[category.index].addAll(value));
+      if (buffer[category.index].length - lastLen != 10) {
+        isAll[category.index] = true;
+      }
 
-    setState(() {});
+      setState(() {});
+    }
   }
 
   bool _handleScrollNotification(
@@ -197,9 +198,16 @@ class _HomePage extends State<HomePage> {
                           _handleScrollNotification(notification, e),
                       child: ListView(
                         controller: controllers[e.index],
-                        children: buffer[e.index]
-                            .map((a) => ArticleWidget(() {materialPushPage(context, ArticlePage(article: a));}, a))
-                            .toList(),
+                        children: [
+                          ...(buffer[e.index].map((a) => ArticleWidget(() {
+                                materialPushPage(
+                                    context, ArticlePage(id: a.id!));
+                              }, a))),
+                          if (!isAll[e.index])
+                            Container(
+                              alignment: Alignment.center,
+                                height: 80, child: const CircularProgressIndicator())
+                        ],
                       )),
                 ),
               )

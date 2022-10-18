@@ -151,27 +151,21 @@ class DatabaseService {
         .then((value) => value.docs.map((element) => element.data()));
   }
 
-  Future<void> getRestArticle(Article article) async {
-    await _articleRestRef
-        .doc(article.id)
-        .get()
-        .then((value) => article.giveRestText(value.data()!));
-  }
-
-  Future<void> sendArticle(Article article, ArticleCategory category) async {
-    var ref = await _articleRef.add(article);
-    await _articleRestRef.doc(ref.id).set(article.restText);
-
-    await _articleTagRef[category]!
-        .add(ArticleTag(ref.id, DateTime.now(), category));
+  Future<void> sendArticle(Article article, ArticleTag tag) async {
+    String res = (await _articleRef.add(article)).id;
+    tag.id = res;
+    await _articleTagRef[tag.category]!.add(tag);
   }
 
   Future<void> updateArticle(String id, Article article) async {
-    _articleRef.doc(id).update(article.toFirebase());
-    _articleRestRef.doc(id).update({"rest": article.restText});
+    await _articleRef.doc(id).update(article.toFirebase());
   }
 
-  Future<Iterable<Article>> getRecentArticleByCategory(
+  Future<void> updateArticleTag(String id, ArticleTag tag) async {
+    await _articleTagRef[tag.category]!.doc(id).set(tag);
+  }
+
+  Future<Iterable<ArticleTag>> getRecentArticleTagByCategory(
       ArticleCategory category, DateTime? last) async {
     late Iterable<ArticleTag> info;
     if (last == null) {
@@ -188,12 +182,6 @@ class DatabaseService {
           .get()
           .then((value) => value.docs.map((e) => e.data()));
     }
-    var articlesRef = info.map((e) => _articleRef.doc(e.id).get());
-    var articles = await Future.wait(articlesRef);
-    var articlesOut = articles.map((e) => e.data()!).toList();
-    info.forEachIndexed((index, element) {
-      articlesOut[index].publishing = element.publishing;
-    });
-    return articlesOut;
+    return info;
   }
 }

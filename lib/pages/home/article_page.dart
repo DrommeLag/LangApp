@@ -1,19 +1,18 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/article.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:collection/collection.dart';
 
 class ArticlePage extends StatefulWidget {
-  ArticlePage({Key? key, required this.article})
-      : loadIndicator = DatabaseService().getRestArticle(article),
+  ArticlePage({Key? key, required String id})
+      : article = DatabaseService().getArticle(id),
         super(key: key);
 
-  final Future<void> loadIndicator;
-
-  final Article article;
+  final Future<Article> article;
 
   @override
   State<StatefulWidget> createState() => _ArticlePage();
@@ -93,29 +92,10 @@ class _ArticlePage extends State<ArticlePage> {
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: FutureBuilder(
-              future: widget.loadIndicator,
+              future: widget.article,
               builder: (context, snapshot) {
-                if (widget.article.hasRest){
-                  return ListView(
-                    children: [
-                      imageRoundedAndWithPadding(Image(
-                        image: widget.article.article[0].image,
-                      )),
-                      Text(
-                        widget.article.label,
-                        style: theme.textTheme.headlineSmall,
-                      ),
-                      ...widget.article.article.sublist(1).map(
-                        (e) {
-                          if (e.isImage) {
-                            return Image(image: e.image);
-                          } else {
-                            return Text(e.text!);
-                          }
-                        },
-                      ),
-                    ],
-                  );
+                if (snapshot.hasData){
+                  return ListView(children: [MarkdownBody(data: (snapshot.data as Article?)!.data)],);
                 } else {
                   return const Align(
                     alignment: Alignment.center,
