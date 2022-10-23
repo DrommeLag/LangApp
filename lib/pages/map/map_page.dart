@@ -212,6 +212,114 @@ class _MapPage extends State<MapPage> {
                     },
                   ),
                 ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 70,
+                  left: 100,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "khml");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 30,
+                  left: 130,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "zhtmr");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 90,
+                  left: 135,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "vnnts");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 70,
+                  left: 160,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "chrks");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 40,
+                  left: 170,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "kyiv");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 5,
+                  left: 185,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "chrngv");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 20,
+                  left: 230,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "sumy");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 60,
+                  left: 215,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "pltv");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 90,
+                  left: 190,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "krpvnts");
+                      log(selected);
+                    },
+                  ),
+                ),
               ]
             ),
           ),
