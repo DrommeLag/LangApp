@@ -368,6 +368,66 @@ class _MapPage extends State<MapPage> {
                     },
                   ),
                 ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 135,
+                  left: 260,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "zprzh");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 95,
+                  left: 255,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "dnpr");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 55,
+                  left: 260,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "khrkv");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 70,
+                  left: 310,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "lhnsk");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 110,
+                  left: 300,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "dntsk");
+                      log(selected);
+                    },
+                  ),
+                ),
               ]
             ),
           ),
