@@ -120,9 +120,12 @@ class _MapPage extends State<MapPage> {
             alignment: Alignment.center,
             child: Stack(
               children: [
-                SizedBox(
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red),
+                  ),
                   width: 400,
-                  height: 300,
+                  height: 260,
                   child: Image.asset('assets/images/ukraine.png'),
                 ),
                 Positioned(
@@ -140,11 +143,71 @@ class _MapPage extends State<MapPage> {
                 Positioned(
                   width: 40,
                   height: 40,
-                  top: 50,
-                  left: 40,
+                  top: 30,
+                  left: 80,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "rvn");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 55,
+                  left: 35,
                   child: StyledIconButton(
                     onPressed: () {
                       setState(() => selected = "lv");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 55,
+                  left: 70,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "trpl");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 75,
+                  left: 55,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "ivnfr");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 100,
+                  left: 20,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "uzhg");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 100,
+                  left: 80,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "chvts");
                       log(selected);
                     },
                   ),
