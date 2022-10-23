@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:lang_app/pages/ethimology/browse_page.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
+import 'package:lang_app/pages/templates/styled_icon_button.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -12,6 +15,8 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPage extends State<MapPage> {
+  String selected = "def";
+
   String language = "assets/images/language.png";
   String culture = "assets/images/culture.png";
   String attractions = "assets/images/attractions.png";
@@ -31,6 +36,11 @@ class _MapPage extends State<MapPage> {
         ),
       ),
     );
+  }
+
+  changeRegion(region) {
+    setState(() => selected = region);
+    log(selected);
   }
 
   @override
@@ -107,8 +117,41 @@ class _MapPage extends State<MapPage> {
               ),
               body: Container()),
           Align(
-              alignment: Alignment.center,
-              child: Image.asset('assets/images/ukraine.png')),
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: 400,
+                  height: 300,
+                  child: Image.asset('assets/images/ukraine.png'),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 10,
+                  left: 55,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "ltsk");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 50,
+                  left: 40,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "lv");
+                      log(selected);
+                    },
+                  ),
+                ),
+              ]
+            ),
+          ),
           Align(
             alignment: Alignment.topRight,
             child: Container(
@@ -125,11 +168,11 @@ class _MapPage extends State<MapPage> {
                       children: [
                         Transform.rotate(
                           angle: 3.14 * animationValue / 2,
+                          alignment: Alignment.center,
                           child: Icon(
                             Icons.arrow_forward_ios_outlined,
                             color: Theme.of(context).colorScheme.shadow,
                           ),
-                          alignment: Alignment.center,
                         ),
                         buildTile(context),
                       ],
