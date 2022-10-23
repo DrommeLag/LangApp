@@ -320,6 +320,54 @@ class _MapPage extends State<MapPage> {
                     },
                   ),
                 ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 130,
+                  left: 180,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "mklv");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 170,
+                  left: 145,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "odss");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 150,
+                  left: 220,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "khrsn");
+                      log(selected);
+                    },
+                  ),
+                ),
+                Positioned(
+                  width: 40,
+                  height: 40,
+                  top: 185,
+                  left: 245,
+                  child: StyledIconButton(
+                    onPressed: () {
+                      setState(() => selected = "smphrpl");
+                      log(selected);
+                    },
+                  ),
+                ),
               ]
             ),
           ),
