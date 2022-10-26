@@ -95,7 +95,7 @@ class _SettingsPage extends State<SettingsPage> {
         title: local.chooseTheme,
         settingKey: SettingsPage.keyDarkMode,
         selected:
-            Settings.getValue(SettingsPage.keyDarkMode, defaultValue: ThemeMode.system.index),
+            Settings.getValue(SettingsPage.keyDarkMode, defaultValue: ThemeMode.system.index)!,
         values: <int, String>{
           ThemeMode.system.index: local.systemTheme,
           ThemeMode.dark.index: local.darkTheme,

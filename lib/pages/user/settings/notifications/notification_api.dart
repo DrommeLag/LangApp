@@ -8,13 +8,13 @@ class NotificationApi {
 
   static Future init({bool initScheduled = false}) async {
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iOS = DarwinInitializationSettings();
+    const iOS = IOSInitializationSettings();
     const settings = InitializationSettings(android: android, iOS: iOS);
 
     await _notifications.initialize(
       settings,
-      onDidReceiveNotificationResponse: (payload) async {
-        onNotifications.add(payload.input);
+      onSelectNotification: (payload) async {
+        onNotifications.add(payload);
       },
     );
   }
@@ -76,7 +76,7 @@ class NotificationApi {
         "channel name",
         importance: Importance.max,
       ),
-      iOS: DarwinNotificationDetails(),
+      iOS: IOSNotificationDetails(),
     );
   }
 }
