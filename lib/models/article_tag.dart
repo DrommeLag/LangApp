@@ -30,7 +30,7 @@ class ArticleTag {
 
 enum ArticleCategory {
   forMe('For me'),
-  something('Something'),
+  event('Event'),
   brands('Brands'),
   media('Media'),
   sport('Sport');

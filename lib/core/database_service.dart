@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lang_app/models/article.dart';
 import 'package:lang_app/models/article_tag.dart';
+import 'package:lang_app/models/event_tag.dart';
 import 'package:lang_app/models/news.dart';
 import 'package:lang_app/models/progress.dart';
 import 'package:lang_app/models/task.dart';
@@ -74,11 +75,11 @@ class DatabaseService {
             fromFirestore: ((snapshot, options) => ArticleTag.fromFirestore(
                 snapshot.data()!, ArticleCategory.media)),
             toFirestore: ((value, options) => value.toFirestore())),
-    ArticleCategory.something: FirebaseFirestore.instance
-        .collection('articles-category-something')
+    ArticleCategory.event: FirebaseFirestore.instance
+        .collection('articles-category-event')
         .withConverter(
-            fromFirestore: ((snapshot, options) => ArticleTag.fromFirestore(
-                snapshot.data()!, ArticleCategory.something)),
+            fromFirestore: ((snapshot, options) =>
+                EventTag.fromFirestore(snapshot.data()!)),
             toFirestore: ((value, options) => value.toFirestore())),
     ArticleCategory.sport: FirebaseFirestore.instance
         .collection('articles-category-sport')

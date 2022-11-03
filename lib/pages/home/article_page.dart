@@ -4,28 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/article.dart';
+import 'package:lang_app/models/article_tag.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
-import 'package:collection/collection.dart';
 
 class ArticlePage extends StatefulWidget {
-  ArticlePage({Key? key, required String id})
-      : article = DatabaseService().getArticle(id),
+  ArticlePage(ArticleTag tag, {this.bottom, Key? key})
+      : article = DatabaseService().getArticle(tag.id!),
         super(key: key);
 
   final Future<Article> article;
+
+  final Widget? bottom;
 
   @override
   State<StatefulWidget> createState() => _ArticlePage();
 }
 
 class _ArticlePage extends State<ArticlePage> {
-  bool _isArticlePresent = false;
-
   @override
   void initState() {
     super.initState();
   }
-
 
   Widget imageRoundedAndWithPadding(Widget child) {
     return Padding(
@@ -94,8 +93,13 @@ class _ArticlePage extends State<ArticlePage> {
             child: FutureBuilder(
               future: widget.article,
               builder: (context, snapshot) {
-                if (snapshot.hasData){
-                  return ListView(children: [MarkdownBody(data: (snapshot.data as Article?)!.data)],);
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: [
+                      MarkdownBody(data: (snapshot.data as Article?)!.data),
+                      if (widget.bottom != null) widget.bottom!
+                    ],
+                  );
                 } else {
                   return const Align(
                     alignment: Alignment.center,

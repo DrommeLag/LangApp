@@ -3,21 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/article.dart';
 import 'package:lang_app/models/article_tag.dart';
+import 'package:lang_app/models/event_tag.dart';
 import 'package:lang_app/pages/home/article_page.dart';
+import 'package:lang_app/pages/home/event_page.dart';
 import 'package:lang_app/pages/home/headline_article_widget.dart';
+import 'package:lang_app/pages/home/headline_event_widget.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
-  final categories = const [
-    'For me',
-    'Something',
-    'Brands',
-    'Media',
-    'Sport',
-  ];
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -34,7 +29,7 @@ class _HomePage extends State<HomePage> {
     _textInputFocus.addListener(_toggleFocusInInput);
 
     for (var cat in ArticleCategory.values) {
-      _listLoader(cat);
+      _listLoader(cat.index);
     }
   }
 
@@ -67,29 +62,48 @@ class _HomePage extends State<HomePage> {
   List<ScrollController> controllers =
       ArticleCategory.values.map((_) => ScrollController()).toList();
 
-  void _listLoader(ArticleCategory category) async {
-    if (!isAll[category.index]) {
-      int lastLen = buffer[category.index].length;
+  void _listLoader(int index) async {
+    if (!isAll[index]) {
+      int lastLen = buffer[index].length;
       await DatabaseService()
-          .getRecentArticleTagByCategory(
-              category, buffer[category.index].lastOrNull?.publishing)
-          .then((value) => buffer[category.index].addAll(value));
-      if (buffer[category.index].length - lastLen != 10) {
-        isAll[category.index] = true;
+          .getRecentArticleTagByCategory(ArticleCategory.values[index],
+              buffer[index].lastOrNull?.publishing)
+          .then((value) => buffer[index].addAll(value));
+      if (buffer[index].length - lastLen != 10) {
+        isAll[index] = true;
       }
 
       setState(() {});
     }
   }
 
-  bool _handleScrollNotification(
-      ScrollNotification notification, ArticleCategory category) {
+  bool _handleScrollNotification(ScrollNotification notification, int index) {
     if (notification is ScrollEndNotification) {
-      if (controllers[category.index].position.extentAfter == 0) {
-        _listLoader(category);
+      if (controllers[index].position.extentAfter == 0) {
+        _listLoader(index);
       }
     }
     return false;
+  }
+
+  Widget _generatePage(List<Widget> children, int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: NotificationListener<ScrollNotification>(
+          onNotification: (notification) =>
+              _handleScrollNotification(notification, index),
+          child: ListView(
+            controller: controllers[index],
+            children: [
+              ...children,
+              if (!isAll[index])
+                Container(
+                    alignment: Alignment.center,
+                    height: 80,
+                    child: const CircularProgressIndicator())
+            ],
+          )),
+    );
   }
 
   @override
@@ -97,7 +111,7 @@ class _HomePage extends State<HomePage> {
     var containerBorder = const BorderRadius.all(Radius.circular(10));
 
     return DefaultTabController(
-      length: widget.categories.length,
+      length: ArticleCategory.values.length,
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(150),
@@ -189,29 +203,57 @@ class _HomePage extends State<HomePage> {
 
             //Body
             TabBarView(
-          children: ArticleCategory.values
-              .map(
-                (e) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: NotificationListener<ScrollNotification>(
-                      onNotification: (notification) =>
-                          _handleScrollNotification(notification, e),
-                      child: ListView(
-                        controller: controllers[e.index],
-                        children: [
-                          ...(buffer[e.index].map((a) => ArticleWidget(() {
-                                materialPushPage(
-                                    context, ArticlePage(id: a.id!));
-                              }, a))),
-                          if (!isAll[e.index])
-                            Container(
-                              alignment: Alignment.center,
-                                height: 80, child: const CircularProgressIndicator())
-                        ],
-                      )),
-                ),
-              )
-              .toList(),
+          children: [
+            _generatePage(
+                buffer[0].map((a) => ArticleWidget(() {
+                      materialPushPage(context, ArticlePage(a));
+                    }, a)).toList(),
+                0),
+            _generatePage(
+                buffer[1].map((a) => EventWidget(() {
+                      materialPushPage(context, EventPage(a as EventTag));
+                    }, a as EventTag)).toList(),
+                1),
+            _generatePage(
+                buffer[2].map((a) => ArticleWidget(() {
+                      materialPushPage(context, ArticlePage(a));
+                    }, a)).toList(),
+                2),
+            _generatePage(
+                buffer[3].map((a) => ArticleWidget(() {
+                      materialPushPage(context, ArticlePage(a));
+                    }, a)).toList(),
+                3),
+            _generatePage(
+                buffer[4].map((a) => ArticleWidget(() {
+                      materialPushPage(context, ArticlePage(a));
+                    }, a)).toList(),
+                4),
+          ],
+
+          //  ArticleCategory.values
+          //     .map(
+          //       (e) => Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 30),
+          //         child: NotificationListener<ScrollNotification>(
+          //             onNotification: (notification) =>
+          //                 _handleScrollNotification(notification, e),
+          //             child: ListView(
+          //               controller: controllers[e.index],
+          //               children: [
+          //                 ...(buffer[e.index].map((a) => ArticleWidget(() {
+          //                       materialPushPage(
+          //                           context, ArticlePage(id: a.id!));
+          //                     }, a))),
+          //                 if (!isAll[e.index])
+          //                   Container(
+          //                     alignment: Alignment.center,
+          //                       height: 80, child: const CircularProgressIndicator())
+          //               ],
+          //             )),
+          //       ),
+          //     )
+          //     .toList(),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/article.dart';
 import 'package:lang_app/models/article_tag.dart';
+import 'package:lang_app/models/event_tag.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,9 +42,6 @@ Cras tempus sit amet sapien eu hendrerit. Nulla fermentum euismod tellus, ac tri
 """;
   Article a = Article(filler);
   for (var i = 0; i < 30; i++) {
-    databaseService.sendArticle(a, ArticleTag("Label $i", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg", desc, ArticleCategory.brands));
-    databaseService.sendArticle(a, ArticleTag("Label $i", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg", desc, ArticleCategory.forMe));
-    databaseService.sendArticle(a, ArticleTag("Label $i", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg", desc, ArticleCategory.something));
-    databaseService.sendArticle(a, ArticleTag("Label $i", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg", desc, ArticleCategory.sport));
+    databaseService.sendArticle(a, EventTag("Label $i", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg", desc, DateTime.now(), DateTime.utc(2022, 2, 6), "Lviv"));
   }
 }
