@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:lang_app/pages/ethimology/browse_page.dart';
+import 'package:lang_app/pages/ethimology/culture/culture_page.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/templates/styled_icon_button.dart';
+import 'package:lang_app/pages/templates/toast_error_message.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -36,11 +37,6 @@ class _MapPage extends State<MapPage> {
         ),
       ),
     );
-  }
-
-  changeRegion(region) {
-    setState(() => selected = region);
-    log(selected);
   }
 
   @override
@@ -93,7 +89,6 @@ class _MapPage extends State<MapPage> {
                       } else {
                         imagePath = culture;
                       }
-                      materialPushPage(context, BrowsePage());
                       setState(() {});
                     },
                   ),
@@ -109,6 +104,12 @@ class _MapPage extends State<MapPage> {
                         imagePath = attractions;
                       } else {
                         imagePath = attractions;
+                      }
+                      if (selected == "def") {
+                        showToastErrorMessage("Оберіть регіон на карті.");
+                      }
+                      else {
+                        materialPushPage(context, CulturePage(selected: selected));
                       }
                       setState(() {});
                     },
@@ -159,7 +160,7 @@ class _MapPage extends State<MapPage> {
                   left: 35,
                   child: StyledIconButton(
                     onPressed: () {
-                      setState(() => selected = "lv");
+                      setState(() => selected = "lviv");
                       log(selected);
                     },
                   ),
@@ -207,7 +208,7 @@ class _MapPage extends State<MapPage> {
                   left: 80,
                   child: StyledIconButton(
                     onPressed: () {
-                      setState(() => selected = "chvts");
+                      setState(() => selected = "chernivtsi");
                       log(selected);
                     },
                   ),
@@ -243,7 +244,7 @@ class _MapPage extends State<MapPage> {
                   left: 135,
                   child: StyledIconButton(
                     onPressed: () {
-                      setState(() => selected = "vnnts");
+                      setState(() => selected = "vinnytsia");
                       log(selected);
                     },
                   ),

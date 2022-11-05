@@ -76,9 +76,9 @@ class _BrowsePageState extends State<BrowsePage> {
               ],
             ),
           ),
-          StyledCard("Культура", "", "assets/images/ethimology/culture_preview.png", CulturePage()),
-          StyledCard("Населення", "", "assets/images/ethimology/citizens_preview.png", CulturePage()),
-          StyledCard("Історичні події", "", "assets/images/ethimology/history_preview.png", CulturePage()),
+          // StyledCard("Культура", "", "assets/images/ethimology/culture_preview.png", CulturePage()),
+          // StyledCard("Населення", "", "assets/images/ethimology/citizens_preview.png", CulturePage()),
+          // StyledCard("Історичні події", "", "assets/images/ethimology/history_preview.png", CulturePage()),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

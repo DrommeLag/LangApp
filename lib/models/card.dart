@@ -27,7 +27,7 @@ class StyledCard extends StatelessWidget {
             child: Center(
                 child: Column(
                   children: [
-                    Image.asset(imagePath),
+                    Image.network(imagePath),
                     Text(title, style: TextStyle(
                       color: Theme
                           .of(context)
@@ -36,7 +36,7 @@ class StyledCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
                     ),),
-                    Text(description, style: TextStyle(
+                    Text("${description.substring(0, 10)}...", style: TextStyle(
                       color: Theme
                           .of(context)
                           .colorScheme
