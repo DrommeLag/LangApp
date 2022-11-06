@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
@@ -9,6 +10,8 @@ import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AccountSettingsPage extends Material {
   const AccountSettingsPage({Key? key}) : super(key: key);
@@ -29,7 +32,6 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
 
   bool displayNameError = false;
   bool emailError = false;
-
   @override
   Widget build(BuildContext context) {
     TextStyle shadowStyle = Theme.of(context)
@@ -66,8 +68,12 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
         onChange: (region) {},
       );
     }
-
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Профіль"),
+        backgroundColor: const Color(0xff0A67E9),
+        elevation: 0,
+      ),
       floatingActionButton: Visibility(
         visible: needsUpdate,
         child: FloatingActionButton(
@@ -82,8 +88,9 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       ),
       body: ListView(
         children: [
+          FloatingActionButton(onPressed: getImageFromCamera),
           Container(
-            height: 150,
+            height: 30,
             decoration: const BoxDecoration(
                 gradient: backgroundGradient,
                 borderRadius:
@@ -154,6 +161,27 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
         ],
       ),
     );
+  }
+
+  late XFile _image;
+  final ImagePicker _picker = ImagePicker();
+
+  Future getImageFromCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = pickedFile;
+      } else {
+        print("No image selected");
+      }
+    });
+    uploadImageToStorage(_image);
+  }
+
+  Future<void> uploadImageToStorage(XFile imageFile) async {
+
+    FirebaseStorage.instance.ref().putFile(File(_image.path));
   }
 
   @override
