@@ -6,6 +6,7 @@ import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/settings/account_settings_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:lang_app/pages/user/settings/theme/theme_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'auth/auth_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -72,8 +73,22 @@ class _UserPage extends State<UserPage> {
                   const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 10),
               child: const Text('Потрібна допомога?'),
             ),
-            buildTile(Icons.messenger_outline_sharp, 'Допомога', textColor,
-                iconColor),
+            buildTile(
+              Icons.messenger_outline_sharp,
+              'Допомога',
+              textColor,
+              iconColor,
+              callback: () async {
+                String email = Uri.encodeComponent("drommelagua@gmail.com");
+                String subject = Uri.encodeComponent("Запит на допомогу");
+                Uri mail = Uri.parse("mailto:$email?subject=$subject");
+                if (await launchUrl(mail)) {
+                  //open email app
+                } else {
+                  //don't open email app
+                }
+              },
+            ),
             buildTile(
               Icons.favorite_border_outlined,
               'Підтримай нас',
