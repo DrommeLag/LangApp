@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/pages/templates/material_push_template.dart';
+import 'package:lang_app/pages/ethimology/culture/view_point_page.dart';
+import '../pages/templates/material_push_template.dart';
 
 class StyledCard extends StatelessWidget {
   final String title;
   final String description;
   final String imagePath;
-  final Widget page;
 
-  const StyledCard(this.title, this.description, this.imagePath, this.page, {Key? key}) : super(key: key);
+  const StyledCard(this.title, this.description, this.imagePath, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class StyledCard extends StatelessWidget {
           splashColor: Theme.of(context).colorScheme.surface,
           onTap: () {
             debugPrint('Card tapped.');
-            materialPushPage(context, page);
+            materialPushPage(context, ViewPointPage(title: title, description: description, imagePath: imagePath));
           },
           child: Container(
             padding: const EdgeInsets.only(top: 10),

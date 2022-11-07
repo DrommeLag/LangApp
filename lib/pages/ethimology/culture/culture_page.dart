@@ -52,8 +52,7 @@ class _CulturePageState extends State<CulturePage> {
                   itemBuilder: (context, index) {
                     return StyledCard(
                         viewPoints[index].name, viewPoints[index].description,
-                        viewPoints[index].img,
-                        const Scaffold(body: Center(child: Text("Default"),),));
+                        viewPoints[index].img);
                   },
                 ),
               ),
