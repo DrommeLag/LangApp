@@ -29,8 +29,8 @@ class ArticleTag {
   }
 
 enum ArticleCategory {
-  forMe('For me'),
-  event('Event'),
+  forMe('People'),
+  event('Events'),
   brands('Brands'),
   media('Media'),
   sport('Sport');
