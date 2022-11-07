@@ -23,6 +23,7 @@ class _HomePage extends State<HomePage> {
 
   final _textInputFocus = FocusNode();
 
+
   @override
   void initState() {
     super.initState();
@@ -114,7 +115,7 @@ class _HomePage extends State<HomePage> {
       length: ArticleCategory.values.length,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(150),
+          preferredSize: const Size.fromHeight(120),
           child: Column(
             children: [
               Stack(
@@ -122,7 +123,7 @@ class _HomePage extends State<HomePage> {
                 children: [
                   //Background upper decor
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Container(
                       decoration: const BoxDecoration(
                         gradient: backgroundGradient,
@@ -135,49 +136,49 @@ class _HomePage extends State<HomePage> {
 
                   //TextField
                   //Border
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 30),
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: searchbarGradient,
-                      borderRadius: containerBorder,
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          margin: _borderAsPadding,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor,
-                            borderRadius: containerBorder,
-                          ),
-                        ),
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(horizontal: 30),
+                  //   height: 50,
+                  //   decoration: BoxDecoration(
+                  //     gradient: searchbarGradient,
+                  //     borderRadius: containerBorder,
+                  //   ),
+                  //   child: Stack(
+                  //     alignment: Alignment.center,
+                  //     children: [
+                        // Container(
+                        //   margin: _borderAsPadding,
+                        //   alignment: Alignment.center,
+                        //   decoration: BoxDecoration(
+                        //     color: Theme.of(context).backgroundColor,
+                        //     borderRadius: containerBorder,
+                        //   ),
+                        // ),
 
                         //TextField itself
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TextField(
-                            controller: searchController,
-                            style: Theme.of(context).textTheme.titleMedium,
-                            focusNode: _textInputFocus,
-                            decoration: InputDecoration(
-                              hintText: "Whats new?",
-                              hintStyle: Theme.of(context)
-                                  .inputDecorationTheme
-                                  .hintStyle,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.all(10),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: containerBorder,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                        //   child: TextField(
+                        //     controller: searchController,
+                        //     style: Theme.of(context).textTheme.titleMedium,
+                        //     focusNode: _textInputFocus,
+                        //     decoration: InputDecoration(
+                        //       hintText: "Whats new?",
+                        //       hintStyle: Theme.of(context)
+                        //           .inputDecorationTheme
+                        //           .hintStyle,
+                        //       isDense: true,
+                        //       contentPadding: const EdgeInsets.all(10),
+                        //       border: OutlineInputBorder(
+                        //         borderSide: BorderSide.none,
+                        //         borderRadius: containerBorder,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
 

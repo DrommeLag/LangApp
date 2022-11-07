@@ -10,14 +10,35 @@ class EventWidget extends ArticleHeadline {
             post,
             Row(
               children: [
-                const Icon(Icons.event_available_outlined, size: 40, color: Color(0xff0068C9)),
-                Text("${post.from.day}-${post.from.month}-${post.from.year}${(post.to == null)
-                        ? ""
-                        : " - ${post.to!.day}-${post.to!.month}-${post.to!.year}"}"),
+                const Icon(Icons.event_available_outlined,
+                    size: 40, color: Color(0xff0068C9)),
+                Text(generateTimeDiffText(post.from, post.to)),
                 const Spacer(),
-                const Icon(Icons.place_outlined, size: 40,color: Color(0xff0068C9) ),
+                const Icon(Icons.place_outlined,
+                    size: 40, color: Color(0xff0068C9)),
                 Text(post.place),
               ],
             ),
             key: key);
+}
+
+String generateTimeDiffText(DateTime from, DateTime? to) {
+  DateTime now = DateTime.now();
+  bool showYear = from.year != now.year;
+  String toString = '';
+  if (to != null) {
+    showYear = showYear || now.year != to.year;
+
+    toString = ' - ${to.day}.${to.month}';
+    if (showYear) {
+      toString += '.${to.year}';
+    }
+  }
+
+  String fromString = '${from.day}.${from.month}';
+  if (showYear) {
+    fromString += '.${from.year}';
+  }
+
+  return fromString + toString;
 }

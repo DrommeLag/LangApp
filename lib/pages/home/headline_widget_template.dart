@@ -27,12 +27,23 @@ class ArticleHeadline extends StatelessWidget {
         Image(
           image: NetworkImage(post.imageUrl),
         ),
-        if (underImage != null) underImage!,
+        if (underImage != null) ...[
+          underImage!,
+          Divider(
+            color: Theme.of(context).colorScheme.secondary,
+            thickness: 1,
+            height: 2,
+          )
+        ],
         const SizedBox(
           height: 20,
         ),
-        Text(post.description
-            .substring(0, post.description.indexOf(' ', 200) - 1)),
+        Text(
+          post.description.substring(0, post.description.indexOf(' ', 200) - 1),
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color:
+                  Theme.of(context).colorScheme.onBackground.withOpacity(0.6)),
+        ),
         Text.rich(
           TextSpan(
               text: 'Read more',

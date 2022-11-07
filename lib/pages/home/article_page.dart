@@ -8,11 +8,13 @@ import 'package:lang_app/models/article_tag.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 
 class ArticlePage extends StatefulWidget {
-  ArticlePage(ArticleTag tag, {this.bottom, Key? key})
+  ArticlePage(this.tag, {this.bottom, Key? key})
       : article = DatabaseService().getArticle(tag.id!),
         super(key: key);
 
   final Future<Article> article;
+
+  final ArticleTag tag;
 
   final Widget? bottom;
 
@@ -96,6 +98,7 @@ class _ArticlePage extends State<ArticlePage> {
                 if (snapshot.hasData) {
                   return ListView(
                     children: [
+                      Image(image: NetworkImage(widget.tag.imageUrl)),
                       MarkdownBody(data: (snapshot.data as Article?)!.data),
                       if (widget.bottom != null) widget.bottom!
                     ],
