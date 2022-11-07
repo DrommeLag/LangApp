@@ -1,11 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/database_service.dart';
-import 'package:lang_app/models/article.dart';
 import 'package:lang_app/models/article_tag.dart';
 import 'package:lang_app/models/event_tag.dart';
 import 'package:lang_app/pages/home/article_page.dart';
-import 'package:lang_app/pages/home/event_page.dart';
 import 'package:lang_app/pages/home/headline_article_widget.dart';
 import 'package:lang_app/pages/home/headline_event_widget.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
@@ -212,7 +210,7 @@ class _HomePage extends State<HomePage> {
                 0),
             _generatePage(
                 buffer[1].map((a) => EventWidget(() {
-                      materialPushPage(context, EventPage(a as EventTag));
+                      materialPushPage(context, ArticlePage(a));
                     }, a as EventTag)).toList(),
                 1),
             _generatePage(

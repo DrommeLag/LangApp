@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
+import 'package:intl/intl.dart';
 import 'package:lang_app/models/event_tag.dart';
 import 'package:lang_app/pages/home/headline_widget_template.dart';
 
@@ -12,7 +12,7 @@ class EventWidget extends ArticleHeadline {
               children: [
                 const Icon(Icons.event_available_outlined,
                     size: 40, color: Color(0xff0068C9)),
-                Text(generateTimeDiffText(post.from, post.to)),
+                Text(generateTimeDiffText(post.from, post.to, const Locale('uk'))),
                 const Spacer(),
                 const Icon(Icons.place_outlined,
                     size: 40, color: Color(0xff0068C9)),
@@ -22,20 +22,21 @@ class EventWidget extends ArticleHeadline {
             key: key);
 }
 
-String generateTimeDiffText(DateTime from, DateTime? to) {
+String generateTimeDiffText(DateTime from, DateTime? to, Locale locale) {
   DateTime now = DateTime.now();
+  
   bool showYear = from.year != now.year;
   String toString = '';
   if (to != null) {
     showYear = showYear || now.year != to.year;
 
-    toString = ' - ${to.day}.${to.month}';
+    toString = ' - ${DateFormat.MMMMd(locale.languageCode).format(to)}';
     if (showYear) {
       toString += '.${to.year}';
     }
   }
 
-  String fromString = '${from.day}.${from.month}';
+  String fromString = DateFormat.MMMMd(locale.languageCode).format(from);//'${from.day}.${from.month}';
   if (showYear) {
     fromString += '.${from.year}';
   }
