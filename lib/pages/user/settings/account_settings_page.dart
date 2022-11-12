@@ -89,7 +89,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       ),
       body: ListView(
         children: [
-          FloatingActionButton(onPressed: getImageFromCamera),
+          FloatingActionButton(onPressed: uploadPhoto),
           Container(
             height: 30,
             decoration: const BoxDecoration(
@@ -168,26 +168,20 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
     );
   }
 
-  late XFile _image;
-  final ImagePicker _picker = ImagePicker();
+  Future uploadPhoto() async {
+    final ImagePicker _picker = ImagePicker();
+    final storageRef = FirebaseStorage.instance.ref();
+    Reference? imagesRef = storageRef.child("images");
+    final XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
+    if (selectedImage == null){
+      return;
+    }
+    final File imageData = (File(selectedImage.path));
+    final fileRef = imagesRef.child(selectedImage.name);
 
-  Future getImageFromCamera() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = pickedFile;
-      } else {
-        print("No image selected");
-      }
-    });
-    uploadImageToStorage(_image);
+    final uploadTask = fileRef.putFile(imageData);
   }
 
-  Future<void> uploadImageToStorage(XFile imageFile) async {
-
-    FirebaseStorage.instance.ref().putFile(File(_image.path));
-  }
 
   @override
   void didChangeDependencies() {
