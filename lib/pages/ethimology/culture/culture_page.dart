@@ -21,16 +21,20 @@ class _CulturePageState extends State<CulturePage> {
 
   loadData() async {
     log(widget.selected);
-    await DatabaseService()
-        .getViewPointsByRegion(widget.selected)
-        .then((value) async{
-      ids = value.items.cast<int>();
-      for (int id in ids) {
-        await DatabaseService()
-            .getViewPoint(id)
-            .then((value) => viewPoints.add(value));
-      }
-    });
+
+    // TODO: Це костиль, який треба буде пофіксати якщо буде можливість догружати дані
+    if (viewPoints.isEmpty) {
+      await DatabaseService()
+          .getViewPointsByRegion(widget.selected)
+          .then((value) async{
+        ids = value.items.cast<int>();
+        for (int id in ids) {
+          await DatabaseService()
+              .getViewPoint(id)
+              .then((value) => viewPoints.add(value));
+        }
+      });
+    }
   }
 
   @override

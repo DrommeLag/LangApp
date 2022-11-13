@@ -10,15 +10,32 @@ class ViewPointPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title.substring(0, 15) + "..."),
+        title: Text("${title.substring(0, 15)}..."),
       ),
       body: SingleChildScrollView(
-        child: Center(
+        child: Container(
+          padding: const EdgeInsets.only(top: 30, bottom: 20, left: 30, right: 30),
           child: Column(
             children: [
-              Text(title),
+              Text(title,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 10,)),
               Image.network(imagePath),
-              Text(description),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 20,)),
+              Text(description,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.left,
+              ),
             ],
           ),
         ),

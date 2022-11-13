@@ -12,7 +12,7 @@ class StyledCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(90, 30, 90, 0),
+      padding: const EdgeInsets.fromLTRB(40, 30, 40, 0),
       child: Card(
         color: Colors.transparent,
         elevation: 0,
@@ -23,28 +23,40 @@ class StyledCard extends StatelessWidget {
             materialPushPage(context, ViewPointPage(title: title, description: description, imagePath: imagePath));
           },
           child: Container(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.network(imagePath),
-                    Text(title, style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),),
-                    Text("${description.substring(0, 10)}...", style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .onSecondary,
-                      fontSize: 20,
-                    ),),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Image.network(imagePath),
+                    ),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 10,)),
+                    Text(title,
+                      style: TextStyle(
+                        color: Theme
+                            .of(context)
+                            .colorScheme
+                            .primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 5,)),
+                    Text("${description.substring(0, 60)}...",
+                      style: TextStyle(
+                        color: Theme
+                            .of(context)
+                            .colorScheme
+                            .onSecondary,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
-                )
+                ),
             ),
           ),
         ),
