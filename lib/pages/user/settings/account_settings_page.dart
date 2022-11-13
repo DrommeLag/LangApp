@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       );
     }
 
-    EdgeInsets textPadding = const EdgeInsets.symmetric(horizontal: 25, vertical: 5);
+    EdgeInsets textPadding =
+        const EdgeInsets.symmetric(horizontal: 25, vertical: 5);
 
     Widget buildRegion(BuildContext context) {
       return DropDownSettingsTile(
@@ -69,6 +71,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
         onChange: (region) {},
       );
     }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Профіль"),
@@ -89,7 +92,21 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       ),
       body: ListView(
         children: [
-          FloatingActionButton(onPressed: uploadPhoto),
+          FutureBuilder<String>(
+            future: retrievePhoto(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: Text('Please wait its loading...'));
+              } else {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  return Center(child: new Image.network('${snapshot.data}'));
+                }
+              }
+            },
+          ),
+          TextButton(child: Text('Upload Photo'),onPressed: uploadPhoto),
           Container(
             height: 30,
             decoration: const BoxDecoration(
@@ -118,8 +135,12 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                     (emailError) ? 'Неправильна пошта' : null),
                 const SizedBox(height: 15),
                 buildTile(
-                    Icons.lock_outlined, 'Змінити пароль', Theme.of(context).primaryColor, Theme.of(context).primaryColor.withOpacity(0.5),
-                    callback: () => materialPushPage(context, const PasswordChangePage())),
+                    Icons.lock_outlined,
+                    'Змінити пароль',
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor.withOpacity(0.5),
+                    callback: () =>
+                        materialPushPage(context, const PasswordChangePage())),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
@@ -145,7 +166,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 30),
                 Center(
                   child: MaterialButton(
-                    onPressed: () => materialPushPage(context, const AuthPage()),
+                    onPressed: () =>
+                        materialPushPage(context, const AuthPage()),
                     color: Theme.of(context).colorScheme.shadow,
                     minWidth: 230,
                     textColor: Theme.of(context).colorScheme.onPrimary,
@@ -172,16 +194,29 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
     final ImagePicker _picker = ImagePicker();
     final storageRef = FirebaseStorage.instance.ref();
     Reference? imagesRef = storageRef.child("images");
-    final XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
-    if (selectedImage == null){
+    final XFile? selectedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (selectedImage == null) {
       return;
     }
+    final User? user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
     final File imageData = (File(selectedImage.path));
-    final fileRef = imagesRef.child(selectedImage.name);
-
+    final fileRef = imagesRef.child(uid!);
     final uploadTask = fileRef.putFile(imageData);
+    retrievePhoto();
   }
 
+  Future<String> retrievePhoto() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+    final String url = await FirebaseStorage.instance
+        .ref()
+        .child("images")
+        .child(uid!)
+        .getDownloadURL();
+    return url;
+  }
 
   @override
   void didChangeDependencies() {
