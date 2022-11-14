@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TestSummary extends StatelessWidget {
   const TestSummary(
@@ -17,13 +18,17 @@ class TestSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    ThemeData theme = Theme.of(context);
+    AppLocalizations local = AppLocalizations.of(context)!;
+
     onComplete.call(result);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Ти закінчив тест!!!',
+          local.testEnded,
           style: Theme.of(context)
               .textTheme
               .headlineSmall!
@@ -33,7 +38,7 @@ class TestSummary extends StatelessWidget {
           height: 15,
         ),
         Text(
-          'Твій результат: $result/$questionsQuantity',
+          local.yourResult + ' $result/$questionsQuantity',
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -49,7 +54,7 @@ class TestSummary extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Text('Завершити'),
+          child: Text(local.end),
         ),
       ],
     );

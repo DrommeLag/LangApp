@@ -4,6 +4,8 @@ import 'package:lang_app/pages/levels/level_page.dart';
 import 'package:lang_app/pages/map/map_page.dart';
 import 'package:lang_app/pages/user/user_page.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -30,7 +32,7 @@ class _MainScreen extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Lang App"),
+        title: Text(AppLocalizations.of(context)!.title),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

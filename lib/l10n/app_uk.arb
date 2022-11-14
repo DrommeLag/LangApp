@@ -1,20 +1,90 @@
 {
-    "nameSurname": "Ім'я і прізвище",
+    "title": "LangApp",
+    "nameSurname": "Ім'я та прізвище",
     "editDisplayName": "Змінити ім'я",
     "editDisplayNameExp": "Введіть ваше ім'я та прізвище",
     "@editDisplayNameExp": {
                           "description": "Пояснення до зміни імені"
                         },
-    "password": "Пароль",
     "editPassword": "Змінити пароль",
     "editPasswordExp": "Введіть ваш новий пароль",
     "@editPasswordExp": {
                       "description": "Пояснення до зміни паролю"
                     },
-    "settings": "Налаштування",
     "loading": "Завантаження",
     "save": "Зберегти",
-    "logOut": "Вийти"
 
 
+    "createAccount":"Створіть свій акаунт!",
+    "errorLoginToast":"Не можемо вас залогінити. Перевірте свій email/пароль.",
+    "errorRegisterToast":          "Не можемо вас зареєструвати. Перевірте ім'я/email/пароль.",
+    "logIn":"Ввійти",
+    "registerQuestion":"Не маєте акаунта? |Реєстрація|",
+    "loginQuestion":"Вже зареєстровані? |Увійти|",
+    "name":"Ім`я",
+    "surnameOptinal": "Прізвище(за бажанням)",
+    "register":"Зареєструватися",
+
+
+    "notifications":  "Сповіщення",
+    "notificationsSubtitle": "Новини, оновлення додатку",
+    "enableDailyNotif": "Дозволити щоденні нагадування",
+    "notifTitle": "Ти ще не заходив у додаток сьогодні?",
+    "notifBody":  "Гайда прокачувати свою українську! =)",
+    "emailNotifQuestion": "Дозволити надсилання новин на пошту",
+    "enableAutoupdate":  "Дозволити автооновлення додатку",
+
+
+    "region":  "Регіон",
+    "region1": "Чернівецька обл.", 
+    "region2": "Львівська обл.",
+    "region3": "Київська обл.",
+    "yourName": "Ваше ім'я:",
+    "enterYourName":  "Введіть ваше ім'я",
+    "wrongYourName": "Неправильне ім'я" ,
+    "email":"Електронна пошта",
+    "enterEmail":"Введіть вашу електронну пошту",
+    "wrongEmail":"Неправильна пошта",
+    "password": "Пароль",
+    "changePassword":"Змінити пароль", 
+    "yourPlace":"Ваше місце",
+    "reportBug":"Повідомити про помилку",
+    "logOut": "Вийти",
+    "logOutAndDelete":"Видалити акаунт та вийти",
+
+    "userSettings":"Налаштування користувача",
+    "apperience":  "Вигляд",
+    "general":  "Загальні",
+    "feedback": "Зворотний зв'язок",
+    "sendFeedback":  "Надіслати фідбек",
+    "language":"Мова",
+    "uk_ua":"Українська",
+    "chooseTheme":"Тема додатку",
+    "systemTheme":"Тема системи",
+    "lightTheme":"Світла тема",
+    "darkTheme":"Темна тема",
+
+    "accountSettings":"Налаштування акаунта",
+    "yourAchievements":"Твої досягнення",
+    "settings": "Налаштування",
+    "changeTheme":"Змінити тему",
+    "needHelp":"Потрібна допомога?",
+    "help":"Допомога",
+    "fundUs":"Підтримай нас",
+
+    "closed":"Закрито",
+    "completed":"Завершено",
+    "description":  "Опис: ",
+    "progress":"Прогрес:",
+    "goBack":"Назад",
+    "start": "Почати",
+
+    "next": "Далі",
+    "check":"Перевірити",
+
+    "testEnded":"Ти закінчив тест!!!",
+    "yourResult":"Твій результат:",
+    "end":"Завершити",
+
+    "readMore": "Читати далі"
 }

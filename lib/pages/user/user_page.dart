@@ -18,10 +18,16 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPage extends State<UserPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
-    Color iconColor = Theme.of(context).primaryColor.withOpacity(0.5);
-    Color textColor = Theme.of(context).primaryColor;
+    ThemeData theme = Theme.of(context);
+    AppLocalizations local = AppLocalizations.of(context)!;
+
+    Color iconColor = theme.primaryColor.withOpacity(0.5);
+    Color textColor = theme.primaryColor;
 
     return ListView(
       children: [
@@ -34,34 +40,34 @@ class _UserPage extends State<UserPage> {
         ),
         Column(
           children: [
-            buildTile(Icons.account_circle_outlined, 'Налаштування акаунта',
+            buildTile(Icons.account_circle_outlined,local.accountSettings,
                 textColor, iconColor,
                 callback: () =>
                     materialPushPage(context, const AccountSettingsPage())),
-            buildTile(Icons.star_border_outlined, 'Твої досягнення',
+            buildTile(Icons.star_border_outlined,local.yourAchievements,
                 textColor, iconColor),
-            buildTile(Icons.settings_outlined, 'Налаштування', textColor, iconColor,
+            buildTile(Icons.settings_outlined, local.settings, textColor, iconColor,
                 callback: () =>
                     materialPushPage(context, const SettingsPage())),
-            buildTile(Icons.light_mode_outlined, 'Змінити тему', textColor,
+            buildTile(Icons.light_mode_outlined, local.changeTheme, textColor,
                 iconColor),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 10),
-              child: const Text('Потрібна допомога?'),
+              child:  Text(local.needHelp),
             ),
             buildTile(
-                Icons.messenger_outline_sharp, 'Допомога', textColor, iconColor),
+                Icons.messenger_outline_sharp, local.help, textColor, iconColor),
             buildTile(
               Icons.favorite_border_outlined,
-              'Підтримай нас',
+              local.fundUs,
               textColor,
               iconColor,
             ),
             buildTile(
               Icons.exit_to_app_outlined,
-              'Вийти',
-              Theme.of(context).colorScheme.error,
-              Theme.of(context).colorScheme.error.withOpacity(0.5),
+              local.logOut,
+              theme.colorScheme.error,
+              theme.colorScheme.error.withOpacity(0.5),
               callback: () => materialPushPage(context, const AuthPage()),
             ),
           ],

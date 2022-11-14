@@ -1,6 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lang_app/models/article.dart';
 import 'package:lang_app/models/article_tag.dart';
 import 'package:lang_app/pages/home/headline_widget_template.dart';
 

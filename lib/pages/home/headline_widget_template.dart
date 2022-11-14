@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_app/models/article_tag.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ArticleHeadline extends StatelessWidget {
   const ArticleHeadline(this.feedback, this.post, this.underImage, {Key? key})
@@ -15,6 +16,7 @@ class ArticleHeadline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    AppLocalizations local = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,7 +48,7 @@ class ArticleHeadline extends StatelessWidget {
         ),
         Text.rich(
           TextSpan(
-              text: 'Read more',
+              text: local.readMore,
               style: theme.textTheme.bodyLarge!
                   .copyWith(color: theme.colorScheme.primary),
               recognizer: TapGestureRecognizer()..onTap = feedback),

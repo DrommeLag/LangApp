@@ -6,6 +6,7 @@ import 'package:lang_app/pages/templates/dialog_loading.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 class AccountSettingsPage extends Material {
@@ -30,10 +31,13 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle shadowStyle = Theme.of(context)
+    AppLocalizations local = AppLocalizations.of(context)!;
+    ThemeData theme = Theme.of(context);
+
+    TextStyle shadowStyle = theme
         .textTheme
         .labelLarge!
-        .copyWith(color: Theme.of(context).colorScheme.shadow);
+        .copyWith(color: theme.colorScheme.shadow);
 
     Widget textField(
         TextEditingController controller, String hint, String? errorText) {
@@ -51,15 +55,15 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
 
     EdgeInsets textPadding = const EdgeInsets.symmetric(horizontal: 25, vertical: 5);
 
-    Widget buildRegion(BuildContext context) {
+    Widget buildRegion(AppLocalizations local) {
       return DropDownSettingsTile(
         settingKey: SettingsPage.keyLocation,
-        title: "Регіон",
+        title:local.region,
         selected: 1,
-        values: const <int, String>{
-          1: "Чернівецька обл.",
-          2: "Львівська обл.",
-          3: "Київська обл.",
+        values:<int, String>{
+          1: local.region1,
+          2: local.region2,
+          3: local.region3,
         },
         onChange: (region) {},
       );
@@ -70,10 +74,10 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
         visible: needsUpdate,
         child: FloatingActionButton(
           onPressed: saveData,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: theme.primaryColor,
           child: Icon(
             Icons.save_rounded,
-            color: Theme.of(context).colorScheme.secondary,
+            color: theme.colorScheme.secondary,
             size: 24,
           ),
         ),
@@ -97,32 +101,32 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text("Ваше ім'я:", style: shadowStyle)),
-                textField(displayNameController, "Введіть ваше ім'я",
-                    displayNameError ? "Неправильне ім'я" : null),
+                    child: Text(local.yourName, style: shadowStyle)),
+                textField(displayNameController,local.enterYourName,
+                    displayNameError ? local.wrongYourName: null),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text('Електронна пошта: ', style: shadowStyle)),
-                textField(emailController, 'Введіть вашу електронну пошту',
-                    (emailError) ? 'Неправильна пошта' : null),
+                    child: Text(local.email, style: shadowStyle)),
+                textField(emailController,local.enterEmail,
+                    (emailError) ? local.wrongEmail : null),
                 const SizedBox(height: 15),
                 buildTile(
                     Icons.lock_outlined,
-                    'Змінити пароль',
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColor.withOpacity(0.5)),
+                    local.changePassword,
+                    theme.primaryColor,
+                    theme.primaryColor.withOpacity(0.5)),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text('Ваше місце', style: shadowStyle)),
-                buildRegion(context),
+                    child: Text(local.yourPlace, style: shadowStyle)),
+                buildRegion(local),
                 const SizedBox(height: 10),
                 buildTile(
                   Icons.bug_report,
-                  'Повідомити про помилку',
-                  Theme.of(context).colorScheme.error,
-                  Theme.of(context).colorScheme.errorContainer.withOpacity(0.5),
+                  local.reportBug,
+                  theme.colorScheme.error,
+                  theme.colorScheme.errorContainer.withOpacity(0.5),
                   callback: () async {
                     // await launchUrl(Uri.parse(
                     //     "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
@@ -132,19 +136,19 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 Center(
                   child: MaterialButton(
                     onPressed: () {},
-                    color: Theme.of(context).colorScheme.shadow,
+                    color: theme.colorScheme.shadow,
                     minWidth: 230,
-                    textColor: Theme.of(context).colorScheme.onPrimary,
-                    child: const Text('Вийти'),
+                    textColor: theme.colorScheme.onPrimary,
+                    child: Text(local.logOut),
                   ),
                 ),
                 Center(
                   child: MaterialButton(
                       onPressed: () {},
-                      color: Theme.of(context).colorScheme.errorContainer,
-                      textColor: Theme.of(context).colorScheme.onError,
+                      color: theme.colorScheme.errorContainer,
+                      textColor: theme.colorScheme.onError,
                       minWidth: 250,
-                      child: const Text('Видалити акаунт та вийти')),
+                      child: Text(local.logOutAndDelete)),
                 )
               ],
             ),
