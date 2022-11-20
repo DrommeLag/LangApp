@@ -25,11 +25,10 @@ class _MapPage extends State<MapPage> {
 
   Widget buildMarker(top, left, region) {
     return Positioned(
-      width: 40,
-      height: 40,
       top: top,
       left: left,
       child: StyledIconButton(
+        selected: (selected == region),
         onPressed: () {
           setState(() => selected = region);
           log(selected);
@@ -115,7 +114,33 @@ class _MapPage extends State<MapPage> {
                   ),
                 ],
               ),
-              body: Container()),
+              body: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  image: DecorationImage(
+                    image: const AssetImage("assets/images/ornament.png"),
+                    alignment: Alignment.centerRight,
+                    colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary.withOpacity(0.5), BlendMode.srcOut),
+                  ),
+                ),
+              ),
+          ),
+          Positioned(
+            top: 20,
+            left: 5,
+            child: Row(children: [
+              Image.asset("assets/images/ua_girl.png"),
+              Text(
+                  (selected == "def")
+                      ? "Ви не обрали жодного регіону."
+                      : "Ви обрали $selected",
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+            ),
+          ),
           Align(
             alignment: Alignment.center,
             child: Stack(
