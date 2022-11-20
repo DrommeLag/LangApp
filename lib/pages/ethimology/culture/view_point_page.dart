@@ -9,9 +9,7 @@ class ViewPointPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("${title.substring(0, 15)}..."),
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(top: 30, bottom: 20, left: 30, right: 30),

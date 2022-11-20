@@ -23,18 +23,17 @@ class _MapPage extends State<MapPage> {
   String attractions = "assets/images/attractions.png";
   String imagePath = "assets/images/language.png";
 
-  Widget buildTile(context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        width: 60,
-        height: 60,
-        alignment: Alignment.centerRight,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(imagePath),
-          ),
-        ),
+  Widget buildMarker(top, left, region) {
+    return Positioned(
+      width: 40,
+      height: 40,
+      top: top,
+      left: left,
+      child: StyledIconButton(
+        onPressed: () {
+          setState(() => selected = region);
+          log(selected);
+        },
       ),
     );
   }
@@ -122,355 +121,36 @@ class _MapPage extends State<MapPage> {
             child: Stack(
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red),
-                  ),
                   width: 400,
                   height: 260,
                   child: Image.asset('assets/images/ukraine.png'),
                 ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 10,
-                  left: 55,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "ltsk");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 30,
-                  left: 80,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "rvn");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 55,
-                  left: 35,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "lviv");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 55,
-                  left: 70,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "trpl");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 75,
-                  left: 55,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "ivnfr");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 100,
-                  left: 20,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "uzhg");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 100,
-                  left: 80,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "chernivtsi");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 70,
-                  left: 100,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "khml");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 30,
-                  left: 130,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "zhtmr");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 90,
-                  left: 135,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "vinnytsia");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 70,
-                  left: 160,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "chrks");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 40,
-                  left: 170,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "kyiv");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 5,
-                  left: 185,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "chrngv");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 20,
-                  left: 230,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "sumy");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 60,
-                  left: 215,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "pltv");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 90,
-                  left: 190,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "krpvnts");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 130,
-                  left: 180,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "mklv");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 170,
-                  left: 145,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "odss");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 150,
-                  left: 220,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "khrsn");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 185,
-                  left: 245,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "smphrpl");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 135,
-                  left: 260,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "zprzh");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 95,
-                  left: 255,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "dnpr");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 55,
-                  left: 260,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "khrkv");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 70,
-                  left: 310,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "lhnsk");
-                      log(selected);
-                    },
-                  ),
-                ),
-                Positioned(
-                  width: 40,
-                  height: 40,
-                  top: 110,
-                  left: 300,
-                  child: StyledIconButton(
-                    onPressed: () {
-                      setState(() => selected = "dntsk");
-                      log(selected);
-                    },
-                  ),
-                ),
+                buildMarker(10.0, 55.0, "lutsk"),
+                buildMarker(30.0, 80.0, "rivne"),
+                buildMarker(55.0, 35.0, "lviv"),
+                buildMarker(55.0, 70.0, "ternopil"),
+                buildMarker(75.0, 55.0, "ivano-frankivsk"),
+                buildMarker(100.0, 20.0, "uzhgorod"),
+                buildMarker(100.0, 80.0, "chernivtsi"),
+                buildMarker(70.0, 100.0, "khmelnitskiy"),
+                buildMarker(30.0, 130.0, "zhytomir"),
+                buildMarker(90.0, 135.0, "vinnytsia"),
+                buildMarker(70.0, 160.0, "cherkasy"),
+                buildMarker(40.0, 170.0, "kyiv"),
+                buildMarker(5.0, 185.0, "chernigiv"),
+                buildMarker(20.0, 230.0, "sumy"),
+                buildMarker(60.0, 215.0, "poltava"),
+                buildMarker(90.0, 190.0, "kropyvnitskiy"),
+                buildMarker(130.0, 180.0, "mykolaiv"),
+                buildMarker(170.0, 145.0, "odessa"),
+                buildMarker(150.0, 220.0, "kherson"),
+                buildMarker(185.0, 245.0, "sympheropol"),
+                buildMarker(135.0, 260.0, "zaporizhzhya"),
+                buildMarker(95.0, 255.0, "dnipro"),
+                buildMarker(55.0, 260.0, "kharkiv"),
+                buildMarker(70.0, 310.0, "luhansk"),
+                buildMarker(110.0, 300.0, "donetsk"),
               ]
-            ),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              constraints: const BoxConstraints(
-                  maxWidth: 120, minWidth: 90, minHeight: 80),
-              child: ExpansionWidget(
-                titleBuilder: (double animationValue, _, bool isExpanded,
-                    toggleFunction) {
-                  return InkWell(
-                    onTap: () => toggleFunction(animated: true),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Transform.rotate(
-                          angle: 3.14 * animationValue / 2,
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Theme.of(context).colorScheme.shadow,
-                          ),
-                        ),
-                        buildTile(context),
-                      ],
-                    ),
-                  );
-                },
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  // children: [
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  // ],
-                ),
-              ),
             ),
           ),
         ],
