@@ -15,11 +15,11 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreen extends State<MainScreen> {
   int pos = 0;
-  List<Widget> pages = const <Widget>[
-    HomePage(), //0
-    LevelPage(), //1
-    MapPage(), //2
-    UserPage(), //3
+  final List<_Page> pages = const <_Page>[
+    _Page(Icons.home_filled, HomePage()), //0
+    _Page(Icons.edit_sharp, LevelPage()), //1
+    _Page(Icons.favorite, MapPage()), //2
+    _Page(Icons.person_outline, UserPage()), //3
   ];
 
   _onTap(int a) {
@@ -30,38 +30,40 @@ class _MainScreen extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return DefaultTabController(
+      length: pages.length,
+      child: Scaffold(
+        appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.title),
+        ),
+        bottomNavigationBar: Container(
+          color: Colors.blue,
+          child: TabBar(
+            indicatorColor: Colors.transparent,
+            labelColor: Colors.yellow,
+            unselectedLabelColor: Colors.grey,
+            tabs: pages
+                .map((e) => Tab(
+                      icon: Icon(
+                        e.icon,
+                        size: 40,
+                      ),
+                    ))
+                .toList(),
+            onTap: _onTap,
+          ),
+        ),
+        body: TabBarView(
+          children: (pages.map((e) => e.page).toList()),
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit_sharp),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: '',
-          ),
-        ],
-        currentIndex: pos,
-        iconSize: 40,
-        onTap: _onTap,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Theme.of(context).colorScheme.shadow,
-      ),
-      body: pages[pos],
     );
   }
+}
+
+class _Page {
+  const _Page(this.icon, this.page);
+
+  final IconData icon;
+  final Widget page;
 }
