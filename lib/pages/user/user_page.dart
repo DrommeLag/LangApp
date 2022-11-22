@@ -68,7 +68,7 @@ class _UserPage extends State<UserPage> {
               local.logOut,
               theme.colorScheme.error,
               theme.colorScheme.error.withOpacity(0.5),
-              callback: () => materialPushPage(context, const AuthPage()),
+              callback: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AuthPage())),
             ),
           ],
         )

@@ -36,10 +36,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
     AppLocalizations local = AppLocalizations.of(context)!;
     ThemeData theme = Theme.of(context);
 
-    TextStyle shadowStyle = theme
-        .textTheme
-        .labelLarge!
-        .copyWith(color: theme.colorScheme.shadow);
+    TextStyle shadowStyle =
+        theme.textTheme.labelLarge!.copyWith(color: theme.colorScheme.shadow);
 
     Widget textField(
         TextEditingController controller, String hint, String? errorText) {
@@ -55,14 +53,15 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       );
     }
 
-    EdgeInsets textPadding = const EdgeInsets.symmetric(horizontal: 25, vertical: 5);
+    EdgeInsets textPadding =
+        const EdgeInsets.symmetric(horizontal: 25, vertical: 5);
 
     Widget buildRegion(AppLocalizations local) {
       return DropDownSettingsTile(
         settingKey: SettingsPage.keyLocation,
-        title:local.region,
+        title: local.region,
         selected: 1,
-        values:<int, String>{
+        values: <int, String>{
           1: local.region1,
           2: local.region2,
           3: local.region3,
@@ -104,20 +103,17 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 Padding(
                     padding: textPadding,
                     child: Text(local.yourName, style: shadowStyle)),
-                textField(displayNameController,local.enterYourName,
-                    displayNameError ? local.wrongYourName: null),
+                textField(displayNameController, local.enterYourName,
+                    displayNameError ? local.wrongYourName : null),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
                     child: Text(local.email, style: shadowStyle)),
-                textField(emailController,local.enterEmail,
+                textField(emailController, local.enterEmail,
                     (emailError) ? local.wrongEmail : null),
                 const SizedBox(height: 15),
-                buildTile(
-                    Icons.lock_outlined,
-                    local.changePassword,
-                    theme.primaryColor,
-                    theme.primaryColor.withOpacity(0.5)),
+                buildTile(Icons.lock_outlined, local.changePassword,
+                    theme.primaryColor, theme.primaryColor.withOpacity(0.5)),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
@@ -137,7 +133,9 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 30),
                 Center(
                   child: MaterialButton(
-                    onPressed: () => materialPushPage(context, const AuthPage()),
+                    onPressed: () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                            builder: (context) => const AuthPage())),
                     color: theme.colorScheme.shadow,
                     minWidth: 230,
                     textColor: theme.colorScheme.onPrimary,
