@@ -20,6 +20,17 @@ class AccountSettingsPage extends Material {
 
   @override
   State<Material> createState() => _AccountSettingsPage();
+
+  static Future<String> retrievePhoto() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+    final String url = await FirebaseStorage.instance
+        .ref()
+        .child("images")
+        .child(uid!)
+        .getDownloadURL();
+    return url;
+  }
 }
 
 class _AccountSettingsPage extends State<AccountSettingsPage> {
@@ -34,6 +45,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
 
   bool displayNameError = false;
   bool emailError = false;
+
   @override
   Widget build(BuildContext context) {
     TextStyle shadowStyle = Theme.of(context)
@@ -92,21 +104,6 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       ),
       body: ListView(
         children: [
-          FutureBuilder<String>(
-            future: retrievePhoto(),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: Text('Please wait its loading...'));
-              } else {
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  return Center(child: new Image.network('${snapshot.data}'));
-                }
-              }
-            },
-          ),
-          TextButton(child: Text('Upload Photo'),onPressed: uploadPhoto),
           Container(
             height: 30,
             decoration: const BoxDecoration(
@@ -114,6 +111,36 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(10))),
           ),
+          FutureBuilder<String>(
+            future: AccountSettingsPage.retrievePhoto(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: Text('Please wait its loading...'));
+              } else {
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: const Icon(Icons.person,
+                              color: Colors.white, size: 100)));
+                } else {
+                  return Center(
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                '${snapshot.data}',
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ))));
+                }
+              }
+            },
+          ),
+          TextButton(
+              child: const Text('Upload Photo'), onPressed: () => uploadPhoto()),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
@@ -204,18 +231,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
     final File imageData = (File(selectedImage.path));
     final fileRef = imagesRef.child(uid!);
     final uploadTask = fileRef.putFile(imageData);
-    retrievePhoto();
-  }
-
-  Future<String> retrievePhoto() async {
-    final User? user = FirebaseAuth.instance.currentUser;
-    final uid = user?.uid;
-    final String url = await FirebaseStorage.instance
-        .ref()
-        .child("images")
-        .child(uid!)
-        .getDownloadURL();
-    return url;
+    AccountSettingsPage.retrievePhoto();
   }
 
   @override

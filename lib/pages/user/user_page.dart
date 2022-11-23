@@ -23,6 +23,7 @@ class UserPage extends StatefulWidget {
 class _UserPage extends State<UserPage> {
   final String firebaseUser =
       FirebaseAuth.instance.currentUser!.displayName ?? 'Unknown user';
+
   @override
   Widget build(BuildContext context) {
     Color iconColor = Theme.of(context).primaryColor.withOpacity(0.5);
@@ -41,16 +42,54 @@ class _UserPage extends State<UserPage> {
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
           ),
           height: 200,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Column(children: [
-              const Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 80,
-              ),
-              Text(firebaseUser, textAlign: TextAlign.center)
-            ]),
+          child: FutureBuilder<String>(
+            future: AccountSettingsPage.retrievePhoto(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: Text('Please wait its loading...'));
+              } else {
+                if (snapshot.hasError) {
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Column(mainAxisSize: MainAxisSize.min, children: const [
+                          Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 100,
+                          ),
+                        ]),
+                        Container(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Text(firebaseUser,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)))
+                      ]);
+                } else {
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Column(mainAxisSize: MainAxisSize.min, children: [
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                '${snapshot.data}',
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ))
+                        ]),
+                        Container(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Text(firebaseUser,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)))
+                      ]);
+                }
+              }
+            },
           ),
         ),
         Column(
