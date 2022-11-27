@@ -32,7 +32,7 @@ enum ArticleCategory {
   forMe('Люди'),
   event('Події'),
   brands('Бренди'),
-  media('Медіа'),
+  media('Статті'),
   sport('Спорт');
 
   const ArticleCategory(this.name);

@@ -99,8 +99,17 @@ class _ArticlePage extends State<ArticlePage> {
                   return ListView(
                     children: [
                       Image(image: NetworkImage(widget.tag.imageUrl)),
-                      MarkdownBody(data: (snapshot.data as Article?)!.data),
-                      if (widget.bottom != null) widget.bottom!
+                      MarkdownBody(
+                        data: (snapshot.data as Article?)!.data,
+                        styleSheet:
+                            MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                .copyWith(
+                                    blockquoteDecoration: const BoxDecoration(border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))),
+                                )
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      )
                     ],
                   );
                 } else {

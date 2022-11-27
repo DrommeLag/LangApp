@@ -15,33 +15,41 @@ Future<void> main() async {
 
   String filler = 
 """
-![](https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg)
-# Label
+IT Arena — одна з наймасштабніших тех-конференцій Східної Європи. Подія пройде офлайн та об’єднає тех-експертів для обговорення найважливіших подій 2022 року в світі технологій та не тільки.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu nibh eu nisl vehicula placerat. Nullam eu placerat purus. Nulla efficitur libero tempor ante porta, ut dignissim nisl malesuada. Nullam facilisis congue nibh, vel blandit nunc finibus eget. Quisque vitae dui pretium, pharetra lorem non, placerat nulla. Aliquam erat volutpat. Fusce quis sollicitudin nibh. Praesent sit amet luctus dui. Ut pharetra sapien eget leo mattis, eget ornare est pretium. Etiam eget mollis sem. Nunc arcu ante, fringilla eget hendrerit et, euismod sed odio. Donec convallis in dolor quis tempus. Proin ornare vulputate purus vitae vehicula.
+Попри війну, тех-спільнота України продовжує працювати, зростати та підтримувати економіку країни. В часи, коли країна зіткнулася з унікальними викликами та створює унікальні рішення, IT Arena 2022 стане однією з найбільших зустрічей лідерів технологічної галузі, експертів та всіх, хто стоїть на передовій цифрового майбутнього України.
 
-Cras tempus sit amet sapien eu hendrerit. Nulla fermentum euismod tellus, ac tristique felis molestie ut. Quisque id dui sollicitudin purus lobortis rutrum vel nec risus. Morbi dignissim, purus ut accumsan imperdiet, erat metus dignissim libero, sed eleifend urna tortor ac arcu. Sed lobortis sem ac facilisis commodo. Nunc vel porttitor lorem. Sed a feugiat magna, at fringilla urna. Donec et mi id ex suscipit elementum a et elit. Donec sit amet tellus non dui venenatis sodales ac ut ligula. Fusce ac ipsum consectetur risus posuere sollicitudin. Nunc nec est ut ipsum bibendum efficitur. Sed tempor sapien vitae sagittis accumsan. Pellentesque vitae condimentum ipsum. Nam consequat nisi non nulla dapibus consectetur.
+Цього року IT Arena відбудеться офлайн, щоб показати силу та стійкість України, та зосередиться на таких темах:
+- як тех-індустрія може підтримати країну в ці неспокійні часи,
+- майбутньому військових технологій,
+- сучасній кібертактиці під час війни та не тільки.
 
-## Sublabel
-![](https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg)
+Серед учасників цьогорічної IT Arena — Олександр Борняков, заступник міністра цифрової трансформації України, а також представники влади. IT Arena вчергове надасть унікальну можливість лідерам тех-індустрії, українським та міжнародним медіа зібратися разом, щоб обговорити найактуальніші теми та дізнатися про сучасні технології.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu nibh eu nisl vehicula placerat. Nullam eu placerat purus. Nulla efficitur libero tempor ante porta, ut dignissim nisl malesuada. Nullam facilisis congue nibh, vel blandit nunc finibus eget. Quisque vitae dui pretium, pharetra lorem non, placerat nulla. Aliquam erat volutpat. Fusce quis sollicitudin nibh. Praesent sit amet luctus dui. Ut pharetra sapien eget leo mattis, eget ornare est pretium. Etiam eget mollis sem. Nunc arcu ante, fringilla eget hendrerit et, euismod sed odio. Donec convallis in dolor quis tempus. Proin ornare vulputate purus vitae vehicula.
+## Два дні насичених дискусій
 
-Cras tempus sit amet sapien eu hendrerit. Nulla fermentum euismod tellus, ac tristique felis molestie ut. Quisque id dui sollicitudin purus lobortis rutrum vel nec risus. Morbi dignissim, purus ut accumsan imperdiet, erat metus dignissim libero, sed eleifend urna tortor ac arcu. Sed lobortis sem ac facilisis commodo. Nunc vel porttitor lorem. Sed a feugiat magna, at fringilla urna. Donec et mi id ex suscipit elementum a et elit. Donec sit amet tellus non dui venenatis sodales ac ut ligula. Fusce ac ipsum consectetur risus posuere sollicitudin. Nunc nec est ut ipsum bibendum efficitur. Sed tempor sapien vitae sagittis accumsan. Pellentesque vitae condimentum ipsum. Nam consequat nisi non nulla dapibus consectetur. 
+Спікерами IT Arena 2022 стануть Халук Байрактар, СЕО Baykar — турецької компанії-виробника безпілотних літальних апаратів, Кемерон Чел, CEO Dragonfly, Іван Толчинський, СЕО Atlas Aerospace, Сергій Притула, CEO Благодійного фонду Сергія Притули та Кім Зетер, експертка з кібербезпеки.
 
-## Sublabel
-![](https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg)
+В межах цьогорічної конференції також відбудеться змагання кращих стартапів. Startup Competition надасть можливість молодим та перспективним тех-компаніям продемонструвати свої проєкти, випробувати бізнес-моделі, поспілкуватися з відомими підприємцями та інвесторами та позмагатися за призовий фонд у \$53 000. Реєстрація для участі в битві стартапів доступна до 11 вересня 2022 року за посиланням.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu nibh eu nisl vehicula placerat. Nullam eu placerat purus. Nulla efficitur libero tempor ante porta, ut dignissim nisl malesuada. Nullam facilisis congue nibh, vel blandit nunc finibus eget. Quisque vitae dui pretium, pharetra lorem non, placerat nulla. Aliquam erat volutpat. Fusce quis sollicitudin nibh. Praesent sit amet luctus dui. Ut pharetra sapien eget leo mattis, eget ornare est pretium. Etiam eget mollis sem. Nunc arcu ante, fringilla eget hendrerit et, euismod sed odio. Donec convallis in dolor quis tempus. Proin ornare vulputate purus vitae vehicula.
+## Ваша безпека на події
 
-Cras tempus sit amet sapien eu hendrerit. Nulla fermentum euismod tellus, ac tristique felis molestie ut. Quisque id dui sollicitudin purus lobortis rutrum vel nec risus. Morbi dignissim, purus ut accumsan imperdiet, erat metus dignissim libero, sed eleifend urna tortor ac arcu. Sed lobortis sem ac facilisis commodo. Nunc vel porttitor lorem. Sed a feugiat magna, at fringilla urna. Donec et mi id ex suscipit elementum a et elit. Donec sit amet tellus non dui venenatis sodales ac ut ligula. Fusce ac ipsum consectetur risus posuere sollicitudin. Nunc nec est ut ipsum bibendum efficitur. Sed tempor sapien vitae sagittis accumsan. Pellentesque vitae condimentum ipsum. Nam consequat nisi non nulla dapibus consectetur. 
+Організатори IT Arena, разом з місцевою владою подбали про суворе дотримання заходів безпеки, щоб мінімізувати будь-які ризики під час проведення події. Саме тому, цього року подія виглядатиме дещо інакше та відбудеться у меншому масштабі.
+
+«Ми доклали всіх зусиль, щоб створити максимально безпечне середовище, — каже Степан Веселовський, СЕО IT Arena та Львівського ІТ Кластера. «Незважаючи на безпрецедентні виклики, в 2022 році технічна спільнота в Україні продовжує розвиватися. Сьогодні думки наших партнерів, спікерів та учасників сходяться на тому, що ми повинні провести цю подію. Тож ми зберемося в офлайн-режимі, щоб показати всьому світу сміливість та стійкість України — країни, в якій, на наше переконання, життя може і має тривати.»
+
+## Про подію
+
+З 2014 року IT Arena збирає у Львові українську та світову тех-спільноту.
+
+Щороку понад 5000 тех-професіоналів з більш ніж 40 країн світу відвідують IT Arena. Серед них, представники світових технологічних компаній, таких як Google, F1, Spotify, Tesla, а також українських стартапів, таких як Liki24, Legal Nodes, AXDRAFT.
+
+Під час IT Arena учасники мають безліч можливостей дізнаватись про тренди тех-індустрії, встановити довгострокові ділові стосунки та поділитися ідеями про майбутнє технологій.
+
 """;
 
-String desc =  """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu nibh eu nisl vehicula placerat. Nullam eu placerat purus. Nulla efficitur libero tempor ante porta, ut dignissim nisl malesuada. Nullam facilisis congue nibh, vel blandit nunc finibus eget. Quisque vitae dui pretium, pharetra lorem non, placerat nulla. Aliquam erat volutpat. Fusce quis sollicitudin nibh. Praesent sit amet luctus dui. Ut pharetra sapien eget leo mattis, eget ornare est pretium. Etiam eget mollis sem. Nunc arcu ante, fringilla eget hendrerit et, euismod sed odio. Donec convallis in dolor quis tempus. Proin ornare vulputate purus vitae vehicula.
-Cras tempus sit amet sapien eu hendrerit. Nulla fermentum euismod tellus, ac tristique felis molestie ut. Quisque id dui sollicitudin purus lobortis rutrum vel nec risus. Morbi dignissim, purus ut accumsan imperdiet, erat metus dignissim libero, sed eleifend urna tortor ac arcu. Sed lobortis sem ac facilisis commodo. Nunc vel porttitor lorem. Sed a feugiat magna, at fringilla urna. Donec et mi id ex suscipit elementum a et elit. Donec sit amet tellus non dui venenatis sodales ac ut ligula. Fusce ac ipsum consectetur risus posuere sollicitudin. Nunc nec est ut ipsum bibendum efficitur. Sed tempor sapien vitae sagittis accumsan. Pellentesque vitae condimentum ipsum. Nam consequat nisi non nulla dapibus consectetur. 
-""";
+String desc =  filler.substring(0, filler.indexOf('\n'));
   Article a = Article(filler);
-  for (var i = 0; i < 30; i++) {
-    databaseService.sendArticle(a, EventTag("Label $i", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_960_720.jpg", desc, DateTime.now(), DateTime.utc(2022, 2, 6), "Lviv"));
-  }
+    databaseService.sendArticle(a, EventTag('IT arena',"https://upload.wikimedia.org/wikipedia/commons/f/f4/Illuminated_sign_for_the_IT_Arena_in_Lviv_%2801%29.jpg", desc, DateTime(2022,9,30), DateTime(2022,10,1),'Lviv'));
+
 }
