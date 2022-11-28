@@ -51,7 +51,7 @@ class _MapPage extends State<MapPage> {
                 foregroundColor: Colors.white,
                 activeBackgroundColor: const Color(0xFFF2D84F),
                 activeForegroundColor: Colors.black,
-                buttonSize: 56.0,
+                buttonSize: const Size.square(56),
                 visible: true,
                 closeManually: false,
                 curve: Curves.bounceIn,

@@ -1,4 +1,4 @@
-import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/models/progress.dart';
 import 'package:lang_app/models/test.dart';
 
