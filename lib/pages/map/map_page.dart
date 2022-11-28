@@ -1,6 +1,8 @@
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:lang_app/pages/ethimology/browse_page.dart';
+import 'package:lang_app/pages/templates/material_push_template.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -81,6 +83,7 @@ class _MapPage extends State<MapPage> {
                       } else {
                         imagePath = culture;
                       }
+                      materialPushPage(context, BrowsePage());
                       setState(() {});
                     },
                   ),
@@ -136,13 +139,13 @@ class _MapPage extends State<MapPage> {
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    buildTile(context),
-                    buildTile(context),
-                    buildTile(context),
-                    buildTile(context),
-                    buildTile(context),
-                  ],
+                  // children: [
+                  //   buildTile(context),
+                  //   buildTile(context),
+                  //   buildTile(context),
+                  //   buildTile(context),
+                  //   buildTile(context),
+                  // ],
                 ),
               ),
             ),

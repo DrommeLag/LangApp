@@ -72,7 +72,7 @@ class _AuthPageState extends State<AuthPage> {
       DatabaseService().checkProgress(AuthService().uid);
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const MainScreen();
+        return const MainScreen(index: 0,);
       }));
     } else {
       //TODO think about if false

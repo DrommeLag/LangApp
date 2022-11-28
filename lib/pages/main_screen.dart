@@ -7,7 +7,8 @@ import 'package:lang_app/pages/user/user_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key, required this.index}) : super(key: key);
+  final int index;
 
   @override
   State<MainScreen> createState() => _MainScreen();
@@ -22,10 +23,16 @@ class _MainScreen extends State<MainScreen> {
     _Page(Icons.person_outline, UserPage()), //3
   ];
 
-  _onTap(int a) {
+  _onTap(int index) {
     setState(() {
-      pos = a;
+      pos = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    pos = widget.index;
   }
 
   @override
