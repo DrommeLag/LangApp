@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:lang_app/pages/ethimology/browse_page.dart';
+import 'package:lang_app/pages/ethimology/culture/culture_page.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
+import 'package:lang_app/pages/templates/styled_icon_button.dart';
+import 'package:lang_app/pages/templates/toast_error_message.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -12,23 +16,23 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPage extends State<MapPage> {
+  String selected = "def";
+
   String language = "assets/images/language.png";
   String culture = "assets/images/culture.png";
   String attractions = "assets/images/attractions.png";
   String imagePath = "assets/images/language.png";
 
-  Widget buildTile(context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        width: 60,
-        height: 60,
-        alignment: Alignment.centerRight,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(imagePath),
-          ),
-        ),
+  Widget buildMarker(top, left, region) {
+    return Positioned(
+      top: top,
+      left: left,
+      child: StyledIconButton(
+        selected: (selected == region),
+        onPressed: () {
+          setState(() => selected = region);
+          log(selected);
+        },
       ),
     );
   }
@@ -83,7 +87,6 @@ class _MapPage extends State<MapPage> {
                       } else {
                         imagePath = culture;
                       }
-                      materialPushPage(context, BrowsePage());
                       setState(() {});
                     },
                   ),
@@ -100,54 +103,79 @@ class _MapPage extends State<MapPage> {
                       } else {
                         imagePath = attractions;
                       }
+                      if (selected == "def") {
+                        showToastErrorMessage("Оберіть регіон на карті.");
+                      }
+                      else {
+                        materialPushPage(context, CulturePage(selected: selected));
+                      }
                       setState(() {});
                     },
                   ),
                 ],
               ),
-              body: Container()),
-          Align(
-              alignment: Alignment.center,
-              child: Image.asset('assets/images/ukraine.png')),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              constraints: const BoxConstraints(
-                  maxWidth: 120, minWidth: 90, minHeight: 80),
-              child: ExpansionWidget(
-                titleBuilder: (double animationValue, _, bool isExpanded,
-                    toggleFunction) {
-                  return InkWell(
-                    onTap: () => toggleFunction(animated: true),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Transform.rotate(
-                          angle: 3.14 * animationValue / 2,
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Theme.of(context).colorScheme.shadow,
-                          ),
-                        ),
-                        buildTile(context),
-                      ],
-                    ),
-                  );
-                },
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  // children: [
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  //   buildTile(context),
-                  // ],
+              body: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  image: DecorationImage(
+                    image: const AssetImage("assets/images/ornament.png"),
+                    alignment: Alignment.centerRight,
+                    colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary.withOpacity(0.5), BlendMode.srcOut),
+                  ),
                 ),
               ),
+          ),
+          Positioned(
+            top: 20,
+            left: 5,
+            child: Row(children: [
+              Image.asset("assets/images/ua_girl.png"),
+              Text(
+                  (selected == "def")
+                      ? "Ви не обрали жодного регіону."
+                      : "Ви обрали $selected",
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                Container(
+                  width: 400,
+                  height: 260,
+                  child: Image.asset('assets/images/ukraine.png'),
+                ),
+                buildMarker(10.0, 55.0, "lutsk"),
+                buildMarker(30.0, 80.0, "rivne"),
+                buildMarker(55.0, 35.0, "lviv"),
+                buildMarker(55.0, 70.0, "ternopil"),
+                buildMarker(75.0, 55.0, "ivano-frankivsk"),
+                buildMarker(100.0, 20.0, "uzhgorod"),
+                buildMarker(100.0, 80.0, "chernivtsi"),
+                buildMarker(70.0, 100.0, "khmelnitskiy"),
+                buildMarker(30.0, 130.0, "zhytomir"),
+                buildMarker(90.0, 135.0, "vinnytsia"),
+                buildMarker(70.0, 160.0, "cherkasy"),
+                buildMarker(40.0, 170.0, "kyiv"),
+                buildMarker(5.0, 185.0, "chernigiv"),
+                buildMarker(20.0, 230.0, "sumy"),
+                buildMarker(60.0, 215.0, "poltava"),
+                buildMarker(90.0, 190.0, "kropyvnitskiy"),
+                buildMarker(130.0, 180.0, "mykolaiv"),
+                buildMarker(170.0, 145.0, "odessa"),
+                buildMarker(150.0, 220.0, "kherson"),
+                buildMarker(185.0, 245.0, "sympheropol"),
+                buildMarker(135.0, 260.0, "zaporizhzhya"),
+                buildMarker(95.0, 255.0, "dnipro"),
+                buildMarker(55.0, 260.0, "kharkiv"),
+                buildMarker(70.0, 310.0, "luhansk"),
+                buildMarker(110.0, 300.0, "donetsk"),
+              ]
             ),
           ),
         ],
