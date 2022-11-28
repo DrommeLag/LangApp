@@ -45,7 +45,7 @@ class _MapPage extends State<MapPage> {
                 foregroundColor: Colors.white,
                 activeBackgroundColor: const Color(0xFFF2D84F),
                 activeForegroundColor: Colors.black,
-                buttonSize: 56.0,
+                buttonSize: const Size.square(56),
                 visible: true,
                 closeManually: false,
                 curve: Curves.bounceIn,
@@ -122,11 +122,11 @@ class _MapPage extends State<MapPage> {
                       children: [
                         Transform.rotate(
                           angle: 3.14 * animationValue / 2,
+                          alignment: Alignment.center,
                           child: Icon(
                             Icons.arrow_forward_ios_outlined,
                             color: Theme.of(context).colorScheme.shadow,
                           ),
-                          alignment: Alignment.center,
                         ),
                         buildTile(context),
                       ],

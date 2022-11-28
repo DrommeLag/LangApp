@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/core/auth_service.dart';
-import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/pages/main_screen.dart';
 import 'package:lang_app/pages/templates/highlighted_text.dart';
 import 'package:lang_app/pages/templates/input_text_field.dart';
 import 'package:lang_app/pages/templates/toast_error_message.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-/**
- * TOTOTOOTODO: make invalid email/ password input field
- */
+/// TODO TOOTODO: make invalid email/ password input field
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -31,8 +30,11 @@ class _AuthPageState extends State<AuthPage> {
     super.didChangeDependencies();
   }
 
+  late AppLocalizations local;
+
   @override
   Widget build(BuildContext context) {
+    local = AppLocalizations.of(context)!;
     late List<Widget> show;
     if (_showLogin) {
       show = loginWidget(context);
@@ -42,7 +44,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Створіть свій акаунт!'),
+        title: Text(local.createAccount),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -98,20 +100,20 @@ class _AuthPageState extends State<AuthPage> {
     return [
       InputTextField(
           icon: Icons.email,
-          hint: 'Email',
+          hint: local.email,
           controller: _emailController,
           obscure: false),
       const SizedBox(height: 20),
       InputTextField(
           icon: Icons.lock,
-          hint: 'Пароль',
+          hint: local.password,
           controller: _passwordController,
           obscure: true),
       const SizedBox(height: 40),
-      formattedButton('ВВІЙТИ', () => loginButtonAction(context)),
+      formattedButton(local.logIn, () => loginButtonAction(context)),
       const SizedBox(height: 40),
       highlightedText(
-          text: 'Не маєте акаунта? |Реєстрація|',
+          text: local.registerQuestion,
           onTap: onClickChangeLoginRegister,
           highlightedStyle: Theme.of(context)
               .textTheme
@@ -153,32 +155,32 @@ class _AuthPageState extends State<AuthPage> {
     return <Widget>[
       InputTextField(
           icon: Icons.account_circle,
-          hint: 'Ім`я',
+          hint: local.name,
           controller: _nameController,
           obscure: false),
       const SizedBox(height: 20),
       InputTextField(
           icon: Icons.supervised_user_circle,
-          hint: 'Прізвище(за бажанням)',
+          hint: local.surnameOptinal,
           controller: _sureNameController,
           obscure: false),
       const SizedBox(height: 20),
       InputTextField(
           icon: Icons.email,
-          hint: 'Email',
+          hint: local.email,
           controller: _emailController,
           obscure: false),
       const SizedBox(height: 20),
       InputTextField(
           icon: Icons.lock,
-          hint: 'Пароль',
+          hint: local.password,
           controller: _passwordController,
           obscure: true),
       const SizedBox(height: 40),
-      formattedButton('ЗАРЕЄСТРУВАТИСЬ', () => registerButtonAction(context)),
+      formattedButton(local.register, () => registerButtonAction(context)),
       const SizedBox(height: 40),
       highlightedText(
-          text: 'Вже зареєстровані? |Увійти|',
+          text: local.loginQuestion,
           onTap: onClickChangeLoginRegister,
           highlightedStyle: Theme.of(context)
               .textTheme
