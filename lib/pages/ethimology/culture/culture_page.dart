@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lang_app/core/database.dart';
 import 'package:lang_app/models/card.dart';
 import 'package:lang_app/models/view_point.dart';
+import 'package:lang_app/pages/templates/region_map.dart';
 
 class CulturePage extends StatefulWidget {
   const CulturePage({Key? key, required this.selected}) : super(key: key);
@@ -45,7 +46,7 @@ class _CulturePageState extends State<CulturePage> {
         if (snapshot.connectionState == ConnectionState.done && viewPoints.isNotEmpty) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(widget.selected),
+              title: Text(regionMap[widget.selected]!),
             ),
             body: Center(
               child: Scrollbar(
@@ -65,11 +66,13 @@ class _CulturePageState extends State<CulturePage> {
         else if (snapshot.connectionState == ConnectionState.done && viewPoints.isEmpty){
           return Scaffold(
             appBar: AppBar(
-              title: Text(widget.selected),
+              title: Text(regionMap[widget.selected]!),
             ),
             body: Center(
-              child: Text("No data for ${widget.selected}",
-                      style: const TextStyle(fontSize: 30,),
+              child: Text("Немає даних для ${regionMap[widget.selected]}",
+                style: const TextStyle(
+                  fontSize: 30,),
+                textAlign: TextAlign.center,
               ),
             ),
           );
@@ -77,10 +80,10 @@ class _CulturePageState extends State<CulturePage> {
         else {
           return Scaffold(
             appBar: AppBar(
-              title: Text(widget.selected),
+              title: Text(regionMap[widget.selected]!),
             ),
             body: const Center(child:
-              Text("Loading...", style: TextStyle(
+              Text("Завантаження...", style: TextStyle(
                 fontSize: 30,
               ),),
             ),

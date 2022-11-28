@@ -8,6 +8,8 @@ import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/templates/styled_icon_button.dart';
 import 'package:lang_app/pages/templates/toast_error_message.dart';
 
+import '../templates/region_map.dart';
+
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
 
@@ -133,7 +135,7 @@ class _MapPage extends State<MapPage> {
               Text(
                   (selected == "def")
                       ? "Ви не обрали жодного регіону."
-                      : "Ви обрали $selected",
+                      : "Ви обрали ${regionMap[selected]}",
                 style: const TextStyle(
                   fontSize: 20,
                 ),
