@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +6,13 @@ import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/pages/templates/dialog_loading.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
-import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import '../../templates/input_text_field.dart';
+import '../../home/home_page.dart';
 
 class AccountSettingsPage extends Material {
   const AccountSettingsPage({Key? key}) : super(key: key);
@@ -40,6 +38,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController repeatNewPasswordController = TextEditingController();
+  bool _showOldPassword = false;
+  bool _showNewPassword = false;
 
   late String displayName;
   late String email;
@@ -97,55 +97,81 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       String? email = user?.email;
 
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email!,
           password: password,
         );
 
         user?.updatePassword(newPassword).then((_) {
-          print("Successfully changed password");
           clearInputs();
           Navigator.of(context, rootNavigator: true).pop('dialog');
-        }).catchError((error) {
-          print("Password can't be changed $error");
-        });
+        }).catchError((error) {});
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
-        }
+        } else if (e.code == 'wrong-password') {}
       }
     }
 
     Future<String?> openDialog() => showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              title: const Text('Змінити пароль'),
-              content:
-                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                TextField(
-                  controller: oldPasswordController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Введіть старий пароль'),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 30.0)),
-                TextField(
-                  controller: newPasswordController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Введіть новий пароль'),
-                ),
-              ]),
-              actions: [
-                TextButton(
-                    onPressed: () => _changePassword(
-                        oldPasswordController.text, newPasswordController.text),
-                    child: const Text('Підтвердити')),
-              ],
-            ));
+        builder: (context) => StatefulBuilder(builder: (context, setState) {
+              return AlertDialog(
+                title: const Text('Змінити пароль'),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  TextFormField(
+                    controller: oldPasswordController,
+                    obscureText: !_showOldPassword,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Введіть старий пароль',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _showOldPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _showOldPassword = !_showOldPassword;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(bottom: 30.0)),
+                  TextFormField(
+                    controller: newPasswordController,
+                    obscureText: !_showNewPassword,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Введіть новий пароль',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _showNewPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _showNewPassword = !_showNewPassword;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ]),
+                actions: [
+                  TextButton(
+                      onPressed: () => _changePassword(
+                          oldPasswordController.text,
+                          newPasswordController.text),
+                      child: const Text('Підтвердити')),
+                ],
+              );
+            }));
 
     return Scaffold(
       appBar: AppBar(
@@ -203,7 +229,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
             },
           ),
           TextButton(
-              child: const Text('Upload Photo'),
+              child: const Text('Завантажити фото'),
               onPressed: () => uploadPhoto()),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -283,11 +309,11 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
   }
 
   Future uploadPhoto() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     final storageRef = FirebaseStorage.instance.ref();
     Reference? imagesRef = storageRef.child("images");
     final XFile? selectedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+        await picker.pickImage(source: ImageSource.gallery);
     if (selectedImage == null) {
       return;
     }
@@ -295,7 +321,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
     final uid = user?.uid;
     final File imageData = (File(selectedImage.path));
     final fileRef = imagesRef.child(uid!);
-    final uploadTask = fileRef.putFile(imageData);
+    fileRef.putFile(imageData);
     AccountSettingsPage.retrievePhoto();
   }
 
