@@ -139,7 +139,8 @@ class _UserPage extends State<UserPage> {
               'Вийти',
               Theme.of(context).colorScheme.error,
               Theme.of(context).colorScheme.error.withOpacity(0.5),
-              callback: () => materialPushPage(context, const AuthPage()),
+              callback: () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const AuthPage())),
             ),
           ],
         )

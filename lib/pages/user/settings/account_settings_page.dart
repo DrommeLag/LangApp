@@ -9,11 +9,12 @@ import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
-import 'package:lang_app/pages/user/settings/password/password_change_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import '../../templates/input_text_field.dart';
 
 class AccountSettingsPage extends Material {
   const AccountSettingsPage({Key? key}) : super(key: key);
@@ -35,8 +36,10 @@ class AccountSettingsPage extends Material {
 
 class _AccountSettingsPage extends State<AccountSettingsPage> {
   late TextEditingController displayNameController;
-
   late TextEditingController emailController;
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController repeatNewPasswordController = TextEditingController();
 
   late String displayName;
   late String email;
@@ -83,6 +86,66 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
         onChange: (region) {},
       );
     }
+
+    void clearInputs() {
+      oldPasswordController.clear();
+      newPasswordController.clear();
+    }
+
+    void _changePassword(String password, String newPassword) async {
+      final User? user = FirebaseAuth.instance.currentUser;
+      String? email = user?.email;
+
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email!,
+          password: password,
+        );
+
+        user?.updatePassword(newPassword).then((_) {
+          print("Successfully changed password");
+          clearInputs();
+          Navigator.of(context, rootNavigator: true).pop('dialog');
+        }).catchError((error) {
+          print("Password can't be changed $error");
+        });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+        }
+      }
+    }
+
+    Future<String?> openDialog() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Змінити пароль'),
+              content:
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                TextField(
+                  controller: oldPasswordController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Введіть старий пароль'),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 30.0)),
+                TextField(
+                  controller: newPasswordController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Введіть новий пароль'),
+                ),
+              ]),
+              actions: [
+                TextButton(
+                    onPressed: () => _changePassword(
+                        oldPasswordController.text, newPasswordController.text),
+                    child: const Text('Підтвердити')),
+              ],
+            ));
 
     return Scaffold(
       appBar: AppBar(
@@ -140,7 +203,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
             },
           ),
           TextButton(
-              child: const Text('Upload Photo'), onPressed: () => uploadPhoto()),
+              child: const Text('Upload Photo'),
+              onPressed: () => uploadPhoto()),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
@@ -166,8 +230,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                     'Змінити пароль',
                     Theme.of(context).primaryColor,
                     Theme.of(context).primaryColor.withOpacity(0.5),
-                    callback: () =>
-                        materialPushPage(context, const PasswordChangePage())),
+                    callback: () => openDialog()),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
@@ -193,8 +256,10 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 30),
                 Center(
                   child: MaterialButton(
-                    onPressed: () =>
-                        materialPushPage(context, const AuthPage()),
+                    onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const AuthPage()),
+                        (Route<dynamic> route) => false),
                     color: Theme.of(context).colorScheme.shadow,
                     minWidth: 230,
                     textColor: Theme.of(context).colorScheme.onPrimary,
@@ -208,7 +273,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       textColor: Theme.of(context).colorScheme.onError,
                       minWidth: 250,
                       child: const Text('Видалити акаунт та вийти')),
-                )
+                ),
               ],
             ),
           ),
