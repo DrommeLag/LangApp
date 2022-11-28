@@ -2,7 +2,6 @@
     package="com.drommelag.lang_app">
    <application
         android:label="LangApp"
-        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

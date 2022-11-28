@@ -3,6 +3,7 @@ import 'package:lang_app/models/test.dart';
 import 'package:lang_app/pages/levels/level_page.dart';
 import 'package:lang_app/pages/levels/test/test_holder.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ContextOnscreenMessage extends ModalRoute<void> {
   final Test test;
@@ -41,8 +42,12 @@ class ContextOnscreenMessage extends ModalRoute<void> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
+
+    AppLocalizations local = AppLocalizations.of(context)!;
+    ThemeData theme = Theme.of(context);
+
     late List<Widget> status;
-    TextStyle nextButtonTextStyle = Theme.of(context).textTheme.titleLarge!;
+    TextStyle nextButtonTextStyle = theme.textTheme.titleLarge!;
     Function()? callback = () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: ((context) =>
@@ -50,21 +55,21 @@ class ContextOnscreenMessage extends ModalRoute<void> {
 
     if (testStatus == TestStatus.locked) {
       nextButtonTextStyle = nextButtonTextStyle.copyWith(
-          color: Theme.of(context).colorScheme.shadow);
+          color: theme.colorScheme.shadow);
       callback = null;
     }
 
-    TextStyle textStyleForStatus = Theme.of(context).textTheme.titleSmall!;
+    TextStyle textStyleForStatus = theme.textTheme.titleSmall!;
     switch (testStatus) {
       case TestStatus.locked:
         status = [
           Icon(Icons.lock,
-              color: Theme.of(context).colorScheme.shadow,
+              color: theme.colorScheme.shadow,
               size: textStyleForStatus.fontSize),
           Text(
-            'Закрито',
+            local.closed,
             style: textStyleForStatus.copyWith(
-                color: Theme.of(context).colorScheme.shadow),
+                color: theme.colorScheme.shadow),
           )
         ];
         break;
@@ -76,7 +81,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
             size: textStyleForStatus.fontSize,
           ),
           Text(
-            'Завершено',
+            local.completed,
             style: textStyleForStatus,
           )
         ];
@@ -110,7 +115,7 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                     Text(
                       test.name,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
+                      style: theme
                           .textTheme
                           .displaySmall!
                           .copyWith(color: Colors.black),
@@ -130,16 +135,16 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                     ),
                     Text.rich(
                       TextSpan(
-                        text: "Опис: ",
-                        style: Theme.of(context).textTheme.titleMedium,
+                        text: local.description,
+                        style: theme.textTheme.titleMedium,
                         children: [
                           TextSpan(
                             text: test.description,
-                            style: Theme.of(context)
+                            style: theme
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                    color: Theme.of(context).primaryColor),
+                                    color: theme.primaryColor),
                           )
                         ],
                       ),
@@ -149,8 +154,8 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                       height: 10,
                     ),
                     Text(
-                      'Прогрес:',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      local.progress,
+                      style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(
                       height: 10,
@@ -159,8 +164,8 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                       percent: progress,
                       lineHeight: 15,
                       barRadius: const Radius.circular(10),
-                      progressColor: Theme.of(context).primaryColor,
-                      backgroundColor: Theme.of(context).primaryColorLight,
+                      progressColor: theme.primaryColor,
+                      backgroundColor: theme.primaryColorLight,
                       center: Text("${(progress * 100).toString()}%"),
                     ),
                   ],
@@ -178,9 +183,9 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                         onTap: () => Navigator.pop(context),
                         child: Container(
                           alignment: Alignment.center,
-                          color: Theme.of(context).colorScheme.shadow,
-                          child: Text('Назад',
-                              style: Theme.of(context).textTheme.titleLarge),
+                          color: theme.colorScheme.shadow,
+                          child: Text(local.goBack,
+                              style: theme.textTheme.titleLarge),
                         ),
                       ),
                     ),
@@ -189,9 +194,9 @@ class ContextOnscreenMessage extends ModalRoute<void> {
                         onTap: callback,
                         child: Container(
                           alignment: Alignment.center,
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: theme.colorScheme.secondary,
                           child: Text(
-                            'Почати',
+                            local.start,
                             style: nextButtonTextStyle,
                           ),
                         ),

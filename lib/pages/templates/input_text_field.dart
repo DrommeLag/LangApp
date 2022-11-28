@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class InputTextField extends Container {
-  InputTextField({Key? key, required TextEditingController controller, bool obscure = false, String? hint,IconData? icon})
+  InputTextField({Key? key, required TextEditingController controller, bool obscure = false, String? hint,IconData? icon, double fontSize = 20})
       : super(
           key: key,
           child: TextField(
             controller: controller,
             obscureText: obscure,
             decoration: InputDecoration(
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: fontSize,
               ),
               hintText: hint,
               focusedBorder: const OutlineInputBorder(
