@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
-import 'package:lang_app/core/database.dart';
+import 'package:lang_app/core/database_service.dart';
 import 'package:lang_app/pages/main_screen.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/themes.dart';
@@ -13,7 +13,7 @@ import 'package:lang_app/pages/user/settings/notifications/notification_api.dart
 import 'package:lang_app/pages/user/settings/theme/theme_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-void main() async {
+main() async {
   await Settings.init(cacheProvider: SharePreferenceCache());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     setState(() {
-      home = loggedIn ? const MainScreen() : const AuthPage();
+      home = loggedIn ? const MainScreen(index: 0,) : const AuthPage();
     });
   }
 

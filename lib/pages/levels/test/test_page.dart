@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lang_app/models/task.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TestPage extends StatefulWidget {
   TestPage({Key? key, required this.task, required this.callback})
@@ -36,6 +37,7 @@ class _TestPage extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations local = AppLocalizations.of(context)!;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -90,7 +92,7 @@ class _TestPage extends State<TestPage> {
                           widget.callback(isRight);
                         }
                       : onCheckTap,
-                  child: Text((isTested) ? 'Далі' : 'Перевірити'),
+                  child: Text((isTested) ? local.next:local.check),
                   ),
             )
           ])

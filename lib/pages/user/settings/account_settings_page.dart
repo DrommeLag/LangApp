@@ -9,11 +9,11 @@ import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
-import 'package:lang_app/pages/user/settings/password/password_change_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountSettingsPage extends Material {
   const AccountSettingsPage({Key? key}) : super(key: key);
@@ -35,8 +35,13 @@ class AccountSettingsPage extends Material {
 
 class _AccountSettingsPage extends State<AccountSettingsPage> {
   late TextEditingController displayNameController;
-
   late TextEditingController emailController;
+
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController repeatNewPasswordController = TextEditingController();
+  bool _showOldPassword = false;
+  bool _showNewPassword = false;
 
   late String displayName;
   late String email;
@@ -48,10 +53,11 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle shadowStyle = Theme.of(context)
-        .textTheme
-        .labelLarge!
-        .copyWith(color: Theme.of(context).colorScheme.shadow);
+    AppLocalizations local = AppLocalizations.of(context)!;
+    ThemeData theme = Theme.of(context);
+
+    TextStyle shadowStyle =
+        theme.textTheme.labelLarge!.copyWith(color: theme.colorScheme.shadow);
 
     Widget textField(
         TextEditingController controller, String hint, String? errorText) {
@@ -70,19 +76,105 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
     EdgeInsets textPadding =
         const EdgeInsets.symmetric(horizontal: 25, vertical: 5);
 
-    Widget buildRegion(BuildContext context) {
+    Widget buildRegion(AppLocalizations local) {
       return DropDownSettingsTile(
         settingKey: SettingsPage.keyLocation,
-        title: "Регіон",
+        title: local.region,
         selected: 1,
-        values: const <int, String>{
-          1: "Чернівецька обл.",
-          2: "Львівська обл.",
-          3: "Київська обл.",
+        values: <int, String>{
+          1: local.region1,
+          2: local.region2,
+          3: local.region3,
         },
         onChange: (region) {},
       );
     }
+
+    void clearInputs() {
+      oldPasswordController.clear();
+      newPasswordController.clear();
+    }
+
+    void _changePassword(String password, String newPassword) async {
+      final User? user = FirebaseAuth.instance.currentUser;
+      String? email = user?.email;
+
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email!,
+          password: password,
+        );
+
+        user?.updatePassword(newPassword).then((_) {
+          clearInputs();
+          Navigator.of(context, rootNavigator: true).pop('dialog');
+        }).catchError((error) {});
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+        } else if (e.code == 'wrong-password') {}
+      }
+    }
+
+    Future<String?> openDialog() => showDialog(
+        context: context,
+        builder: (context) => StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: const Text('Змінити пароль'),
+            content:
+            Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              TextFormField(
+                controller: oldPasswordController,
+                obscureText: !_showOldPassword,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Введіть старий пароль',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _showOldPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _showOldPassword = !_showOldPassword;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: 30.0)),
+              TextFormField(
+                controller: newPasswordController,
+                obscureText: !_showNewPassword,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Введіть новий пароль',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _showNewPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _showNewPassword = !_showNewPassword;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ]),
+            actions: [
+              TextButton(
+                  onPressed: () => _changePassword(
+                      oldPasswordController.text,
+                      newPasswordController.text),
+                  child: const Text('Підтвердити')),
+            ],
+          );
+        }));
 
     return Scaffold(
       appBar: AppBar(
@@ -94,10 +186,10 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
         visible: needsUpdate,
         child: FloatingActionButton(
           onPressed: saveData,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: theme.primaryColor,
           child: Icon(
             Icons.save_rounded,
-            color: Theme.of(context).colorScheme.secondary,
+            color: theme.colorScheme.secondary,
             size: 24,
           ),
         ),
@@ -140,7 +232,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
             },
           ),
           TextButton(
-              child: const Text('Upload Photo'), onPressed: () => uploadPhoto()),
+              child: const Text('Завантажити фото'), onPressed: () => uploadPhoto()),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
@@ -151,34 +243,33 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text("Ваше ім'я:", style: shadowStyle)),
-                textField(displayNameController, "Введіть ваше ім'я",
-                    displayNameError ? "Неправильне ім'я" : null),
+                    child: Text(local.yourName, style: shadowStyle)),
+                textField(displayNameController, local.enterYourName,
+                    displayNameError ? local.wrongYourName : null),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text('Електронна пошта: ', style: shadowStyle)),
-                textField(emailController, 'Введіть вашу електронну пошту',
-                    (emailError) ? 'Неправильна пошта' : null),
+                    child: Text(local.email, style: shadowStyle)),
+                textField(emailController, local.enterEmail,
+                    (emailError) ? local.wrongEmail : null),
                 const SizedBox(height: 15),
                 buildTile(
                     Icons.lock_outlined,
-                    'Змінити пароль',
+              local.changePassword,
                     Theme.of(context).primaryColor,
                     Theme.of(context).primaryColor.withOpacity(0.5),
-                    callback: () =>
-                        materialPushPage(context, const PasswordChangePage())),
+                    callback: () => openDialog()),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
-                    child: Text('Ваше місце', style: shadowStyle)),
-                buildRegion(context),
+                    child: Text(local.yourPlace, style: shadowStyle)),
+                buildRegion(local),
                 const SizedBox(height: 10),
                 buildTile(
                   Icons.bug_report,
-                  'Повідомити про помилку',
-                  Theme.of(context).colorScheme.error,
-                  Theme.of(context).colorScheme.errorContainer.withOpacity(0.5),
+                  local.reportBug,
+                  theme.colorScheme.error,
+                  theme.colorScheme.errorContainer.withOpacity(0.5),
                   callback: () async {
                     String email = Uri.encodeComponent("drommelagua@gmail.com");
                     String subject = Uri.encodeComponent("Звіт щодо помилки");
@@ -193,21 +284,23 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 const SizedBox(height: 30),
                 Center(
                   child: MaterialButton(
-                    onPressed: () =>
-                        materialPushPage(context, const AuthPage()),
-                    color: Theme.of(context).colorScheme.shadow,
+                    onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const AuthPage()),
+                            (Route<dynamic> route) => false),
+                    color: theme.colorScheme.shadow,
                     minWidth: 230,
-                    textColor: Theme.of(context).colorScheme.onPrimary,
-                    child: const Text('Вийти'),
+                    textColor: theme.colorScheme.onPrimary,
+                    child: Text(local.logOut),
                   ),
                 ),
                 Center(
                   child: MaterialButton(
                       onPressed: () {},
-                      color: Theme.of(context).colorScheme.errorContainer,
-                      textColor: Theme.of(context).colorScheme.onError,
+                      color: theme.colorScheme.errorContainer,
+                      textColor: theme.colorScheme.onError,
                       minWidth: 250,
-                      child: const Text('Видалити акаунт та вийти')),
+                      child: Text(local.logOutAndDelete)),
                 )
               ],
             ),

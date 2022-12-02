@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lang_app/core/database.dart';
 import 'package:lang_app/core/level_loading_service.dart';
-import 'package:lang_app/models/progress.dart';
-import 'package:lang_app/models/test.dart';
 import 'package:lang_app/pages/levels/context_onscreen_message.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 

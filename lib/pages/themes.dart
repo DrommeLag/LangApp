@@ -20,13 +20,7 @@ class AppTheme {
             shadow: Colors.grey[500]!),
         textTheme: ThemeData.light().textTheme
             );
-    light = light.copyWith(
-      bottomNavigationBarTheme: light.bottomNavigationBarTheme.copyWith(
-        backgroundColor: light.colorScheme.primary,
-        selectedIconTheme: IconThemeData(color: light.colorScheme.secondary),
-      ),
-    );
-    this.light = light;
+    this.light = _updateTheme(light);
 
     
     var dark = ThemeData.from(
@@ -47,14 +41,23 @@ class AppTheme {
             shadow: Colors.grey[300]!),
         textTheme: ThemeData.dark().textTheme
             );
-    dark = dark.copyWith(
-      bottomNavigationBarTheme: light.bottomNavigationBarTheme.copyWith(
-        backgroundColor: light.colorScheme.primary,
-        selectedIconTheme: IconThemeData(color: light.colorScheme.secondary),
-      ),
-    );
-    this.dark = dark;
+    this.dark = _updateTheme(dark);
   }
   late final ThemeData light;
-  late final ThemeData dark;}
+  late final ThemeData dark;
+  
+  ThemeData _updateTheme(ThemeData theme) {
+    return theme.copyWith(
+      bottomNavigationBarTheme: theme.bottomNavigationBarTheme.copyWith(
+        backgroundColor: theme.colorScheme.primary,
+        selectedIconTheme: IconThemeData(color: theme.colorScheme.secondary),
+      ),
+      textTheme: theme.textTheme.copyWith(
+        headlineSmall: theme.textTheme.headlineSmall!.copyWith(color: theme.colorScheme.primaryContainer),
+      ),
+      
+    );
+  }
+  
+  }
 
