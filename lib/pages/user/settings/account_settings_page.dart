@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +6,14 @@ import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/pages/templates/dialog_loading.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
-import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../home/home_page.dart';
 
 class AccountSettingsPage extends Material {
   const AccountSettingsPage({Key? key}) : super(key: key);
@@ -36,7 +36,6 @@ class AccountSettingsPage extends Material {
 class _AccountSettingsPage extends State<AccountSettingsPage> {
   late TextEditingController displayNameController;
   late TextEditingController emailController;
-
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController repeatNewPasswordController = TextEditingController();
@@ -302,6 +301,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       minWidth: 250,
                       child: Text(local.logOutAndDelete)),
                 )
+
               ],
             ),
           ),
@@ -311,11 +311,11 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
   }
 
   Future uploadPhoto() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     final storageRef = FirebaseStorage.instance.ref();
     Reference? imagesRef = storageRef.child("images");
     final XFile? selectedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+        await picker.pickImage(source: ImageSource.gallery);
     if (selectedImage == null) {
       return;
     }
@@ -323,7 +323,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
     final uid = user?.uid;
     final File imageData = (File(selectedImage.path));
     final fileRef = imagesRef.child(uid!);
-    final uploadTask = fileRef.putFile(imageData);
+    fileRef.putFile(imageData);
     AccountSettingsPage.retrievePhoto();
   }
 

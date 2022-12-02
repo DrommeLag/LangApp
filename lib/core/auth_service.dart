@@ -147,21 +147,12 @@ class AuthService {
     }
   }
 
-  Future<bool> updatePassword(String newPassword) async {
+  updatePassword(String password) async {
     User? user = _fAuth.currentUser;
     if (user == null) {
-      throw "Error! User isn't logged in!";
+      throw "Error! User isn't logged in!!";
     }
-    try {
-      if (!await loadLoginInfo()) {
-        throw 'No user info';
-      }
-      await user.updatePassword(newPassword);
-      user.reload();
-      return true;
-    } on FirebaseAuthException catch (a) {
-      log(a.message ?? 'Without');
-      return false;
-    }
+    await user.updatePassword(password);
+    await user.reload();
   }
 }
