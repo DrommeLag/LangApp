@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lang_app/pages/templates/toast_error_message.dart';
 
@@ -14,7 +13,7 @@ class AuthService {
 
   factory AuthService(){
     return _instance;
-  } 
+  }
 
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
 
@@ -65,6 +64,7 @@ class AuthService {
         androidInstallApp: true,
         // minimumVersion
         androidMinimumVersion: '12');
+
     try {
       _userCredential = await _fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -133,7 +133,7 @@ class AuthService {
       throw "Error! USer isn't logged in!";
     }
     try {
-      if(!await loadLoginInfo()){
+      if (!await loadLoginInfo()) {
         throw 'We are doomed!!';
       }
       await user.updateEmail(email);
@@ -145,6 +145,14 @@ class AuthService {
       log(a.message ?? 'Without');
       return false;
     }
-    
+  }
+
+  updatePassword(String password) async {
+    User? user = _fAuth.currentUser;
+    if (user == null) {
+      throw "Error! User isn't logged in!!";
+    }
+    await user.updatePassword(password);
+    await user.reload();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/pages/user/settings/notifications/notifications_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -8,7 +9,6 @@ class SettingsPage extends StatefulWidget {
 
   static const keyLanguage = "key-language";
   static const keyLocation = "key-location";
-  static const keyDarkMode = "key-dark-mode";
   @override
   State<SettingsPage> createState() => _SettingsPage();
 }
@@ -25,9 +25,6 @@ class _SettingsPage extends State<SettingsPage> {
       body: SafeArea(
         child: ListView(
           children: [
-            SettingsGroup(title:local.apperience, children: [
-              buildDarkMode(local),
-            ]),
             SettingsGroup(
               title: local.general,
               children: <Widget>[
@@ -72,7 +69,16 @@ class _SettingsPage extends State<SettingsPage> {
       title: local.sendFeedback,
       subtitle: "",
       leading: const Icon(Icons.thumb_up),
-      onTap: () {},
+      onTap: () async {
+        String email = Uri.encodeComponent("drommelagua@gmail.com");
+        String subject = Uri.encodeComponent("Фідбек");
+        Uri mail = Uri.parse("mailto:$email?subject=$subject");
+        if (await launchUrl(mail)) {
+          //open email app
+        } else {
+          //don't open email app
+        }
+      },
     );
   }
 
@@ -87,19 +93,5 @@ class _SettingsPage extends State<SettingsPage> {
       },
       onChange: (language) {},
     );
-  }
-
-
-  Widget buildDarkMode(AppLocalizations local) {
-    return RadioModalSettingsTile(
-        title: local.chooseTheme,
-        settingKey: SettingsPage.keyDarkMode,
-        selected:
-            Settings.getValue(SettingsPage.keyDarkMode, defaultValue: ThemeMode.system.index)!,
-        values: <int, String>{
-          ThemeMode.system.index: local.systemTheme,
-          ThemeMode.dark.index: local.darkTheme,
-          ThemeMode.light.index: local.lightTheme,
-        });
   }
 }

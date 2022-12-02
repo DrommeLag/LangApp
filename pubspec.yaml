@@ -34,6 +34,7 @@ dependencies:
   firebase_auth: ^3.3.16
   cloud_firestore: ^3.1.13
   firebase_core: ^1.15.0
+  firebase_storage: ^10.2.13
   firebase_core_platform_interface: 4.5.1
 
   #Toasts
@@ -55,7 +56,11 @@ dependencies:
   #For time
   timezone: 0.8.0
 
+  #To get images from user
+  image_picker: ^0.8.5
+
   #For starting urls
+  url_launcher: ^6.1.0
   http: ^0.13.4
   mailer: ^5.1.1
 

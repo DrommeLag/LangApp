@@ -1,27 +1,46 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:lang_app/core/auth_service.dart';
 import 'package:lang_app/pages/templates/dialog_loading.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/list_tile.dart';
-import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/user/auth/auth_page.dart';
 import 'package:lang_app/pages/user/settings/settings_page.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-// import 'package:url_launcher/url_launcher.dart';
+
+import '../../home/home_page.dart';
 
 class AccountSettingsPage extends Material {
   const AccountSettingsPage({Key? key}) : super(key: key);
 
   @override
   State<Material> createState() => _AccountSettingsPage();
+
+  static Future<String> retrievePhoto() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+    final String url = await FirebaseStorage.instance
+        .ref()
+        .child("images")
+        .child(uid!)
+        .getDownloadURL();
+    return url;
+  }
 }
 
 class _AccountSettingsPage extends State<AccountSettingsPage> {
   late TextEditingController displayNameController;
-
   late TextEditingController emailController;
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController repeatNewPasswordController = TextEditingController();
+  bool _showOldPassword = false;
+  bool _showNewPassword = false;
 
   late String displayName;
   late String email;
@@ -70,7 +89,98 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       );
     }
 
+    void clearInputs() {
+      oldPasswordController.clear();
+      newPasswordController.clear();
+    }
+
+    void _changePassword(String password, String newPassword) async {
+      final User? user = FirebaseAuth.instance.currentUser;
+      String? email = user?.email;
+
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email!,
+          password: password,
+        );
+
+        user?.updatePassword(newPassword).then((_) {
+          clearInputs();
+          Navigator.of(context, rootNavigator: true).pop('dialog');
+        }).catchError((error) {});
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+        } else if (e.code == 'wrong-password') {}
+      }
+    }
+
+    Future<String?> openDialog() => showDialog(
+        context: context,
+        builder: (context) => StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: const Text('Змінити пароль'),
+            content:
+            Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              TextFormField(
+                controller: oldPasswordController,
+                obscureText: !_showOldPassword,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Введіть старий пароль',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _showOldPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _showOldPassword = !_showOldPassword;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: 30.0)),
+              TextFormField(
+                controller: newPasswordController,
+                obscureText: !_showNewPassword,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Введіть новий пароль',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _showNewPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _showNewPassword = !_showNewPassword;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ]),
+            actions: [
+              TextButton(
+                  onPressed: () => _changePassword(
+                      oldPasswordController.text,
+                      newPasswordController.text),
+                  child: const Text('Підтвердити')),
+            ],
+          );
+        }));
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Профіль"),
+        backgroundColor: const Color(0xff0A67E9),
+        elevation: 0,
+      ),
       floatingActionButton: Visibility(
         visible: needsUpdate,
         child: FloatingActionButton(
@@ -86,12 +196,42 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
       body: ListView(
         children: [
           Container(
-            height: 150,
+            height: 30,
             decoration: const BoxDecoration(
                 gradient: backgroundGradient,
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(10))),
           ),
+          FutureBuilder<String>(
+            future: AccountSettingsPage.retrievePhoto(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: Text('Please wait its loading...'));
+              } else {
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: const Icon(Icons.person,
+                              color: Colors.white, size: 100)));
+                } else {
+                  return Center(
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                '${snapshot.data}',
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ))));
+                }
+              }
+            },
+          ),
+          TextButton(
+              child: const Text('Завантажити фото'), onPressed: () => uploadPhoto()),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
@@ -112,8 +252,12 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 textField(emailController, local.enterEmail,
                     (emailError) ? local.wrongEmail : null),
                 const SizedBox(height: 15),
-                buildTile(Icons.lock_outlined, local.changePassword,
-                    theme.primaryColor, theme.primaryColor.withOpacity(0.5)),
+                buildTile(
+                    Icons.lock_outlined,
+              local.changePassword,
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor.withOpacity(0.5),
+                    callback: () => openDialog()),
                 const SizedBox(height: 10),
                 Padding(
                     padding: textPadding,
@@ -126,16 +270,23 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                   theme.colorScheme.error,
                   theme.colorScheme.errorContainer.withOpacity(0.5),
                   callback: () async {
-                    // await launchUrl(Uri.parse(
-                    //     "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"));
+                    String email = Uri.encodeComponent("drommelagua@gmail.com");
+                    String subject = Uri.encodeComponent("Звіт щодо помилки");
+                    Uri mail = Uri.parse("mailto:$email?subject=$subject");
+                    if (await launchUrl(mail)) {
+                      //open email app
+                    } else {
+                      //don't open email app
+                    }
                   },
                 ),
                 const SizedBox(height: 30),
                 Center(
                   child: MaterialButton(
-                    onPressed: () => Navigator.of(context).pushReplacement(
+                    onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => const AuthPage())),
+                            builder: (context) => const AuthPage()),
+                            (Route<dynamic> route) => false),
                     color: theme.colorScheme.shadow,
                     minWidth: 230,
                     textColor: theme.colorScheme.onPrimary,
@@ -150,12 +301,30 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       minWidth: 250,
                       child: Text(local.logOutAndDelete)),
                 )
+
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future uploadPhoto() async {
+    final ImagePicker picker = ImagePicker();
+    final storageRef = FirebaseStorage.instance.ref();
+    Reference? imagesRef = storageRef.child("images");
+    final XFile? selectedImage =
+        await picker.pickImage(source: ImageSource.gallery);
+    if (selectedImage == null) {
+      return;
+    }
+    final User? user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+    final File imageData = (File(selectedImage.path));
+    final fileRef = imagesRef.child(uid!);
+    fileRef.putFile(imageData);
+    AccountSettingsPage.retrievePhoto();
   }
 
   @override
