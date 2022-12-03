@@ -50,7 +50,7 @@ class StyledCard extends StatelessWidget {
                         color: Theme
                             .of(context)
                             .colorScheme
-                            .onSecondary,
+                            .onBackground,
                         fontSize: 20,
                       ),
                       textAlign: TextAlign.center,

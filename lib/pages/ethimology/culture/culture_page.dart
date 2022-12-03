@@ -69,7 +69,7 @@ class _CulturePageState extends State<CulturePage> {
               title: Text(regionMap[widget.selected]!),
             ),
             body: Center(
-              child: Text("Немає даних для ${regionMap[widget.selected]}",
+              child: Text("Немає даних для регіону: ${regionMap[widget.selected]}",
                 style: const TextStyle(
                   fontSize: 30,),
                 textAlign: TextAlign.center,

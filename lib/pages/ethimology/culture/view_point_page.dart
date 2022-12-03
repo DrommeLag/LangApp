@@ -28,7 +28,7 @@ class ViewPointPage extends StatelessWidget {
               const Padding(padding: EdgeInsets.symmetric(vertical: 20,)),
               Text(description,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary,
+                  color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),

@@ -118,7 +118,7 @@ class _MapPage extends State<MapPage> {
               ),
               body: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Theme.of(context).colorScheme.background,
                   image: DecorationImage(
                     image: const AssetImage("assets/images/ornament.png"),
                     alignment: Alignment.centerRight,
@@ -136,8 +136,9 @@ class _MapPage extends State<MapPage> {
                   (selected == "def")
                       ? "Ви не обрали жодного регіону."
                       : "Ви обрали ${regionMap[selected]}",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),
             ],
