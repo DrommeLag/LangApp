@@ -1,22 +1,21 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:lang_app/pages/templates/toast_error_message.dart';
+
+import '../pages/templates/toast_error_message.dart';
 
 class AuthService {
   AuthService._privateCons();
 
   static final AuthService _instance = AuthService._privateCons();
 
-  factory AuthService(){
+  factory AuthService() {
     return _instance;
   }
 
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
-
   final _storage = const FlutterSecureStorage();
   UserCredential? _userCredential;
 
@@ -36,9 +35,9 @@ class AuthService {
         } else {
           return false;
         }
-      }
-      else {
-        showToastErrorMessage("Ваш акаунт ще не верифікований - чекніть імейл (особливо спам, порада від розробника)");
+      } else {
+        showToastErrorMessage(
+            "Ваш акаунт ще не верифікований - чекніть імейл (особливо спам, порада від розробника)");
         return false;
       }
     } on FirebaseException catch (error) {
@@ -64,7 +63,6 @@ class AuthService {
         androidInstallApp: true,
         // minimumVersion
         androidMinimumVersion: '12');
-
     try {
       _userCredential = await _fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -74,19 +72,18 @@ class AuthService {
         print("Sending...");
         await user.sendEmailVerification().then((value) => print("sent"));
       }
-      if (user!.emailVerified)
-        {
-          await _fAuth.currentUser?.reload();
-          _fAuth.currentUser?.updateDisplayName("$name ${(surname ?? '')}");
-          bool out = _fAuth.currentUser != null;
-          if (out) {
-          _storage.write(key: "login", value: email);
-          _storage.write(key: "password", value: password);
+      await _fAuth.currentUser?.reload();
+      _fAuth.currentUser?.updateDisplayName("$name ${(surname ?? '')}");
+      bool out = _fAuth.currentUser != null;
+      if (out) {
+        _storage.write(key: "login", value: email);
+        _storage.write(key: "password", value: password);
+        if (user!.emailVerified) {
           return true;
-          } else {
+        } else {
           return false;
-          }
         }
+      }
       return false;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -130,7 +127,7 @@ class AuthService {
   Future<bool> updateEmail(String email) async {
     User? user = _fAuth.currentUser;
     if (user == null) {
-      throw "Error! USer isn't logged in!";
+      throw "Error! User isn't logged in!";
     }
     try {
       if (!await loadLoginInfo()) {
