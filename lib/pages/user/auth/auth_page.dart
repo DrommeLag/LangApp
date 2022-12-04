@@ -75,7 +75,7 @@ class _AuthPageState extends State<AuthPage> {
         return const MainScreen(index: 0,);
       }));
     } else {
-      //TODO think about if false
+      showToastErrorMessage("Неправильні дані для входу, спробуйте ще раз!☺");
     }
   }
 
@@ -135,18 +135,18 @@ class _AuthPageState extends State<AuthPage> {
     var email = _emailController.text;
     var password = _passwordController.text;
     if (name.isEmpty) {
-      showToastErrorMessage("Секретні ви наші, ім'я не може бути пустим!☺");
+      showToastErrorMessage("Ім'я не може бути пустим!☺");
     }
     else if (email.isEmpty){
       showToastErrorMessage("Без імейлу - то прикол, але все ж краще введіть його!☺");
     }
     else if (password.isEmpty){
-      showToastErrorMessage("Без паролю??? Ви що, хочете щоб вас взламали легше, ніж то і так є?");
+      showToastErrorMessage("Без паролю??? Ви що, хочете щоб вас дуже легко взламали недобросовісні люди?");
     }
     else {
       var result = AuthService()
           .registerWithEmailAndPassword(name, surname, email, password);
-      showToastErrorMessage("Надіслали Вам листа з підтвердженянм імейлу (Перевірте спам, наш розробник, себто я, півроку не міг зрозуміти куди скидується цей лист, поки не перевірив спам...)");
+      showToastErrorMessage("Надіслали Вам листа з підтвердженянм імейлу (Також перевірте спам)");
       goForwardIfTrue(result);
     }
   }

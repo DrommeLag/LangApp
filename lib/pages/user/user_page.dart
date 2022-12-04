@@ -129,7 +129,7 @@ class _UserPage extends State<UserPage> {
       ),
       buildTile(
         Icons.favorite_border_outlined,
-        local.fundUs,
+        local.fundUA,
         textColor,
         iconColor,
         callback: () async {
