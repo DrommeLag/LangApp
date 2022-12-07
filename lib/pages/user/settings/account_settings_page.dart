@@ -120,7 +120,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
         context: context,
         builder: (context) => StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
-            title: const Text('Змінити пароль'),
+            title: Text(local.changePassword),
             content:
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
               TextFormField(
@@ -128,7 +128,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 obscureText: !_showOldPassword,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  hintText: 'Введіть старий пароль',
+                  hintText: local.enterOldPassword,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _showOldPassword
@@ -150,7 +150,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 obscureText: !_showNewPassword,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  hintText: 'Введіть новий пароль',
+                  hintText: local.enterNewPassword,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _showNewPassword
@@ -172,14 +172,14 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                   onPressed: () => _changePassword(
                       oldPasswordController.text,
                       newPasswordController.text),
-                  child: const Text('Підтвердити')),
+                  child: Text(local.confirm)),
             ],
           );
         }));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Профіль"),
+        title: Text(local.profile),
         backgroundColor: const Color(0xff0A67E9),
         elevation: 0,
       ),
@@ -208,7 +208,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
             future: AccountSettingsPage.retrievePhoto(),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: Text('Please wait its loading...'));
+                return Center(child: Text(local.loading));
               } else {
                 if (snapshot.hasError) {
                   return Center(
@@ -233,7 +233,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
             },
           ),
           TextButton(
-              child: const Text('Завантажити фото'), onPressed: () => uploadPhoto()),
+              child: Text(local.uploadPhoto), onPressed: () => uploadPhoto()),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,

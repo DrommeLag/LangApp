@@ -68,30 +68,28 @@ class _AuthPageState extends State<AuthPage> {
 
   goForwardIfTrue(Future<bool>? argument) async {
     if (argument != null && await argument) {
-
       DatabaseService().checkProgress(AuthService().uid);
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const MainScreen(index: 0,);
+        return const MainScreen(
+          index: 0,
+        );
       }));
     } else {
-      showToastErrorMessage("Неправильні дані для входу, спробуйте ще раз!☺");
+      showToastErrorMessage(local.errorLoginData);
     }
   }
 
-  loginButtonAction(BuildContext context) {
+  loginButtonAction() {
     var email = _emailController.text;
     var password = _passwordController.text;
     if (email.isEmpty) {
-      showToastErrorMessage("Без імейлу не пройдете!");
-    }
-    else if (password.isEmpty) {
-      showToastErrorMessage("Ми впевнені, що ви створювали пароль. Тож введіть його, не соромтесь☺");
-    }
-    else {
+      showToastErrorMessage(local.errorEmptyEmail);
+    } else if (password.isEmpty) {
+      showToastErrorMessage(local.errorEmptyPassword);
+    } else {
       Future<bool>? result =
-      AuthService()
-          .signInWithEmailAndPassword(email, password);
+          AuthService().signInWithEmailAndPassword(email, password);
       goForwardIfTrue(result);
     }
   }
@@ -110,7 +108,7 @@ class _AuthPageState extends State<AuthPage> {
           controller: _passwordController,
           obscure: true),
       const SizedBox(height: 40),
-      formattedButton(local.logIn, () => loginButtonAction(context)),
+      formattedButton(local.logIn, () => loginButtonAction()),
       const SizedBox(height: 40),
       highlightedText(
           text: local.registerQuestion,
@@ -135,18 +133,21 @@ class _AuthPageState extends State<AuthPage> {
     var email = _emailController.text;
     var password = _passwordController.text;
     if (name.isEmpty) {
-      showToastErrorMessage("Ім'я не може бути пустим!☺");
-    }
-    else if (email.isEmpty){
-      showToastErrorMessage("Без імейлу - то прикол, але все ж краще введіть його!☺");
-    }
-    else if (password.isEmpty){
-      showToastErrorMessage("Без паролю??? Ви що, хочете щоб вас дуже легко взламали недобросовісні люди?");
-    }
-    else {
+      showToastErrorMessage(local.errorEmptyName);
+    } else if (email.isEmpty) {
+      showToastErrorMessage(
+       local.errorRegisterEmptyEmail 
+          );
+    } else if (password.isEmpty) {
+      showToastErrorMessage(
+        local.errorRegisterEmptyPassword
+          );
+    } else {
       var result = AuthService()
           .registerWithEmailAndPassword(name, surname, email, password);
-      showToastErrorMessage("Надіслали Вам листа з підтвердженянм імейлу (Також перевірте спам)");
+      showToastErrorMessage(
+          local.letterWasSend
+          );
       goForwardIfTrue(result);
     }
   }
@@ -189,6 +190,4 @@ class _AuthPageState extends State<AuthPage> {
           textStyle: Theme.of(context).textTheme.subtitle1),
     ];
   }
-
 }
-

@@ -11,7 +11,7 @@
     "@editPasswordExp": {
                       "description": "Пояснення до зміни паролю"
                     },
-    "loading": "Завантаження",
+    "loading": "Завантаження...",
     "save": "Зберегти",
 
 
@@ -24,6 +24,16 @@
     "name":"Ім`я",
     "surnameOptinal": "Прізвище(за бажанням)",
     "register":"Зареєструватися",
+    "errorLoginData":"Неправильні дані для входу, спробуйте ще раз!☺",
+    "errorEmptyEmail":"Без імейлу не пройдете!",
+    "errorEmptyPassword":"Ми впевнені, що ви створювали пароль. Тож введіть його, не соромтесь☺",
+    "errorEmptyName": "Ім'я не може бути пустим!☺",
+    "errorRegisterEmptyEmail":  "Без імейлу - то прикол, але все ж краще введіть його!☺",
+    "errorRegisterEmptyPassword": "Без паролю??? Ви що, хочете щоб вас дуже легко взламали недобросовісні люди?",
+    "letterWasSend":"Надіслали Вам листа з підтвердженянм імейлу (Також перевірте спам)",
+
+
+
 
 
     "notifications":  "Сповіщення",
@@ -51,13 +61,18 @@
     "reportBug":"Повідомити про помилку",
     "logOut": "Вийти",
     "logOutAndDelete":"Видалити акаунт та вийти",
+    "enterOldPassword": "Введіть старий пароль",
+    "enterNewPassword": "Введіть новий пароль",
+    "confirm":"Підтвердити",
+    "profile": "Профіль",
+    "uploadPhoto":"Завантажити фото",
 
     "userSettings":"Налаштування користувача",
     "apperience":  "Вигляд",
     "general":  "Загальні",
     "feedback": "Зворотний зв'язок",
     "sendFeedback":  "Надіслати фідбек",
-    "language":"Мова",
+    "askHelp":"Запит на допомогу",
     "uk_ua":"Українська",
     "chooseTheme":"Тема додатку",
     "systemTheme":"Тема системи",
@@ -86,5 +101,19 @@
     "yourResult":"Твій результат:",
     "end":"Завершити",
 
-    "readMore": "Читати далі"
+    "readMore": "Читати далі",
+
+    "categoryPeople": "Люди",
+    "categoryEvent": "Події",
+    "categoryBusiness" : "Бізнес",
+    "categoryInteresting": "Ціqкаве",
+    "categorySport": "Спорт",
+
+    "mapNoData": "Немає інформації для регіону:",
+    "language":"Мова",
+    "culture":"Культура",
+    "monuments":"Пам'ятки",
+    "chooseRegion":"Виберіть регіон на карті",
+    "regionNotChosen":"Ви не обрали жодного регіону",
+    "regionChosen":"Ви обрали"
 }

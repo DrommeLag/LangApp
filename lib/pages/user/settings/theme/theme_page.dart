@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemePage extends StatefulWidget {
   const ThemePage({Key? key}) : super(key: key);
@@ -13,29 +14,30 @@ class ThemePage extends StatefulWidget {
 class _ThemePageState extends State<ThemePage> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations local = AppLocalizations.of(context)!;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Змінити тему"),
+          title: Text(local.changeTheme),
           //backgroundColor: Colors.orangeAccent,
         ),
         body: SafeArea(
-            child: SettingsGroup(title: "Вигляд", children: [
-              buildThemeSetting()
+            child: SettingsGroup(title: local.apperience, children: [
+              buildThemeSetting(local)
             ]),
         )
     );
   }
 
-  Widget buildThemeSetting() {
+  Widget buildThemeSetting(AppLocalizations local) {
     return RadioSettingsTile(
-        title: 'Тема додатку',
+        title: local.chooseTheme,
         settingKey: ThemePage.keyDarkMode,
         selected: Settings.getValue(ThemePage.keyDarkMode,
             defaultValue: ThemeMode.system.index)!,
         values: <int, String>{
-          ThemeMode.system.index: 'Тема системи',
-          ThemeMode.dark.index: 'Темна тема',
-          ThemeMode.light.index: 'Світла тема',
+          ThemeMode.system.index: local.systemTheme,
+          ThemeMode.dark.index: local.darkTheme,
+          ThemeMode.light.index: local.lightTheme,
         });
   }
 }

@@ -57,23 +57,23 @@ class DatabaseService {
           toFirestore: ((value, options) => {"rest": value}));
 
   final _articleTagRef = {
-    ArticleCategory.forMe: FirebaseFirestore.instance
+    ArticleCategory.people: FirebaseFirestore.instance
         .collection('articles-category-forme')
         .withConverter(
             fromFirestore: ((snapshot, options) => ArticleTag.fromFirestore(
-                snapshot.data()!, ArticleCategory.forMe)),
+                snapshot.data()!, ArticleCategory.people)),
             toFirestore: ((value, options) => value.toFirestore())),
-    ArticleCategory.brands: FirebaseFirestore.instance
+    ArticleCategory.business: FirebaseFirestore.instance
         .collection('articles-category-brands')
         .withConverter(
             fromFirestore: ((snapshot, options) => ArticleTag.fromFirestore(
-                snapshot.data()!, ArticleCategory.brands)),
+                snapshot.data()!, ArticleCategory.business)),
             toFirestore: ((value, options) => value.toFirestore())),
-    ArticleCategory.media: FirebaseFirestore.instance
+    ArticleCategory.interesting: FirebaseFirestore.instance
         .collection('articles-category-media')
         .withConverter(
             fromFirestore: ((snapshot, options) => ArticleTag.fromFirestore(
-                snapshot.data()!, ArticleCategory.media)),
+                snapshot.data()!, ArticleCategory.interesting)),
             toFirestore: ((value, options) => value.toFirestore())),
     ArticleCategory.event: FirebaseFirestore.instance
         .collection('articles-category-event')

@@ -34,8 +34,8 @@ class _UserPage extends State<UserPage> {
 
     return ListView(children: [
       AppBar(
-        title: const Text("Профіль"),
-        backgroundColor: const Color(0xff0A67E9),
+        title: Text(local.profile),
+        backgroundColor: theme.colorScheme.primaryContainer,
         elevation: 0,
       ),
       Container(
@@ -48,7 +48,7 @@ class _UserPage extends State<UserPage> {
           future: AccountSettingsPage.retrievePhoto(),
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: Text('Завантаження...'));
+              return Center(child: Text(local.loading));
             } else {
               if (snapshot.hasError) {
                 return Row(
@@ -118,7 +118,7 @@ class _UserPage extends State<UserPage> {
         iconColor,
         callback: () async {
           String email = Uri.encodeComponent("drommelagua@gmail.com");
-          String subject = Uri.encodeComponent("Запит на допомогу");
+          String subject = Uri.encodeComponent(local.askHelp);
           Uri mail = Uri.parse("mailto:$email?subject=$subject");
           if (await launchUrl(mail)) {
 //open email app

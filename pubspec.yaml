@@ -33,9 +33,9 @@ dependencies:
   #firebase related
   firebase_auth: ^3.3.16
   cloud_firestore: ^3.1.13
-  firebase_core: ^1.15.0
+  firebase_core: ^1.21.0
   firebase_storage: ^10.2.13
-  firebase_core_platform_interface: 4.5.1
+  firebase_core_platform_interface: ^4.5.1
 
   #Toasts
   fluttertoast: ^8.0.9

@@ -29,13 +29,9 @@ class ArticleTag {
   }
 
 enum ArticleCategory {
-  forMe('Люди'),
-  event('Події'),
-  brands('Бренди'),
-  media('Статті'),
-  sport('Спорт');
-
-  const ArticleCategory(this.name);
-
-  final String name;
+  people,
+  event,
+  business,
+  interesting,
+  sport;
 }

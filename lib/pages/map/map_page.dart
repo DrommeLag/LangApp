@@ -7,6 +7,7 @@ import 'package:lang_app/pages/ethimology/culture/culture_page.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
 import 'package:lang_app/pages/templates/styled_icon_button.dart';
 import 'package:lang_app/pages/templates/toast_error_message.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../templates/region_map.dart';
 
@@ -41,6 +42,7 @@ class _MapPage extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations local = AppLocalizations.of(context)!;
     return Container(
       constraints: const BoxConstraints.expand(),
       child: Stack(
@@ -64,7 +66,7 @@ class _MapPage extends State<MapPage> {
                     child: const Icon(Icons.language_rounded),
                     backgroundColor: const Color(0xFFF2D84F),
                     foregroundColor: Colors.black,
-                    label: 'Мова',
+                    label: local.language,
                     onTap: () {
                       if (imagePath == attractions) {
                         imagePath = language;
@@ -80,7 +82,7 @@ class _MapPage extends State<MapPage> {
                     child: const Icon(Icons.people_outline_rounded),
                     backgroundColor: const Color(0xFFF2D84F),
                     foregroundColor: Colors.black,
-                    label: 'Культура',
+                    label: local.culture,
                     onTap: () {
                       if (imagePath == attractions) {
                         imagePath = culture;
@@ -96,7 +98,7 @@ class _MapPage extends State<MapPage> {
                     child: const Icon(Icons.location_on_outlined),
                     backgroundColor: const Color(0xFFF2D84F),
                     foregroundColor: Colors.black,
-                    label: "Пам'ятки",
+                    label: local.monuments,
                     onTap: () {
                       if (imagePath == culture) {
                         imagePath = attractions;
@@ -106,7 +108,7 @@ class _MapPage extends State<MapPage> {
                         imagePath = attractions;
                       }
                       if (selected == "def") {
-                        showToastErrorMessage("Оберіть регіон на карті.");
+                        showToastErrorMessage(local.chooseRegion);
                       }
                       else {
                         materialPushPage(context, CulturePage(selected: selected));
@@ -134,8 +136,8 @@ class _MapPage extends State<MapPage> {
               Image.asset("assets/images/ua_girl.png"),
               Text(
                   (selected == "def")
-                      ? "Ви не обрали жодного регіону."
-                      : "Ви обрали ${regionMap[selected]}",
+                      ? local.regionNotChosen
+                      : "${local.regionChosen} ${regionMap[selected]}",
                 style: TextStyle(
                   fontSize: 20,
                   color: Theme.of(context).colorScheme.onBackground,

@@ -5,6 +5,7 @@ import 'package:lang_app/core/database.dart';
 import 'package:lang_app/models/card.dart';
 import 'package:lang_app/models/view_point.dart';
 import 'package:lang_app/pages/templates/region_map.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CulturePage extends StatefulWidget {
   const CulturePage({Key? key, required this.selected}) : super(key: key);
@@ -40,6 +41,8 @@ class _CulturePageState extends State<CulturePage> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations local = AppLocalizations.of(context)!;
+
     return FutureBuilder(
       future: loadData(),
       builder: (context, snapshot) {
@@ -69,7 +72,7 @@ class _CulturePageState extends State<CulturePage> {
               title: Text(regionMap[widget.selected]!),
             ),
             body: Center(
-              child: Text("Немає даних для регіону: ${regionMap[widget.selected]}",
+              child: Text("${local.mapNoData} ${regionMap[widget.selected]}",
                 style: const TextStyle(
                   fontSize: 30,),
                 textAlign: TextAlign.center,
@@ -82,8 +85,8 @@ class _CulturePageState extends State<CulturePage> {
             appBar: AppBar(
               title: Text(regionMap[widget.selected]!),
             ),
-            body: const Center(child:
-              Text("Завантаження...", style: TextStyle(
+            body: Center(child:
+              Text(local.loading , style: TextStyle(
                 fontSize: 30,
               ),),
             ),

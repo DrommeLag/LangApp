@@ -8,6 +8,7 @@ import 'package:lang_app/pages/home/headline_article_widget.dart';
 import 'package:lang_app/pages/home/headline_event_widget.dart';
 import 'package:lang_app/pages/templates/gradients.dart';
 import 'package:lang_app/pages/templates/material_push_template.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -107,6 +108,20 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations local = AppLocalizations.of(context)!;
+    ThemeData theme = Theme.of(context);
+
+    //! CAUTION: hard related to enum ArticleCategory
+    List<String> categories = [
+      local.categoryPeople,
+      local.categoryEvent,
+      local.categoryBusiness,
+      local.categoryInteresting,
+      local.categorySport
+    ];
+
+    assert(categories.length == ArticleCategory.values.length);
+
     var containerBorder = const BorderRadius.all(Radius.circular(10));
 
     return DefaultTabController(
@@ -131,59 +146,13 @@ class _HomePage extends State<HomePage> {
                       height: 75,
                     ),
                   ),
-
-                  //TextField
-                  //Border
-                  // Container(
-                  //   margin: const EdgeInsets.symmetric(horizontal: 30),
-                  //   height: 50,
-                  //   decoration: BoxDecoration(
-                  //     gradient: searchbarGradient,
-                  //     borderRadius: containerBorder,
-                  //   ),
-                  //   child: Stack(
-                  //     alignment: Alignment.center,
-                  //     children: [
-                        // Container(
-                        //   margin: _borderAsPadding,
-                        //   alignment: Alignment.center,
-                        //   decoration: BoxDecoration(
-                        //     color: Theme.of(context).backgroundColor,
-                        //     borderRadius: containerBorder,
-                        //   ),
-                        // ),
-
-                        //TextField itself
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 10),
-                        //   child: TextField(
-                        //     controller: searchController,
-                        //     style: Theme.of(context).textTheme.titleMedium,
-                        //     focusNode: _textInputFocus,
-                        //     decoration: InputDecoration(
-                        //       hintText: "Whats new?",
-                        //       hintStyle: Theme.of(context)
-                        //           .inputDecorationTheme
-                        //           .hintStyle,
-                        //       isDense: true,
-                        //       contentPadding: const EdgeInsets.all(10),
-                        //       border: OutlineInputBorder(
-                        //         borderSide: BorderSide.none,
-                        //         borderRadius: containerBorder,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
 
               //Categories
               TabBar(
                 tabs: ArticleCategory.values
-                    .map((e) => _tabBuilder(e.name))
+                    .map((e) => _tabBuilder(categories[e.index]))
                     .toList(),
                 isScrollable: true,
                 labelStyle: Theme.of(context).textTheme.bodyLarge,
@@ -198,7 +167,7 @@ class _HomePage extends State<HomePage> {
           ),
         ),
         body:
-            //Upper decor and searchbar
+            //Upper decor 
 
             //Body
             TabBarView(
@@ -229,30 +198,6 @@ class _HomePage extends State<HomePage> {
                     }, a)).toList(),
                 4),
           ],
-
-          //  ArticleCategory.values
-          //     .map(
-          //       (e) => Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 30),
-          //         child: NotificationListener<ScrollNotification>(
-          //             onNotification: (notification) =>
-          //                 _handleScrollNotification(notification, e),
-          //             child: ListView(
-          //               controller: controllers[e.index],
-          //               children: [
-          //                 ...(buffer[e.index].map((a) => ArticleWidget(() {
-          //                       materialPushPage(
-          //                           context, ArticlePage(id: a.id!));
-          //                     }, a))),
-          //                 if (!isAll[e.index])
-          //                   Container(
-          //                     alignment: Alignment.center,
-          //                       height: 80, child: const CircularProgressIndicator())
-          //               ],
-          //             )),
-          //       ),
-          //     )
-          //     .toList(),
         ),
       ),
     );

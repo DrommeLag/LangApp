@@ -71,7 +71,7 @@ class _SettingsPage extends State<SettingsPage> {
       leading: const Icon(Icons.thumb_up),
       onTap: () async {
         String email = Uri.encodeComponent("drommelagua@gmail.com");
-        String subject = Uri.encodeComponent("Фідбек");
+        String subject = Uri.encodeComponent(local.feedback);
         Uri mail = Uri.parse("mailto:$email?subject=$subject");
         if (await launchUrl(mail)) {
           //open email app
