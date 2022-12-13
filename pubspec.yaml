@@ -115,7 +115,6 @@ flutter:
     - assets/images/ethimology/culture_preview.png
     - assets/images/ethimology/history_preview.png
     - assets/images/ethimology/citizens_preview.png
-    - assets/tests/test.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
